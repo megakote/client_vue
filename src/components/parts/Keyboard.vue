@@ -1,0 +1,177 @@
+<template>
+  <keyboard
+    v-if="visible && modalVisible"
+    v-model="input"
+    :layouts="[
+        '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю{shift:goto:1}|{очистить:clear}{пробел:space}{отправить:send}',
+        '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{отправить:send}'
+    ]"
+    :maxlength="0"
+    @send="send"
+></keyboard>
+</template>
+
+<script>
+
+  export default {
+    name: 'keyboard-new',
+    data () {
+      return {
+        input: '',
+        //layout: layoutRu.normal,
+        options: {
+          useKbEvents: true
+        }
+      }
+    },
+    props: [],
+    watch: {
+      input: function () {
+        this.$store.dispatch('search_input', this.input)
+      }
+    },
+    computed: {
+      visible() {        
+        return this.$store.getters.keyboard_visible
+      },
+      modalVisible: function() {
+        return this.$store.getters.modal_visible
+      }
+    },
+    methods: {
+      send() {
+        //Отправка
+        this.$store.dispatch('modal_visible', false)
+      },
+      clear(){
+        this.input = '';
+      }
+    }
+  }
+</script>
+
+
+
+<style lang="scss">
+    
+  $width: 40;
+  $height: 2.8em;
+  $margin: 0.5em;
+  $radius: 0.35em;
+
+  .vue-keyboard {
+
+    width: 100%;
+    z-index: 10;
+    position: fixed;
+    bottom: 0;
+    background-color: #EEE;
+    box-shadow: 0px -3px 10px rgba(black, 0.3);
+    border-radius: 10px;
+    padding: 1em;
+      
+      .vue-keyboard-row {
+        display: flex;
+        justify-content: space-around;    
+        &:not(:last-child) {
+          margin-bottom: $margin;
+        }
+      }
+      
+      .vue-keyboard-key {
+        &:not(:last-child) {
+          margin-right: $margin;
+        }
+
+        flex: $width;
+        height: $height;
+        line-height: $height;
+        overflow: hidden;
+
+        vertical-align: middle;
+        border: 1px solid #ccc;
+        color: #333;
+        background-color: #fff;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, .6);
+        border-radius: $radius;
+
+        font-size: 1.25em;
+        text-align: center;
+        white-space: nowrap;
+        user-select: none;
+        cursor: pointer;
+        padding: 0;
+
+
+        &[data-action="backspace"] {
+          background-image: url("./icons/backspace.svg");
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: 35%;
+        }
+
+        &.half {
+          flex: $width / 2;
+        }
+
+        &.action {
+          color: #fff;
+          background-color: #7d7d7d;
+          border-color: #656565;
+            &[data-action="clear"],
+            &[data-action="send"] {
+                color: #fff;
+                background-color: #337ab7;
+                border-color: #2e6da4;
+            }
+        }
+              
+        &.featured {
+          color: #fff;
+          background-color: #337ab7;
+          border-color: #2e6da4;
+        }
+
+        &:hover {
+          color: #333;
+          background-color: #d6d6d6;
+          border-color: #adadad;
+        }
+        
+        &:active {
+          transform: scale(.98); // translateY(1px);
+          color: #333;
+          background-color: #d4d4d4;
+          border-color: #8c8c8c;          
+        }
+
+        &.activated {
+          color: #fff;
+          background-color: #5bc0de;
+          border-color: #46b8da;
+        }
+
+      }
+      .placeholder {
+        flex: $width / 2;
+        height: $height;
+        line-height: $height;
+        
+        &:not(:last-child) {
+          margin-right: $margin;
+        }
+      }
+      
+      
+      &:before,
+      &:after {
+        content: "";
+        display: table;
+      }
+      &:after {
+        clear: both;
+      }  
+
+
+  } 
+</style>
