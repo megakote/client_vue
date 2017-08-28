@@ -28,6 +28,9 @@
     watch: {
       input: function () {
         this.$store.dispatch('search_input', this.input)
+      },
+      modalVisible: function () {        
+        this.input = ''
       }
     },
     computed: {

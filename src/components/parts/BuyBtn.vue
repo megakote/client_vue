@@ -16,7 +16,7 @@ export default {
   },
   props: ['id'],
   methods: {
-    buy () {
+    buy (id) {
       //this.$store.dispatch('modal_visible', false)
     }
   },

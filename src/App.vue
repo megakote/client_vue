@@ -1,14 +1,12 @@
 <template>
   <v-app light>
-    <top-bar :title='title'/>
+    <top-bar :title='title' />
     <main>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
-    </main>   
-    <v-footer>
-      <span>&copy; 2017</span>
-    </v-footer>
+    </main>
+    <bottom-banner />
     <keyboard-new />
     <overlay/>
   </v-app>
@@ -33,14 +31,12 @@
 
 </style>
 <style lang="scss">
-  .toolbar {
-    height: 70px;
-  }
-  .footer {
-    height: 36px;
+  html {
+    overflow-y: auto;
   }
   main {
-    height: calc(100vh - 36px - 70px);
+    //высота моника - высота нижнего баннера - - высота верхней панели навигации
+    height: calc(100vh - 120px - 55px); 
     overflow: hidden;
   }
   .application > main > .container {

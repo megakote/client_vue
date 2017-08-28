@@ -16,8 +16,8 @@
       <v-spacer></v-spacer>
       <div class="cart_wrapper">
         <v-btn flat light class="teal--text" :to="{ name: 'Cart' }">          
-          <v-icon v-badge="{ value: 6, left: true}">shopping_cart</v-icon>
-      </v-btn>
+          <v-icon v-badge="{ value: cartCount, left: true}">shopping_cart</v-icon>
+        </v-btn>
       </div>
     </v-bottom-nav>
     <search-block :visible="searchVisible"/>
@@ -42,6 +42,11 @@ export default {
     modalSearchShow: function() {
       this.searchVisible = true
       this.$store.dispatch('modal_visible', true)
+    }
+  },
+  computed: {
+    cartCount () {
+      return this.$store.getters.cartProducts.length
     }
   },
   watch: {

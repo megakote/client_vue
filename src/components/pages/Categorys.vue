@@ -5,8 +5,9 @@
       <v-card>
         <v-card-media
                 :src="'/static/images/' + item.img"
-                @click.stop="goPage(item.id)"
-                height="200px"
+                @click.stop="goPage(item.id, item.childrens)"
+                data-childrens="item.childrens"
+                height="160px"
         />
         <v-card-title primary-title> {{ item.name }} </v-card-title>          
       </v-card>
@@ -43,22 +44,26 @@ export default {
     }
   },
   methods:{
-    getPage: function(id) {
-      this.$store.dispatch('getCategory', id)
+    getData: function(page, id) {
+      this.$store.dispatch(page, id)
     },
-    goPage: function(id) {
-      this.$router.push({ name: 'Categorys', params: { id:id }})
-      this.getPage(id)
-      //this.$router.go(0)
+    goPage: function(id, childrens = false) {
+      if (childrens) {
+        this.$router.push({ name: 'Products', params: { id:id }})
+        this.getData('getProducts', id)
+      } else {
+        this.$router.push({ name: 'Categorys', params: { id:id }})
+        this.getData('getCategory', id)
+      }
     }
   },
   mounted: function() {
-    this.getPage(this.id);
+    this.getData('getCategory', this.id);
   },
   watch: {
     id: function () {
       this.page = 1;
-      this.getPage(this.id)
+      this.getData('getCategory', this.id)
     }
   }
 }

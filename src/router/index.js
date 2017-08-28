@@ -18,12 +18,12 @@ export default new Router({
       props: true
     },
     {
-      path: '/items',
-      name: 'Items',
+      path: '/products/:id',
+      name: 'Products',
       component: items
     },
     {
-      path: '/item/:id',
+      path: '/product/:id',
       name: 'Product',
       component: item
     },
