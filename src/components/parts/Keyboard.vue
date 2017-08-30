@@ -18,11 +18,7 @@
     data () {
       return {
         input: '',
-        //layout: layoutRu.normal,
-        options: {
-          useKbEvents: true
-        }
-      }
+      }      
     },
     props: [],
     watch: {
@@ -86,7 +82,7 @@
           margin-right: $margin;
         }
 
-        flex: $width;
+        flex: 1;
         height: $height;
         line-height: $height;
         overflow: hidden;
@@ -109,6 +105,9 @@
         &[data-action="backspace"] {
           background: url("./icons/backspace.svg") no-repeat center center;
           background-size: 35%;
+        }      
+        &[data-action="space"] {
+          flex: 3;
         }
 
         &.half {

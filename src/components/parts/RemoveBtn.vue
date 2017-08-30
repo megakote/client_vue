@@ -16,8 +16,16 @@ export default {
   },
   props: ['id'],
   methods: {
-    remove (id) {
-      this.$store.dispatch('removeFromCart', id)
+    remove (id) {      
+      let row = event.target.parentElement.parentElement.parentElement.parentElement
+      row.className += "animate"
+      let obj = this
+      setTimeout(function(){
+        obj.$store.dispatch('removeFromCart', id)
+        row.classList.remove("animate")
+      }, 500);
+      
+      
     }
   },
   computed: {

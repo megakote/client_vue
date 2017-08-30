@@ -44,14 +44,15 @@
             @change="countChange"
           />
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog.state = false">            
-            <v-icon left light>block</v-icon>
+          
+          <v-btn class="darken-1" error @click.native="dialog.state = false">            
+            <v-icon left dark>block</v-icon>
             Отмена
           </v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="buy_btn">
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" primary @click.native="buy_btn">
             Добавить
-            <v-icon right light>done</v-icon>
+            <v-icon right dark>done</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -174,6 +175,8 @@ export default {
   .dialog {
     .btn {
       margin: 0 30px;
+      height: 50px;
+      width: 163px;
     }
     .card__actions {
       padding-top: 20px;

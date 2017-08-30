@@ -51,7 +51,7 @@
           </div>
         </v-card>
         <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
-        <v-btn primary @click.native="e1 = 2">Далее</v-btn>
+        <v-btn primary @click.native="e1 = 2" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
         <v-btn flat>Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
@@ -142,6 +142,9 @@ export default {
     position: absolute;
     bottom: -50px;
   }
+  table.table tbody {
+    position: relative;
+  }
   table.table tbody td, 
   table.table tbody th {
     height: 60px;
@@ -149,5 +152,21 @@ export default {
   }
   .card {
     box-shadow: none;
+  }
+
+</style>
+<style>
+    .animate {
+    animation: leave 1s ease-in-out infinite;
+   }
+  @keyframes leave {
+    from { 
+      left: 0;
+      opacity: 1;
+    }   
+    to { 
+      left: -100%;
+      opacity: 0;
+    }
   }
 </style>

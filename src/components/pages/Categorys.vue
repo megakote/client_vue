@@ -1,13 +1,16 @@
 <template>
   <div style="height: 100%; position: relative; padding-bottom: 40px;">
     <v-layout fill-height  wrap>
-      <v-flex  class="category_card" v-for='item in pageData' :key='item.id'>
+      <v-flex  class="category_card" 
+        v-for='item in pageData' 
+        :key='item.id'
+        @click.stop="goPage(item.id, item.childrens)"
+      >
         <v-card>
           <v-card-media
-                  :src="'/static/images/' + item.img"
-                  @click.stop="goPage(item.id, item.childrens)"
-                  data-childrens="item.childrens"
-                  height="100px"
+            :src="'/static/images/' + item.img"                  
+            data-childrens="item.childrens"
+            height="100px"
           />
           <v-card-title primary-title> {{ item.name }} </v-card-title>          
         </v-card>
@@ -26,10 +29,8 @@ export default {
     return {
       page: 1,
       perPage: 20,
-      //items: data
     }
   },
-  //props: ['id'],
   computed:{
     pageData: function() {
       let offset = (this.page - 1) * this.perPage;
