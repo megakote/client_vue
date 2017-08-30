@@ -45,6 +45,7 @@ export default {
 
 <style lang="scss">
   .input-number_wrapper {
+    font-size: 0;
     .input-number {
       width: 40px;
       padding: 0 12px;
@@ -56,6 +57,7 @@ export default {
     .input-number,
     .input-number-decrement,
     .input-number-increment {
+      font-size: 17px;
       border: 1px solid #ccc;
       height: 40px;
       user-select: none;

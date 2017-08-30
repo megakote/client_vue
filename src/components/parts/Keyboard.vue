@@ -29,12 +29,12 @@
       input: function () {
         this.$store.dispatch('search_input', this.input)
       },
-      modalVisible: function () {        
+      modalVisible: function () {
         this.input = ''
       }
     },
     computed: {
-      visible() {        
+      visible() {
         return this.$store.getters.keyboard_visible
       },
       modalVisible: function() {
@@ -56,7 +56,7 @@
 
 
 <style lang="scss">
-    
+
   $width: 40;
   $height: 2.8em;
   $margin: 0.5em;
@@ -72,15 +72,15 @@
     box-shadow: 0px -3px 10px rgba(black, 0.3);
     border-radius: 10px;
     padding: 1em;
-      
+
       .vue-keyboard-row {
         display: flex;
-        justify-content: space-around;    
+        justify-content: space-around;
         &:not(:last-child) {
           margin-bottom: $margin;
         }
       }
-      
+
       .vue-keyboard-key {
         &:not(:last-child) {
           margin-right: $margin;
@@ -107,9 +107,7 @@
 
 
         &[data-action="backspace"] {
-          background-image: url("./icons/backspace.svg");
-          background-position: center center;
-          background-repeat: no-repeat;
+          background: url("./icons/backspace.svg") no-repeat center center;
           background-size: 35%;
         }
 
@@ -128,7 +126,7 @@
                 border-color: #2e6da4;
             }
         }
-              
+
         &.featured {
           color: #fff;
           background-color: #337ab7;
@@ -140,12 +138,12 @@
           background-color: #d6d6d6;
           border-color: #adadad;
         }
-        
+
         &:active {
           transform: scale(.98); // translateY(1px);
           color: #333;
           background-color: #d4d4d4;
-          border-color: #8c8c8c;          
+          border-color: #8c8c8c;
         }
 
         &.activated {
@@ -159,13 +157,13 @@
         flex: $width / 2;
         height: $height;
         line-height: $height;
-        
+
         &:not(:last-child) {
           margin-right: $margin;
         }
       }
-      
-      
+
+
       &:before,
       &:after {
         content: "";
@@ -173,8 +171,8 @@
       }
       &:after {
         clear: both;
-      }  
+      }
 
 
-  } 
+  }
 </style>

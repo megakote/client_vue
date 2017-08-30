@@ -18,13 +18,38 @@
           <td><a href="#" @click.prevent="goPage(props.item.id)">{{ props.item.name }}</a></td>
           <td  class="text-xs-right">{{ props.item.price }} р.</td>
           <td  class="text-xs-right">{{ props.item.stock }} {{ props.item.unit }} </td>
-          <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td>
+          <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
+          <td  class="text-xs-center">
+            <v-btn primary fab small dark @click.stop="buy_item(props.item.id, props.item.stock, props.item.name)">
+              <v-icon>add_shopping_cart</v-icon>
+            </v-btn>
+          </td>
         </template>
       </v-data-table>
     </div>
     <div class="pagination_wrapper text-xs-center pt-2">
       <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1"></v-pagination>
-    </div> 
+    </div>
+    <v-dialog v-model="dialog.state" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">{{ dialog.name }}</div>
+        </v-card-title>
+        <v-card-text>Введите количество</v-card-text>
+          <number-input 
+            :val="dialog.count"
+            :min="1"
+            :max="dialog.max"
+            :id="dialog.id"
+            @change="countChange"
+          />
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Отмена</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="buy_btn">Добавить</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -35,6 +60,13 @@ export default {
     return {
       search: '',
       no_data_text: 'Ничего не найдено',
+      dialog: {
+        name: null,
+        state: false,
+        max: 1,
+        count: 1,
+        id: null
+      },
       pagination: { 
         sortBy: 'column', 
         page: 1, 
@@ -60,7 +92,6 @@ export default {
     pages () {
       return this.pagination.rowsPerPage ? Math.ceil(this.items.length / this.pagination.rowsPerPage) : 0
     },
-    ///
     pageData: function() {
       let offset = (this.page - 1) * this.perPage;
       return this.items.slice(offset, offset + this.perPage);
@@ -79,6 +110,21 @@ export default {
     },
     getData: function(id) {
       this.$store.dispatch('getProducts', id)
+    },
+    buy_item: function(id, max, name) {
+      this.dialog.id = id
+      this.dialog.name = name
+      this.dialog.count = 1
+      this.dialog.max = max
+      this.dialog.state = true
+      
+    },
+    buy_btn: function() {
+      this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
+      this.dialog.state = false
+    },
+    countChange: function(id, val) {
+      this.dialog.count = val
     }
   },
   watch: {
@@ -117,6 +163,10 @@ export default {
           padding: 19px 20px;
       }
     }
+  }
+  .input-number_wrapper {
+    text-align: center;
+    margin: 20px auto;
   }
 
 

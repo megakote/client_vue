@@ -9,7 +9,8 @@
         <v-stepper-step step="3">Внесите деньги</v-stepper-step>
       </v-stepper-header>
       <v-stepper-content step="1">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="335px">
+        <!-- <v-card class="grey lighten-1 z-depth-1 mb-5" height="335px"> -->
+        <v-card class="z-depth-1 mb-5" height="335px">
           <div style="height: 100%; position: relative;">
             <div class="table_list_wrapper">
               <v-data-table
@@ -54,12 +55,12 @@
         <v-btn flat>Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="430px"></v-card>
+        <v-card class="grey lighten-1 z-depth-1 mb-5" height="366px"></v-card>
         <v-btn primary @click.native="e1 = 3">Далее</v-btn>
         <v-btn flat @click.native="e1 = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="430px"></v-card>
+        <v-card class="grey lighten-1 z-depth-1 mb-5" height="366px"></v-card>
         <v-btn primary @click.native="e1 = 1">Печать чека</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -129,7 +130,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .stepper__content .btn {
       float: right;
   }
@@ -137,10 +138,15 @@ export default {
     text-align: right;
       padding-bottom: 10px;
   }
-  .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
-  opacity: 0
-}
+  .pagination_wrapper{
+    position: absolute;
+    bottom: -50px;
+  }
+  table.table tbody td, 
+  table.table tbody th {
+    height: 56px;
+  }
+  .card {
+    box-shadow: none;
+  }
 </style>
