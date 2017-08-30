@@ -21,14 +21,14 @@ export default {
         return;
       }
       this.value -= 1
-      this.$emit('change', this.value, this.id)
+      this.$emit('change', this.id, this.value)
     },
     increment () {
       if ((this.value + 1) > this.max) {
         return;
       }
       this.value += 1
-      this.$emit('change', this.value, this.id)
+      this.$emit('change', this.id, this.value)
     }
   },
   watch: {

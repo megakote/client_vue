@@ -66,9 +66,18 @@ const store = new Vuex.Store({
     },
     add(state, { type, items }) {      
       state[type].push(items)
+    },    
+    change(state, { type, id, count }) {      
+      let tempState = state[type]
+      tempState.forEach(function(item, i, arr) {
+        if (item.id == id) {
+          
+          state[type][i].count = count
+        }    
+      })
     },
-    remove(state, { type, id}) {
-      let removeId = null
+    remove(state, { type, id}) {      
+      let removeId = null      
       state[type].forEach(function(item, i, arr) {
         if (item.id == id) {
           removeId = i
@@ -177,7 +186,10 @@ const store = new Vuex.Store({
       commit('set', { type: 'products', items: query })
     },    
     removeFromCart({ commit }, id){
-      commit('remove', { type: 'cart', items: id })
+      commit('remove', { type: 'cart', id: id })
+    },    
+    changeCount({ commit }, query){
+      commit('change', { type: 'cart', id: query.id, count: query.val })
     },
     search_input({ commit }, query){
       commit('set', { type: 'search_input', items: query })

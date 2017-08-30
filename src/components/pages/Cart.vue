@@ -19,13 +19,14 @@
                 :no-data-text="no_data_text"
                 :pagination.sync="pagination"
                 hide-actions
+                transition="fade-transition"
                 class="elevation-2"
               >
                 <template slot="headerCell" scope="props">
                   <span v-tooltip:bottom="{ 'html': props.header.text }">
                     {{ props.header.text }}
                   </span>
-                </template>
+                </template>                
                 <template slot="items" scope="props">
                   <td>{{ props.item.name }}</td>
                   <td  class="text-xs-right">{{ props.item.price }} р.</td>
@@ -40,7 +41,7 @@
                   </td>
                   <td  class="text-xs-right">{{ props.item.stock }} {{ props.item.unit }} </td>
                   <td  class="text-xs-center"><remove-btn :id='props.item.id' /></td>
-                </template>
+                </template>                
               </v-data-table>
             </div>
             <div class="pagination_wrapper text-xs-center pt-2">
@@ -115,8 +116,8 @@ export default {
     }
   },
   methods: {
-    changeCount (val,id) {
-      console.log(val,id)      
+    changeCount (id, val) {     
+      this.$store.dispatch('changeCount', {'id': id, 'val': val})     
     }
   },
   // created () {
@@ -136,4 +137,10 @@ export default {
     text-align: right;
       padding-bottom: 10px;
   }
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0
+}
 </style>

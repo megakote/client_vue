@@ -17,7 +17,6 @@ export default {
   props: ['id'],
   methods: {
     remove (id) {
-      console.log(id)
       this.$store.dispatch('removeFromCart', id)
     }
   },
