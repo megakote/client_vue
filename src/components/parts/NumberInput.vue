@@ -47,7 +47,7 @@ export default {
   .input-number_wrapper {
     font-size: 0;
     .input-number {
-      width: 40px;
+      width: 50px;
       padding: 0 12px;
       vertical-align: top;
       text-align: center;
@@ -59,15 +59,17 @@ export default {
     .input-number-increment {
       font-size: 17px;
       border: 1px solid #ccc;
-      height: 40px;
+    
+    line-height: 43px;
+    height: 45px;
       user-select: none;
     }
 
     .input-number-decrement,
     .input-number-increment {
       display: inline-block;
-      width: 30px;
-      line-height: 38px;
+      width: 45px;
+      line-height: 43px;
       background: #f1f1f1;
       color: #444;
       text-align: center;

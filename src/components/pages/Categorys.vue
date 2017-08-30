@@ -1,21 +1,20 @@
 <template>
-  
-  <v-layout fill-height  wrap>
-    <v-flex xs3 v-for='item in pageData' :key='item.id'>
-      <v-card>
-        <v-card-media
-                :src="'/static/images/' + item.img"
-                @click.stop="goPage(item.id, item.childrens)"
-                data-childrens="item.childrens"
-                height="160px"
-        />
-        <v-card-title primary-title> {{ item.name }} </v-card-title>          
-      </v-card>
-    </v-flex>
-
+  <div style="height: 100%; position: relative; padding-bottom: 40px;">
+    <v-layout fill-height  wrap>
+      <v-flex  class="category_card" v-for='item in pageData' :key='item.id'>
+        <v-card>
+          <v-card-media
+                  :src="'/static/images/' + item.img"
+                  @click.stop="goPage(item.id, item.childrens)"
+                  data-childrens="item.childrens"
+                  height="100px"
+          />
+          <v-card-title primary-title> {{ item.name }} </v-card-title>          
+        </v-card>
+      </v-flex>    
+    </v-layout>
     <pagination :perPage='perPage' :length='items.length' />
-  </v-layout>
-
+  </div>
 </template>
 
 <script>
@@ -26,7 +25,7 @@ export default {
   data () {
     return {
       page: 1,
-      perPage: 8,
+      perPage: 20,
       //items: data
     }
   },
@@ -69,10 +68,20 @@ export default {
 }
 </script>
 
-<style scss>
+<style lang="scss">
+  .layout {
+    align-content: flex-start;
+    align-items: flex-start;
+  }
+  .category_card {
+    flex-basis: 20% !important;
+    max-width: 20%;
+    margin-bottom: 30px;
+  }
   .pagination_wrapper {
     width: 100%;
-    align-self: flex-end;
+    position: absolute;
+    bottom: 0;
   }
   .card__title--primary {
       padding-top: 24px;

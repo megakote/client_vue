@@ -212,6 +212,114 @@ export default {
         'name': 'Категори21',
         'img': 'category.jpg',
         'childrens': false
+        },
+        {
+        'id': 13,
+        'name': 'Категория3',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 14,
+        'name': 'Категория4',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 15,
+        'name': 'Категория5',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 16,
+        'name': 'Категория6',
+        'img': 'category.jpg',
+        'childrens': false
+        },
+        {
+        'id': 17,
+        'name': 'Категория7',
+        'img': 'category.jpg',
+        'childrens': false
+        },
+        {
+        'id': 18,
+        'name': 'Общестрой',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 19,
+        'name': 'Кровельные материалы',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 20,
+        'name': 'Категория20',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 21,
+        'name': 'Категори21',
+        'img': 'category.jpg',
+        'childrens': false
+        },
+        {
+        'id': 13,
+        'name': 'Категория3',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 14,
+        'name': 'Категория4',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 15,
+        'name': 'Категория5',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 16,
+        'name': 'Категория6',
+        'img': 'category.jpg',
+        'childrens': false
+        },
+        {
+        'id': 17,
+        'name': 'Категория7',
+        'img': 'category.jpg',
+        'childrens': false
+        },
+        {
+        'id': 18,
+        'name': 'Общестрой',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 19,
+        'name': 'Кровельные материалы',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 20,
+        'name': 'Категория20',
+        'img': 'category.jpg',
+        'childrens': false
+        },  
+        {
+        'id': 21,
+        'name': 'Категори21',
+        'img': 'category.jpg',
+        'childrens': false
         }
       ]
     }

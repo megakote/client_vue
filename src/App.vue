@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <v-app light >
     <top-bar :title='title' />
     <main>
       <v-container fluid>
@@ -36,11 +36,14 @@
   }
   main {
     //высота моника - высота нижнего баннера - - высота верхней панели навигации
-    height: calc(100vh - 120px - 55px); 
+    height: calc(100vh - 120px - 80px); 
     overflow: hidden;
   }
   .application > main > .container {
     min-height: 0;
     height: 100%;
   }
+  // * {
+  //   cursor: none !important;
+  // }
 </style>

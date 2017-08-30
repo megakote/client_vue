@@ -1,6 +1,6 @@
 <template>
   <div class="remove_btn" @click="remove(id)">
-    <v-btn primary fab small dark>
+    <v-btn primary fab meduim dark>
       <v-icon>close</v-icon>
     </v-btn>
   </div>
@@ -26,7 +26,14 @@ export default {
 }
 </script>
 
-<style scss>
+<style lang="scss">
   .remove_btn {
+    .btn--floating {
+      height: 46px;
+      width: 46px;
+      .icon {
+        font-size: 30px;
+      }
+    }
   }
 </style>

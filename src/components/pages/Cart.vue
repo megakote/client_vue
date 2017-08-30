@@ -10,7 +10,7 @@
       </v-stepper-header>
       <v-stepper-content step="1">
         <!-- <v-card class="grey lighten-1 z-depth-1 mb-5" height="335px"> -->
-        <v-card class="z-depth-1 mb-5" height="335px">
+        <v-card class="z-depth-1 mb-5" height="560px">
           <div style="height: 100%; position: relative;">
             <div class="table_list_wrapper">
               <v-data-table
@@ -55,12 +55,12 @@
         <v-btn flat>Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="366px"></v-card>
+        <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
         <v-btn primary @click.native="e1 = 3">Далее</v-btn>
         <v-btn flat @click.native="e1 = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="366px"></v-card>
+        <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
         <v-btn primary @click.native="e1 = 1">Печать чека</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -78,7 +78,7 @@ export default {
       pagination: { 
         sortBy: 'column', 
         page: 1, 
-        rowsPerPage: 5, 
+        rowsPerPage: 8, 
         descending: false, 
         totalItems: 0 
       },
@@ -144,7 +144,8 @@ export default {
   }
   table.table tbody td, 
   table.table tbody th {
-    height: 56px;
+    height: 60px;
+    font-size: 16px;
   }
   .card {
     box-shadow: none;

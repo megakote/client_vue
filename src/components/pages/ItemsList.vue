@@ -30,7 +30,7 @@
     <div class="pagination_wrapper text-xs-center pt-2">
       <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1"></v-pagination>
     </div>
-    <v-dialog v-model="dialog.state" lazy absolute>
+    <v-dialog v-model="dialog.state" width="500px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ dialog.name }}</div>
@@ -45,8 +45,14 @@
           />
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Отмена</v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="buy_btn">Добавить</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog.state = false">            
+            <v-icon left light>block</v-icon>
+            Отмена
+          </v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="buy_btn">
+            Добавить
+            <v-icon right light>done</v-icon>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -70,7 +76,7 @@ export default {
       pagination: { 
         sortBy: 'column', 
         page: 1, 
-        rowsPerPage: 7, 
+        rowsPerPage: 10, 
         descending: false, 
         totalItems: 0 
       },
@@ -139,9 +145,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .table_list_wrapper {
-    height: 580px;
+    height: 730px;
   }
   .pagination_wrapper{
     position: absolute;
@@ -164,10 +170,27 @@ export default {
       }
     }
   }
-  .input-number_wrapper {
-    text-align: center;
-    margin: 20px auto;
-  }
 
+  .dialog {
+    .btn {
+      margin: 0 30px;
+    }
+    .card__actions {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .input-number_wrapper {
+      text-align: center;
+      margin: 20px auto;
+      .input-number, 
+      .input-number-decrement, 
+      .input-number-increment {
+        height: 60px;
+        width: 60px !important;
+        line-height: 60px;
+      }
+    }
+  }
 
 </style>

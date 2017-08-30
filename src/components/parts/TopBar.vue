@@ -1,6 +1,6 @@
 <template>
-  <v-card height="55px" style="position: relative">
-    <v-bottom-nav style="position: relative" value="true" class="transparent">
+  <v-card height="80px" style="position: relative">
+    <v-bottom-nav style="position: relative; height: 100%;" value="true" class="transparent">
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat light class="teal--text" @click="back">
@@ -57,14 +57,30 @@ export default {
 }
 </script>
 
-<style scss>
+<style lang="scss">
   .toolbar__title {
     align-self: center;
     position: absolute;
-    left: 0;
+    left: 10px;
   }
   .cart_wrapper {
     position: absolute;
-    right: 0;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+  }
+  .icon {
+    font-size: 40px;
+  }
+  .badge::after {
+    font-size: 15px;
+  }
+
+  .btn--floating.btn--small {
+    height: 50px;
+    width: 50px;
+    .icon {
+      font-size: 27px;
+    }
   }
 </style>
