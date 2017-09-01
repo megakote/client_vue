@@ -78,6 +78,8 @@ export default {
     flex-basis: 20% !important;
     max-width: 20%;
     margin-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .pagination_wrapper {
     width: 100%;

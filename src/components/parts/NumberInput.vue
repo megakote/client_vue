@@ -54,10 +54,9 @@ export default {
 <style lang="scss">
   .input-number_wrapper {
     font-size: 0;
-    height: 45px;
+    height: 60px;
     margin: 6px 8px;
     .input-number {
-      width: 50px;
       padding: 0 12px;
       vertical-align: top;
       text-align: center;
@@ -69,22 +68,23 @@ export default {
     .input-number-increment {
       font-size: 17px;
       border: 1px solid #ccc;    
-      line-height: 43px;
-      height: 45px;
+      line-height: 60px;
       user-select: none;
+        height: 60px;
+        width: 60px;
+        line-height: 60px;
     }
 
     .input-number-decrement,
     .input-number-increment {
       display: inline-block;
-      width: 45px;
-      line-height: 43px;
       background: #f1f1f1;
       color: #444;
       text-align: center;
       font-weight: bold;
       cursor: pointer;
     }
+    
     .input-number-decrement:active,
     .input-number-increment:active {
       background: #ddd;

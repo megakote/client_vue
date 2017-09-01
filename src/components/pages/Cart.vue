@@ -119,10 +119,10 @@ export default {
       search: '',
       no_data_text: 'Корзина пуста',
       pagination: { 
-        sortBy: 'column', 
+        sortBy: 'column',
         page: 1, 
-        rowsPerPage: 8, 
-        descending: false, 
+        rowsPerPage: 8,
+        descending: false,
         totalItems: 0 
       },
       selected: [],
@@ -172,8 +172,8 @@ export default {
     }
   },
   methods: {
-    changeCount (id, val) {     
-      this.$store.dispatch('changeCount', {'id': id, 'val': val})     
+    changeCount (id, val) {
+      this.$store.dispatch('changeCount', {'id': id, 'val': val})
     },
     changeFocus (to) {
       this.contactInput = this.contacts[to]
@@ -197,28 +197,39 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .stepper__content .btn {
       float: right;
   }
+  
   .summ {
     text-align: right;
       padding-bottom: 10px;
   }
+
   .pagination_wrapper{
     position: absolute;
     bottom: -50px;
   }
+
   table.table tbody {
     position: relative;
   }
+
   table.table tbody td, 
   table.table tbody th {
     height: 60px;
     font-size: 16px;
   }
+
   .card {
     box-shadow: none;
+  }
+
+  .input-number, 
+  .input-number-decrement, 
+  .input-number-increment {
+    height: 45px !important;
   }
 
   .vue-keyboard {
@@ -249,6 +260,7 @@ export default {
   .animate {
     animation: leave 1s ease-in-out infinite;
   }
+
   @keyframes leave {
     from { 
       left: 0;
@@ -259,6 +271,7 @@ export default {
       opacity: 0;
     }
   }
+
   .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
     background-size: 12%;
   }

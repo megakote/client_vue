@@ -54,3 +54,22 @@
   //   cursor: none !important;
   // }
 </style>
+
+
+
+<style lang="scss">
+  .pagination {
+    height: 45px;
+    .pagination__navigation {
+      height: 40px;
+      width: 40px;
+      margin: 0.3rem 20px;
+    }
+    .pagination__item {
+      height: 40px;
+      width: 40px;
+      font-size: 17px;
+      margin: 0.4rem;
+    }
+  }
+</style>

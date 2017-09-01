@@ -81,11 +81,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .layout .flex {
     padding-left: 15px;
     padding-right: 15px;
   }
+  
   .product_images {
     padding: 20px 15px 40px;
     .main_img {
@@ -114,36 +115,33 @@ export default {
       }
     }
   }
+
   h2 {
     margin-bottom: 10px;
     line-height: 50px;
     margin-top: 15px;
   }
+
   h6 {
     font-weight: 400;
     margin-bottom: 40px;
   }
+
   .actions_wrapper {
     display: flex;
     justify-content: flex-start;
-    margin-top: 60px;
-  
+    margin-top: 60px;  
     .input-number_wrapper {
       margin-right: 50px;
-      .input-number, 
-      .input-number-decrement, 
-      .input-number-increment {
-        height: 60px;
-        width: 60px !important;
-        line-height: 60px;
-      }
     }
   }
+
   .price,
   .stock {
     font-size: 30px;
     display: block;
   }
+
   .description {
     margin-top: 60px;
   }
