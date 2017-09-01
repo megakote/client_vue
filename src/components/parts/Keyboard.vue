@@ -119,6 +119,7 @@
           background-color: #7d7d7d;
           border-color: #656565;
             &[data-action="clear"],
+            &[data-action="validate"],
             &[data-action="send"] {
                 color: #fff;
                 background-color: #337ab7;

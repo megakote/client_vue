@@ -48,11 +48,6 @@ export default {
     cartCount () {
       return this.$store.getters.cartProducts.length
     }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.$parent.history.push(to)
-    }
   }
 }
 </script>

@@ -55,13 +55,55 @@
         <v-btn flat>Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
-        <v-btn primary @click.native="e1 = 3">Далее</v-btn>
+        <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
+        <h5 style="text-align: center;">Пожалуйста введите ваш номер телефона и email (По возможности)</h5>
+
+            <input 
+              v-model="contacts.tel"
+              class="contact_input"
+              type="tel"
+              placeholder="+7 (999) 666-33-11"
+              v-mask="'+7 (###) ###-##-##'"
+              @click="changeFocus('tel')"
+            ></input>
+
+            <input 
+              class="contact_input"
+              type="mail"
+              placeholder="info@mail.com"
+              v-model="contacts.email"
+              @click="changeFocus('email')"
+            ></input>
+
+        
+          <keyboard       
+              v-if="contacts.focus == 'email'"        
+              v-model="contacts.email"
+              :layouts="[
+                '1234567890{:backspace}|qwertyuiop|asdfghjkl|{shift:goto:1}@zxcvbnm.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
+                '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+              ]"
+              :maxlength="0"
+              @input="changed"
+          ></keyboard>         
+           <keyboard
+              class="tel"
+              v-if="contacts.focus == 'tel'"       
+              v-model="contacts.tel"
+              :layouts="[
+                '123|456|789|{очистить:clear}0{:backspace}'
+              ]"
+              :maxlength="0"
+              @input="changed"
+          ></keyboard>
+        </v-card>
+        <v-btn primary @click.native="e1 = 3" :disabled="!isValidate">Далее</v-btn>
         <v-btn flat @click.native="e1 = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
         <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
         <v-btn primary @click.native="e1 = 1">Печать чека</v-btn>
+        <v-btn flat @click.native="e1 = 2">Назад</v-btn>
       </v-stepper-content>
     </v-stepper>
   </div>
@@ -72,6 +114,7 @@ export default {
   name: 'cart',
   data () {
     return {
+      myInputModel: '',
       e1: 0,
       search: '',
       no_data_text: 'Корзина пуста',
@@ -95,6 +138,12 @@ export default {
         { text: 'На складе', value: 'stock' },
         { text: '', value: '' }
       ],
+      contacts: {
+        email: '',
+        tel: '',
+        focus: ''
+      },
+      contactInput: ''
     }
   },
   computed: {
@@ -114,13 +163,31 @@ export default {
     },
     items () {
       return this.$store.getters.cartProducts
+    },
+    isValidate () {
+      if (this.contacts.tel.length < 18) {
+        return false
+      }
+      return true
     }
   },
   methods: {
     changeCount (id, val) {     
       this.$store.dispatch('changeCount', {'id': id, 'val': val})     
+    },
+    changeFocus (to) {
+      this.contactInput = this.contacts[to]
+      this.contacts.focus = to
+    },
+    changed(value) {
+      this.contacts[this.contacts.focus] = value
     }
   },
+  watch: {
+    contactInput () {
+
+    }
+  }
   // created () {
   //   this.$on('chan', function(val) {
   //     console.log(val)
@@ -154,11 +221,34 @@ export default {
     box-shadow: none;
   }
 
+  .vue-keyboard {
+    position: absolute;
+    bottom: 0;
+
+  }
+
+  .contact_input {
+    display: block;
+    font-size: 16px;
+    width:300px;
+    margin: 30px auto 50px;
+    padding: 10px 8px 10px 8px;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0, .55), 0px 1px 1px rgba(255,255,255,.5);
+    border: 1px solid #666;
+    &:focus {
+      color:#08c;
+      border: 1px solid #08c;
+       box-shadow: 0px 1px 0px rgba(255,255,255,.25),inset 0px 3px 6px rgba(0,0,0,.25);
+       outline: none;
+    }
+  }
+
 </style>
 <style>
-    .animate {
+  .animate {
     animation: leave 1s ease-in-out infinite;
-   }
+  }
   @keyframes leave {
     from { 
       left: 0;
@@ -168,5 +258,8 @@ export default {
       left: -100%;
       opacity: 0;
     }
+  }
+  .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
+    background-size: 12%;
   }
 </style>

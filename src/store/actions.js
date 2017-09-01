@@ -3,8 +3,14 @@
 */
 
 export default {
+  addData({ commit }, data){    // Добавляет данные в объект store
+    commit('add', { type: data.type, items: data.items })
+  },
+  addDepthData({ commit }, data){    // Добавляет данные во вложенный массив (например session.history)
+    commit('addDepth', { type: data.type, items: data.items })
+  },
   setData({ commit }, data){
-    commit('set', { type: query.type, items: data.query })
+    commit('set', { type: data.type, items: data.items })
   },
   keyboard_visible({ commit }, query){
     commit('set', { type: 'keyboard_visible', items: query })

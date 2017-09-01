@@ -17,6 +17,9 @@ import RemoveBtn from '@/components/parts/RemoveBtn'
 import NumberInput from '@/components/parts/NumberInput'
 
 
+import VueMask from 'v-mask'
+Vue.use(VueMask);
+
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 

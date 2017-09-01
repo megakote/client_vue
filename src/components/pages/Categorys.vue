@@ -85,7 +85,8 @@ export default {
     bottom: 0;
   }
   .card__title--primary {
-      padding-top: 24px;
+      // padding-top: 24px;
+      padding-top: 16px;
       height: 60px;
   }
 </style>

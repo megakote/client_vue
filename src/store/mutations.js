@@ -6,6 +6,9 @@ export default {
   set(state, { type, items }) {
     state[type] = items
   },
+  addDepth(state, { type, items }) {
+    state[type[0]][type[1]].push(items)
+  },
   add(state, { type, items }) {
     state[type].push(items)
   },

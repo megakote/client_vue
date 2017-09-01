@@ -14,7 +14,15 @@ export default {
       value: 0
     }
   },
-  props: ['id','val','min','max'],
+  props: {
+    id: {
+      type: Number,
+      required: false
+    },
+    val: Number,
+    min: Number,
+    max: Number
+  },
   methods: {
     decrement () {
       if ((this.value - 1) < this.min) {
@@ -46,6 +54,8 @@ export default {
 <style lang="scss">
   .input-number_wrapper {
     font-size: 0;
+    height: 45px;
+    margin: 6px 8px;
     .input-number {
       width: 50px;
       padding: 0 12px;
@@ -58,10 +68,9 @@ export default {
     .input-number-decrement,
     .input-number-increment {
       font-size: 17px;
-      border: 1px solid #ccc;
-    
-    line-height: 43px;
-    height: 45px;
+      border: 1px solid #ccc;    
+      line-height: 43px;
+      height: 45px;
       user-select: none;
     }
 

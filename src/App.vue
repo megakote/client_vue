@@ -21,8 +21,12 @@
       }
     },
     methods: {
+    },
+    watch: {
+      '$route' (to, from) {
+        this.$store.dispatch('addDepthData', { type: ['session','history'], items: to.path })
+      }
     }
-
   }
 </script>
 
@@ -35,13 +39,16 @@
     overflow-y: auto;
   }
   main {
-    //высота моника - высота нижнего баннера - - высота верхней панели навигации
-    height: calc(100vh - 120px - 80px); 
+    //высота моника - высота нижнего баннера - 1px потому что FF иначе дает скролл - высота верхней панели навигации
+    height: calc(100vh - 120px - 1px - 80px); 
     overflow: hidden;
   }
   .application > main > .container {
     min-height: 0;
     height: 100%;
+  }
+  img {
+    max-width: 100%;
   }
   // * {
   //   cursor: none !important;

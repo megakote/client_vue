@@ -1,5 +1,5 @@
 <template>
-  <div class="remove_btn" @click="remove(id)">
+  <div class="remove_btn" @click="remove">
     <v-btn primary fab meduim dark>
       <v-icon>close</v-icon>
     </v-btn>
@@ -16,14 +16,15 @@ export default {
   },
   props: ['id'],
   methods: {
-    remove (id) {      
-      let row = event.target.parentElement.parentElement.parentElement.parentElement
-      row.className += "animate"
-      let obj = this
-      setTimeout(function(){
-        obj.$store.dispatch('removeFromCart', id)
-        row.classList.remove("animate")
-      }, 500);
+    remove (event) {
+    
+      //let row = event.target.parentElement.parentElement.parentElement.parentElement
+      // row.className += "animate"
+       let obj = this
+      // setTimeout(function(){
+         obj.$store.dispatch('removeFromCart', this.id)
+      //   row.classList.remove("animate")
+      // }, 500);
       
       
     }
