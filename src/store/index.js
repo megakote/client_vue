@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueResource from 'vue-resource'
 
 import getters from './getters'
 import mutations from './mutations'
 import actions from './actions'
 
 Vue.use(Vuex)
+Vue.use(VueResource);
 
 const store = new Vuex.Store({
   state: {

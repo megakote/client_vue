@@ -141,7 +141,7 @@ export default {
       contacts: {
         email: '',
         tel: '',
-        focus: ''
+        focus: 'tel'
       },
       contactInput: ''
     }
@@ -150,8 +150,8 @@ export default {
     summ () {
       let summ = 0;
       this.items.forEach(function(item, i, arr) {
-      summ += item.price*item.count
-    });
+        summ += item.price*item.count
+      });
       return summ
     },
     pages () {
@@ -197,7 +197,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .stepper__content .btn {
       float: right;
   }

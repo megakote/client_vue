@@ -4,7 +4,7 @@
       <v-flex  class="category_card" 
         v-for='item in pageData' 
         :key='item.id'
-        @click.stop="goPage(item.id, item.childrens)"
+        @click.stop="goPage(item.guid, item.items_parent)"
       >
         <v-card>
           <v-card-media
@@ -48,12 +48,12 @@ export default {
       this.$store.dispatch(page, id)
     },
     goPage: function(id, childrens = false) {
-      if (childrens) {
-        this.$router.push({ name: 'Products', params: { id:id }})
+      if (childrens) {        
         this.getData('getProducts', id)
+        this.$router.push({ name: 'Products', params: { id:id }})
       } else {
-        this.$router.push({ name: 'Categorys', params: { id:id }})
         this.getData('getCategory', id)
+        this.$router.push({ name: 'Categorys', params: { id:id }})        
       }
     }
   },

@@ -22,6 +22,11 @@
     },
     methods: {
     },
+    computed: {
+      url () {
+        //return this.$resource('http://client.my')
+      }
+    },
     watch: {
       '$route' (to, from) {
         this.$store.dispatch('addDepthData', { type: ['session','history'], items: to.path })

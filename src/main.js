@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import App from './App'
+import VueResource from 'vue-resource'
 import router from './router'
 import store from './store'
 import TopBar from '@/components/parts/TopBar'
@@ -18,9 +19,11 @@ import NumberInput from '@/components/parts/NumberInput'
 
 
 import VueMask from 'v-mask'
-Vue.use(VueMask);
 
+Vue.use(VueMask);
+Vue.use(VueResource);
 Vue.use(Vuetify)
+
 Vue.config.productionTip = false
 
 

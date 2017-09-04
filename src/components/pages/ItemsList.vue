@@ -16,11 +16,11 @@
         </template>
         <template slot="items" scope="props">
           <td><a href="#" @click.prevent="goPage(props.item.id)">{{ props.item.name }}</a></td>
-          <td  class="text-xs-right">{{ props.item.price }} р.</td>
-          <td  class="text-xs-right">{{ props.item.stock }} {{ props.item.unit }} </td>
+          <td class="text-xs-right">{{ props.item.price }} р.</td>
+          <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
           <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
-          <td  class="text-xs-center">
-            <v-btn primary fab small dark @click.stop="buy_item(props.item.id, props.item.stock, props.item.name)">
+          <td class="text-xs-center">
+            <v-btn primary fab small dark @click.stop="buy_item(props.item.id, props.item.count, props.item.name)">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
           </td>
@@ -90,7 +90,7 @@ export default {
           value: 'name'
         },
         { text: 'Цена', value: 'price' },
-        { text: 'На складе', value: 'stock' },
+        { text: 'На складе', value: 'count' },
         { text: '', value: '' }
       ],
     }
