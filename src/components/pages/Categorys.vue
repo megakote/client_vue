@@ -73,6 +73,10 @@ export default {
   .layout {
     align-content: flex-start;
     align-items: flex-start;
+    .flex {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
   }
   .category_card {
     flex-basis: 20% !important;

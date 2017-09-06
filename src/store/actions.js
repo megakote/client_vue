@@ -46,6 +46,8 @@ export default {
   addCartProduct({ commit, state }, query){
     let cart = state.cart
     let alreadyHave = false
+
+    let resource = Vue.resource('http://client.my/api/cart/')
     cart.forEach(function(item, i, arr) {
       if (item.id == query.id) {        
        alreadyHave = true
@@ -56,7 +58,15 @@ export default {
     } else {
       commit('add', { type: 'cart', items: {id: query.id, count: query.count } })
     }
-    
+
+    resource.get({id: id}).then(response => {
+      
+      query = response.body;
+      commit('set', { type: 'categorys', items: query })
+
+    }, response => {
+      // error callback
+    });   
   },
   changeCount({ commit }, query){
     commit('change', { type: 'cart', id: query.id, count: query.val })
@@ -69,7 +79,7 @@ export default {
       Получаем список дочерних категорий для id
       Если id не передан, отдаем категории нулевого уровня
     */
-    let query = []
+    let query
     let resource = Vue.resource('http://client.my/api/category{/id}')
     resource.get({id: id}).then(response => {
       
@@ -79,5 +89,52 @@ export default {
     }, response => {
       // error callback
     });    
+  },
+  getCart({ commit }){
+    /*
+      Получаем список товаров в корзине
+    */
+    let query
+    let resource = Vue.resource('http://client.my/api/cart')
+    resource.get().then(response => {
+      
+      query = response.body;
+      commit('set', { type: 'cart', items: query })
+
+    }, response => {
+      // error callback
+    });    
+  },
+  clearCart ({ commit }) {
+    /* TODO: Доделать очистку корзины */
+  },
+  completeOrder ({ commit, state }, contacts) {
+    /*
+      Отпрвляем завершенный заказ на сервер
+    */
+
+    //let query
+    //let resource = Vue.resource('http://client.my/api/cart/complete')
+  
+    //resource.save('', data).then(response => {
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
+    let data = JSON.stringify(contacts)
+    Vue.http.post('http://client.my/api/cart/complete', {contacts: data}).then(response => {
+      console.log(data)
+      console.log(response)
+      /*
+        TODO: Тут очищаем сессию и корзину
+      */
+      //commit('set', { type: 'cart', items: query })
+
+    }, response => {
+      // error callback
+    }); 
+  },
+  endSession ({ commit }) {
+    /*
+      TODO: Здесь закрываем сессию и отправляем данные на сервер
+    */
   }
 }

@@ -33,13 +33,17 @@
             <span>В корзину</span>
           </v-btn>
         </div>
-        <div class="description">{{ description }}</div>
+        <!-- <div class="description" v-html="description"></div> -->
       </v-flex>
     </v-layout>
   </v-card>
 </template>
 
 <script>
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+
 export default {
   name: 'item',
   data () {
@@ -71,12 +75,28 @@ export default {
       this.$store.dispatch('addCartProduct', {id: this.id, count: this.count})
     }
   },
-  watch: {
-    id: function () {      
-      /*
-       Тут запрашиваем инфу для товара из базы
-      */
-    }
+  mounted: function() {
+    this.count = 1
+    this.activeImage = 1
+    
+    let data
+    let id = this.id
+    let resource = Vue.resource('http://client.my/api/product{/id}')
+    resource.get({id: id}).then(response => {
+
+      data = response.body;
+      this.name = data.name
+      this.category = data.parent
+      this.price = data.price
+      this.stock = data.count
+      this.unit = data.unit
+      this.description = data.description
+      //this.images = data.image
+
+    }, response => {
+      // error callback
+    });
+    
   }
 }
 </script>
@@ -117,6 +137,7 @@ export default {
   }
 
   h2 {
+    font-size: 40px;
     margin-bottom: 10px;
     line-height: 50px;
     margin-top: 15px;

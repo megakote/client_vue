@@ -15,7 +15,7 @@
           </span>
         </template>
         <template slot="items" scope="props">
-          <td><a href="#" @click.prevent="goPage(props.item.id)">{{ props.item.name }}</a></td>
+          <td><a href="#" @click.prevent="goPage(props.item.guid)">{{ props.item.name }}</a></td>
           <td class="text-xs-right">{{ props.item.price }} р.</td>
           <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
           <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->

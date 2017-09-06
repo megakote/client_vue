@@ -31,6 +31,9 @@
       '$route' (to, from) {
         this.$store.dispatch('addDepthData', { type: ['session','history'], items: to.path })
       }
+    },
+    created: function () {
+      this.$store.dispatch('getCart')
     }
   }
 </script>

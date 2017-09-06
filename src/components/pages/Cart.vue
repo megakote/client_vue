@@ -52,11 +52,11 @@
         </v-card>
         <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
         <v-btn primary @click.native="e1 = 2" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
-        <v-btn flat>Отмена</v-btn>
+        <v-btn flat @click="complete">Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
-        <h5 style="text-align: center;">Пожалуйста введите ваш номер телефона и email (По возможности)</h5>
+        <h5 style="text-align: center;">Пожалуйста введите ваш номер телефона (без восьмерки) и email (По возможности)</h5>
 
             <input 
               v-model="contacts.tel"
@@ -77,32 +77,32 @@
 
         
           <keyboard       
-              v-if="contacts.focus == 'email'"        
+              v-if="contactFocus == 'email'"        
               v-model="contacts.email"
               :layouts="[
                 '1234567890{:backspace}|qwertyuiop|asdfghjkl|{shift:goto:1}@zxcvbnm.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
-                '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+                '!@#$%^&*(){:backspace}|QWERTYUIOP|ASDFGHJKL|{shift:goto:0}@ZXCVBNM.{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
               ]"
               :maxlength="0"
               @input="changed"
-          ></keyboard>         
-           <keyboard
+          />         
+          <keyboard
               class="tel"
-              v-if="contacts.focus == 'tel'"       
+              v-if="contactFocus == 'tel'"       
               v-model="contacts.tel"
               :layouts="[
                 '123|456|789|{очистить:clear}0{:backspace}'
               ]"
               :maxlength="0"
               @input="changed"
-          ></keyboard>
+          />
         </v-card>
         <v-btn primary @click.native="e1 = 3" :disabled="!isValidate">Далее</v-btn>
         <v-btn flat @click.native="e1 = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
         <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
-        <v-btn primary @click.native="e1 = 1">Печать чека</v-btn>
+        <v-btn primary @click.native="complete">Печать чека</v-btn>
         <v-btn flat @click.native="e1 = 2">Назад</v-btn>
       </v-stepper-content>
     </v-stepper>
@@ -140,10 +140,10 @@ export default {
       ],
       contacts: {
         email: '',
-        tel: '',
-        focus: 'tel'
+        tel: ''
       },
-      contactInput: ''
+      contactFocus: 'tel',
+
     }
   },
   computed: {
@@ -176,24 +176,23 @@ export default {
       this.$store.dispatch('changeCount', {'id': id, 'val': val})
     },
     changeFocus (to) {
-      this.contactInput = this.contacts[to]
-      this.contacts.focus = to
+      //this.contactInput = this.contacts[to]
+      this.contactFocus = to
     },
     changed(value) {
       this.contacts[this.contacts.focus] = value
+    },
+    clear() {
+      /* TODO: Написать метод очистки корзины */
+    },
+    complete() {
+      this.e1 = 1
+      this.$store.dispatch('completeOrder', this.contacts)
     }
   },
-  watch: {
-    contactInput () {
-
-    }
+  mounted () {
+    this.$store.dispatch('getCart')
   }
-  // created () {
-  //   this.$on('chan', function(val) {
-  //     console.log(val)
-  //     // body...
-  //   })
-  // }
 }
 </script>
 
@@ -221,7 +220,11 @@ export default {
     height: 60px;
     font-size: 16px;
   }
-
+  table.table tbody  td{
+    &:first-child {
+      padding: 0 24px;
+    }
+  }
   .card {
     box-shadow: none;
   }

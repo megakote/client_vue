@@ -18,24 +18,7 @@ const store = new Vuex.Store({
     results: [],
     categorys: [],
     products: [],
-    cart: [
-        {
-          id: 10,
-          name: 'Финтифлюшка зеленая',
-          price: 100,
-          count: 1,
-          stock: 10,
-          unit: 'шт'
-        },
-        {
-          id: 11,
-          name: 'Финтифлюшка красная',
-          price: 500,
-          count: 2,
-          stock: 3,
-          unit: 'шт'
-        }, 
-    ],
+    cart: [],
     session: { //Данные активной сессии
       startTime: Date.now() / 1000 | 0, // Время старта сессии в unixTime формате (только секунды)
       endTime: 0, // Время закрытия сессии, вычисляется при отправке на сервер.
