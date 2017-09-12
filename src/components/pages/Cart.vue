@@ -27,27 +27,27 @@
                   <span v-tooltip:bottom="{ 'html': props.header.text }">
                     {{ props.header.text }}
                   </span>
-                </template>                
+                </template>
                 <template slot="items" scope="props">
                   <td>{{ props.item.name }}</td>
-                  <td  class="text-xs-right">{{ props.item.price }} р.</td>
-                  <td  class="text-xs-right">
-                    <number-input 
+                  <td  class="text-xs-center">{{ props.item.price }} р.</td>
+                  <td  class="text-xs-center">
+                    <number-input
                       :val="props.item.count"
                       :min="1"
                       :max="props.item.stock"
-                      :id="props.item.id"
+                      :id="props.item.guid"
                       @change="changeCount"
                     />
                   </td>
                   <td  class="text-xs-right">{{ props.item.stock }} {{ props.item.unit }} </td>
-                  <td  class="text-xs-center"><remove-btn :id='props.item.id' /></td>
-                </template>                
+                  <td  class="text-xs-center"><remove-btn :id='props.item.guid' /></td>
+                </template>
               </v-data-table>
             </div>
             <div class="pagination_wrapper text-xs-center pt-2">
               <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1"></v-pagination>
-            </div> 
+            </div>
           </div>
         </v-card>
         <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
@@ -58,7 +58,7 @@
         <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
         <h5 style="text-align: center;">Пожалуйста введите ваш номер телефона (без восьмерки) и email (По возможности)</h5>
 
-            <input 
+            <input
               v-model="contacts.tel"
               class="contact_input"
               type="tel"
@@ -67,7 +67,7 @@
               @click="changeFocus('tel')"
             ></input>
 
-            <input 
+            <input
               class="contact_input"
               type="mail"
               placeholder="info@mail.com"
@@ -75,9 +75,9 @@
               @click="changeFocus('email')"
             ></input>
 
-        
-          <keyboard       
-              v-if="contactFocus == 'email'"        
+
+          <keyboard
+              v-if="contactFocus == 'email'"
               v-model="contacts.email"
               :layouts="[
                 '1234567890{:backspace}|qwertyuiop|asdfghjkl|{shift:goto:1}@zxcvbnm.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
@@ -85,10 +85,10 @@
               ]"
               :maxlength="0"
               @input="changed"
-          />         
+          />
           <keyboard
               class="tel"
-              v-if="contactFocus == 'tel'"       
+              v-if="contactFocus == 'tel'"
               v-model="contacts.tel"
               :layouts="[
                 '123|456|789|{очистить:clear}0{:backspace}'
@@ -118,12 +118,12 @@ export default {
       e1: 0,
       search: '',
       no_data_text: 'Корзина пуста',
-      pagination: { 
+      pagination: {
         sortBy: 'column',
-        page: 1, 
+        page: 1,
         rowsPerPage: 8,
         descending: false,
-        totalItems: 0 
+        totalItems: 0
       },
       selected: [],
       headers: [
@@ -133,8 +133,8 @@ export default {
           sortable: true,
           value: 'name'
         },
-        { text: 'Цена', value: 'price' },
-        { text: 'Кол-во', value: 'count' },
+        { text: 'Цена', align: 'center', value: 'price' },
+        { text: 'Кол-во', align: 'center', value: 'count' },
         { text: 'На складе', value: 'stock' },
         { text: '', value: '' }
       ],
@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     changeCount (id, val) {
-      this.$store.dispatch('changeCount', {'id': id, 'val': val})
+      this.$store.dispatch('addCartProduct', {id: id, count: val})
     },
     changeFocus (to) {
       //this.contactInput = this.contacts[to]
@@ -200,7 +200,7 @@ export default {
   .stepper__content .btn {
       float: right;
   }
-  
+
   .summ {
     text-align: right;
       padding-bottom: 10px;
@@ -215,7 +215,7 @@ export default {
     position: relative;
   }
 
-  table.table tbody td, 
+  table.table tbody td,
   table.table tbody th {
     height: 60px;
     font-size: 16px;
@@ -223,14 +223,15 @@ export default {
   table.table tbody  td{
     &:first-child {
       padding: 0 24px;
+      max-width: 630px;
     }
   }
   .card {
     box-shadow: none;
   }
 
-  .input-number, 
-  .input-number-decrement, 
+  .input-number,
+  .input-number-decrement,
   .input-number-increment {
     height: 45px !important;
   }
@@ -265,11 +266,11 @@ export default {
   }
 
   @keyframes leave {
-    from { 
+    from {
       left: 0;
       opacity: 1;
-    }   
-    to { 
+    }
+    to {
       left: -100%;
       opacity: 0;
     }

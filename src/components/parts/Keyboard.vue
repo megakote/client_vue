@@ -18,7 +18,7 @@
     data () {
       return {
         input: '',
-      }      
+      }
     },
     props: [],
     watch: {
@@ -26,7 +26,13 @@
         this.$store.dispatch('search_input', this.input)
       },
       modalVisible: function () {
-        this.input = ''
+        //this.input = ''
+      },
+      visible: function () {
+        if (this.visible) {
+          this.input = ''
+        }
+
       }
     },
     computed: {
@@ -41,6 +47,7 @@
       send() {
         //Отправка
         this.$store.dispatch('modal_visible', false)
+        this.$router.push({ name: 'Search' })
       },
       clear(){
         this.input = '';
@@ -105,7 +112,7 @@
         &[data-action="backspace"] {
           background: url("./icons/backspace.svg") no-repeat center center;
           background-size: 35%;
-        }      
+        }
         &[data-action="space"] {
           flex: 3;
         }

@@ -26,47 +26,84 @@ export default {
   },
   getProducts({ commit }, id){
     /*
-      Получаем дочерние товары категории id 
+      Получаем дочерние товары категории id
     */
     let query = []
     let resource = Vue.resource('http://client.my/api/products{/id}')
     resource.get({id: id}).then(response => {
-      
+
       query = response.body;
       commit('set', { type: 'products', items: query })
 
     }, response => {
       // error callback
-    }); 
-    
-  },
-  removeFromCart({ commit }, id){
-    commit('remove', { type: 'cart', id: id })
-  },
-  addCartProduct({ commit, state }, query){
-    let cart = state.cart
-    let alreadyHave = false
+    });
 
-    let resource = Vue.resource('http://client.my/api/cart/')
-    cart.forEach(function(item, i, arr) {
-      if (item.id == query.id) {        
-       alreadyHave = true
-      }
-    })
-    if(alreadyHave){      
-      commit('change', { type: 'cart', id: query.id, count: query.count })
-    } else {
-      commit('add', { type: 'cart', items: {id: query.id, count: query.count } })
-    }
+  },
+  searchProducts({ commit }, query){
+    /*
+      Получаем дочерние товары категории id
+    */
+    let data = []
+    //let resource = Vue.resource('http://client.my/api/search?q={query}')
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
+    Vue.http.get('http://client.my/api/search', {params: {q: query}}).then(response => {
 
-    resource.get({id: id}).then(response => {
-      
-      query = response.body;
-      commit('set', { type: 'categorys', items: query })
+      data = response.body;
+      commit('set', { type: 'products', items: data })
 
     }, response => {
       // error callback
-    });   
+    });
+
+  },
+  removeFromCart({ commit }, id){
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
+    Vue.http.post('http://client.my/api/cart/remove', {id: id}).then(response => {
+      let data = response.body;
+      commit('set', { type: 'cart', items: data })
+
+    }, response => {
+      // error callback
+    });
+
+  },
+  addCartProduct({ commit }, query){
+
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
+    Vue.http.post('http://client.my/api/cart/add', {data: query}).then(response => {
+      let data = response.body;
+      commit('set', { type: 'cart', items: data })
+
+    }, response => {
+      // error callback
+    });
+
+
+    // let resource = Vue.resource('http://client.my/api/cart/')
+    // // cart.forEach(function(item, i, arr) {
+    // //   if (item.id == query.id) {
+    // //    alreadyHave = true
+    // //   }
+    // // })
+    // // if(alreadyHave){
+    // //   commit('change', { type: 'cart', id: query.id, count: query.count })
+    // // } else {
+    // //   commit('add', { type: 'cart', items: {id: query.id, count: query.count } })
+    // // }
+
+    // resource.post({query: query}).then(response => {
+
+    //   query = response.body;
+    //   console.log(response.body)
+    //   //commit('set', { type: 'categorys', items: query })
+
+    // }, response => {
+    //   // error callback
+    // });
   },
   changeCount({ commit }, query){
     commit('change', { type: 'cart', id: query.id, count: query.val })
@@ -82,13 +119,13 @@ export default {
     let query
     let resource = Vue.resource('http://client.my/api/category{/id}')
     resource.get({id: id}).then(response => {
-      
+
       query = response.body;
       commit('set', { type: 'categorys', items: query })
 
     }, response => {
       // error callback
-    });    
+    });
   },
   getCart({ commit }){
     /*
@@ -97,13 +134,13 @@ export default {
     let query
     let resource = Vue.resource('http://client.my/api/cart')
     resource.get().then(response => {
-      
+
       query = response.body;
       commit('set', { type: 'cart', items: query })
 
     }, response => {
       // error callback
-    });    
+    });
   },
   clearCart ({ commit }) {
     /* TODO: Доделать очистку корзины */
@@ -115,7 +152,7 @@ export default {
 
     //let query
     //let resource = Vue.resource('http://client.my/api/cart/complete')
-  
+
     //resource.save('', data).then(response => {
     Vue.http.options.emulateJSON = true
     Vue.http.options.emulateHTTP = true
@@ -130,7 +167,7 @@ export default {
 
     }, response => {
       // error callback
-    }); 
+    });
   },
   endSession ({ commit }) {
     /*

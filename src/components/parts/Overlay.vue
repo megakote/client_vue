@@ -14,10 +14,11 @@ export default {
   methods: {
     modal_close () {
       this.$store.dispatch('modal_visible', false)
+      this.$store.dispatch('keyboard_visible', false)
     }
   },
   computed: {
-    modal_visible () {        
+    modal_visible () {
       return this.$store.getters.modal_visible
     }
   }
@@ -31,7 +32,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 5;    
+    z-index: 5;
     background: rgba(0,0,0,0.7);
   }
 </style>

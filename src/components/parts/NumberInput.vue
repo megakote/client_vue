@@ -16,7 +16,7 @@ export default {
   },
   props: {
     id: {
-      type: Number,
+      type: String | Number,
       required: false
     },
     val: Number,
@@ -67,7 +67,7 @@ export default {
     .input-number-decrement,
     .input-number-increment {
       font-size: 17px;
-      border: 1px solid #ccc;    
+      border: 1px solid #ccc;
       line-height: 60px;
       user-select: none;
         height: 60px;
@@ -84,7 +84,7 @@ export default {
       font-weight: bold;
       cursor: pointer;
     }
-    
+
     .input-number-decrement:active,
     .input-number-increment:active {
       background: #ddd;

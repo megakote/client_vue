@@ -28,7 +28,7 @@
       </v-data-table>
     </div>
     <div class="pagination_wrapper text-xs-center pt-2">
-      <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1"></v-pagination>
+      <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1" :total-visible="7"></v-pagination>
     </div>
     <v-dialog v-model="dialog.state" width="500px" lazy absolute>
       <v-card>
@@ -99,11 +99,16 @@ export default {
     pages () {
       return this.pagination.rowsPerPage ? Math.ceil(this.items.length / this.pagination.rowsPerPage) : 0
     },
+    pageData: function() {
+      let offset = (this.page - 1) * this.perPage;
+      return this.items.slice(offset, offset + this.perPage);
+    },
     items () {
       return this.$store.getters.products
     },
-    id () {
-      return this.$route.params.id
+    query () {
+      //return this.$route.params.string
+      return this.$store.getters.search_input
     }
   },
   methods: {
@@ -111,8 +116,8 @@ export default {
       this.$router.push({ name: 'Product', params: { id:id }})
       //this.getData('getProduct', id)
     },
-    getData: function(id) {
-      this.$store.dispatch('getProducts', id)
+    getData: function(query) {
+      this.$store.dispatch('searchProducts', query)
     },
     buy_item: function(id, max, name) {
       this.dialog.id = id
@@ -131,13 +136,13 @@ export default {
     }
   },
   watch: {
-    id: function () {
+    query: function () {
       this.pagination.page = 1;
-      this.getData(this.id)
+      this.getData(this.query)
     }
   },
   mounted: function() {
-    this.getData(this.id);
+    this.getData(this.query);
   }
 }
 </script>

@@ -3,26 +3,27 @@
     <v-layout grid-list-sm>
       <v-flex xs6>
         <div class="product_images">
-          <div class="main_img" :style="'background-image: url(/static/images/' + images[activeImage] + ')'"></div>
+          <div class="main_img" :style="'background-image: url(http://client.my/public/prods_images/' + guid + '/' + images[activeImage] + ')'"></div>
           <ul class="product_images_thumbs">
-            <li 
-              v-for="(image, i) in images" 
+            <li
+              v-for="(image, i) in images"
+              v-if="images.length > 1"
               :key="i"
               :class="{active: activeImage == i}"
-              :style="'background-image: url(/static/images/' + image + ')'"
+              :style="'background-image: url(http://client.my/public/prods_images/' + guid + '/' + image + ')'"
               @click="setActive(i)"
             >
             </li>
           </ul>
-        </div>      
+        </div>
       </v-flex>
       <v-flex xs6>
         <h2>{{ name }}</h2>
         <h6>{{ category }}</h6>
         <span class="price"><b>Цена:</b> {{ price }} р.</span>
-        <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>        
+        <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>
         <div class="actions_wrapper">
-          <number-input 
+          <number-input
             :val="count"
             :min="1"
             :max="stock"
@@ -50,12 +51,13 @@ export default {
     return {
       name: 'Финтифлюшка',
       category: 'Родительская категория',
+      guid: 123,
       price: 100,
       count: 1,
       stock: 10,
       unit: 'шт',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint fugit laboriosam voluptatum doloremque nulla deleniti accusamus consequatur laudantium voluptates, autem, quidem, neque iste quod vitae maiores voluptatem totam distinctio delectus.',
-      images: ['product.jpg','product2.jpg','product3.jpg'],
+      images: [],
       activeImage: 0
     }
   },
@@ -77,8 +79,7 @@ export default {
   },
   mounted: function() {
     this.count = 1
-    this.activeImage = 1
-    
+    this.activeImage = 0
     let data
     let id = this.id
     let resource = Vue.resource('http://client.my/api/product{/id}')
@@ -89,14 +90,14 @@ export default {
       this.category = data.parent
       this.price = data.price
       this.stock = data.count
+      this.guid = data.guid
       this.unit = data.unit
       this.description = data.description
-      //this.images = data.image
-
+      this.images = data.image
     }, response => {
       // error callback
     });
-    
+
   }
 }
 </script>
@@ -106,7 +107,7 @@ export default {
     padding-left: 15px;
     padding-right: 15px;
   }
-  
+
   .product_images {
     padding: 20px 15px 40px;
     .main_img {
@@ -151,7 +152,7 @@ export default {
   .actions_wrapper {
     display: flex;
     justify-content: flex-start;
-    margin-top: 60px;  
+    margin-top: 60px;
     .input-number_wrapper {
       margin-right: 50px;
     }
