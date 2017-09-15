@@ -1,20 +1,20 @@
 <template>
   <div style="height: 100%; position: relative; padding-bottom: 40px;">
     <v-layout fill-height  wrap>
-      <v-flex  class="category_card" 
-        v-for='item in pageData' 
+      <v-flex  class="category_card"
+        v-for='item in pageData'
         :key='item.id'
         @click.stop="goPage(item.guid, item.items_parent)"
       >
         <v-card>
           <v-card-media
-            :src="'/static/images/' + item.img"                  
+            :src="'/static/images/category.jpg'"
             data-childrens="item.childrens"
             height="100px"
           />
-          <v-card-title primary-title> {{ item.name }} </v-card-title>          
+          <v-card-title primary-title> {{ item.name }} </v-card-title>
         </v-card>
-      </v-flex>    
+      </v-flex>
     </v-layout>
     <pagination :perPage='perPage' :length='items.length' />
   </div>
@@ -48,12 +48,12 @@ export default {
       this.$store.dispatch(page, id)
     },
     goPage: function(id, childrens = false) {
-      if (childrens) {        
+      if (childrens) {
         this.getData('getProducts', id)
         this.$router.push({ name: 'Products', params: { id:id }})
       } else {
         this.getData('getCategory', id)
-        this.$router.push({ name: 'Categorys', params: { id:id }})        
+        this.$router.push({ name: 'Categorys', params: { id:id }})
       }
     }
   },

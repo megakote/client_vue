@@ -3,14 +3,14 @@
     <v-layout grid-list-sm>
       <v-flex xs6>
         <div class="product_images">
-          <div class="main_img" :style="'background-image: url(http://client.my/public/prods_images/' + guid + '/' + images[activeImage] + ')'"></div>
+          <div class="main_img" :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + images[activeImage] + ')'"></div>
           <ul class="product_images_thumbs">
             <li
               v-for="(image, i) in images"
               v-if="images.length > 1"
               :key="i"
               :class="{active: activeImage == i}"
-              :style="'background-image: url(http://client.my/public/prods_images/' + guid + '/' + image + ')'"
+              :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + image + ')'"
               @click="setActive(i)"
             >
             </li>
@@ -49,14 +49,14 @@ export default {
   name: 'item',
   data () {
     return {
-      name: 'Финтифлюшка',
-      category: 'Родительская категория',
-      guid: 123,
-      price: 100,
+      name: '',
+      category: '',
+      guid: 0,
+      price: 0,
       count: 1,
-      stock: 10,
-      unit: 'шт',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint fugit laboriosam voluptatum doloremque nulla deleniti accusamus consequatur laudantium voluptates, autem, quidem, neque iste quod vitae maiores voluptatem totam distinctio delectus.',
+      stock: 0,
+      unit: '',
+      description: '',
       images: [],
       activeImage: 0
     }
