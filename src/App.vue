@@ -16,7 +16,7 @@
   export default {
     data: function () {
       return {
-        title: 'Server Name',
+        title: 'Клуб мастеров',
         history: [] // История переходов в сессии
       }
     },
@@ -58,9 +58,9 @@
   img {
     max-width: 100%;
   }
-  * {
-    cursor: none !important;
-  }
+  // * {
+  //   cursor: none !important;
+  // }
 </style>
 
 

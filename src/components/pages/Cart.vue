@@ -101,7 +101,15 @@
         <v-btn flat @click.native="e1 = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="591px"></v-card>
+        <v-card class="lighten-1 z-depth-1 mb-5 tac" height="591px">
+          <h2>Необходимо внести минимум 500р</h2>
+          <h3>Вы внесли 0р</h3>
+          <h3>Осталось внести 500р</h3>
+          <div class="btn_wrapper">
+            <v-btn primary dark large>Начать прием</v-btn>
+          </div>
+          <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
+        </v-card>
         <v-btn primary @click.native="complete">Печать чека</v-btn>
         <v-btn flat @click.native="e1 = 2">Назад</v-btn>
       </v-stepper-content>
@@ -115,7 +123,7 @@ export default {
   data () {
     return {
       myInputModel: '',
-      e1: 0,
+      e1: 3,
       search: '',
       no_data_text: 'Корзина пуста',
       pagination: {
@@ -143,6 +151,7 @@ export default {
         tel: ''
       },
       contactFocus: 'tel',
+      cashAll: 0,
 
     }
   },
@@ -169,7 +178,7 @@ export default {
         return false
       }
       return true
-    }
+    },
   },
   methods: {
     changeCount (id, val) {
@@ -188,6 +197,35 @@ export default {
     complete() {
       this.e1 = 1
       this.$store.dispatch('completeOrder', this.contacts)
+    },
+    endCash() {
+      Vue.http.post('http://client.my/api/cash/end').then(response => {
+
+      }, response => {
+        // error callback
+      });
+    },
+    startCash() {
+      /*
+        Запускаем приемку денег
+      */
+      let minimun = 500;
+      Vue.http.post('http://client.my/api/cash/start', {cash: minimun}).then(response => {
+        this.cashAll = response.body;
+      }, response => {
+        // error callback
+      });
+    },
+    getCash() {
+      /*
+        Получаем количество введенных купюр
+      */
+      let resource = Vue.resource('http://client.my/api/cash/summ')
+      resource.get().then(response => {
+        this.cashAll = response.body;
+      }, response => {
+        // error callback
+      });
     }
   },
   mounted () {
@@ -259,24 +297,20 @@ export default {
     }
   }
 
-</style>
-<style>
-  .animate {
-    animation: leave 1s ease-in-out infinite;
-  }
-
-  @keyframes leave {
-    from {
-      left: 0;
-      opacity: 1;
-    }
-    to {
-      left: -100%;
-      opacity: 0;
-    }
-  }
-
   .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
     background-size: 12%;
   }
+</style>
+
+
+<style lang="scss">
+.tac {
+  text-align: center;
+}
+.btn_wrapper {
+  .btn {
+    float: none !important;
+    margin: 30px auto 50px !important;
+  }
+}
 </style>
