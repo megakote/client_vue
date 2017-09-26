@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-stepper v-model="e1">
+    <v-stepper v-model="stage">
       <v-stepper-header>
-        <v-stepper-step step="1" :complete="e1 > 1">Утвердите товары</v-stepper-step>
+        <v-stepper-step step="1" :complete="stage > 1">Утвердите товары</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2" :complete="e1 > 2">Введите контактные данные</v-stepper-step>
+        <v-stepper-step step="2" :complete="stage > 2">Введите контактные данные</v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step step="3">Внесите деньги</v-stepper-step>
       </v-stepper-header>
@@ -51,7 +51,7 @@
           </div>
         </v-card>
         <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
-        <v-btn primary @click.native="e1 = 2" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
+        <v-btn primary @click.native="stage = 2" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
         <v-btn flat @click="complete">Отмена</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
@@ -97,21 +97,15 @@
               @input="changed"
           />
         </v-card>
-        <v-btn primary @click.native="e1 = 3" :disabled="!isValidate">Далее</v-btn>
-        <v-btn flat @click.native="e1 = 1">Назад</v-btn>
+        <v-btn primary @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
+        <v-btn flat @click.native="stage = 1">Назад</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <v-card class="lighten-1 z-depth-1 mb-5 tac" height="591px">
-          <h2>Необходимо внести минимум 500р</h2>
-          <h3>Вы внесли 0р</h3>
-          <h3>Осталось внести 500р</h3>
-          <div class="btn_wrapper">
-            <v-btn primary dark large>Начать прием</v-btn>
-          </div>
-          <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
-        </v-card>
+        <step-three
+          :summ="summ"
+        />
         <v-btn primary @click.native="complete">Печать чека</v-btn>
-        <v-btn flat @click.native="e1 = 2">Назад</v-btn>
+        <v-btn flat @click.native="stage = 2">Назад</v-btn>
       </v-stepper-content>
     </v-stepper>
   </div>
@@ -122,8 +116,7 @@ export default {
   name: 'cart',
   data () {
     return {
-      myInputModel: '',
-      e1: 3,
+      stage: 0,
       search: '',
       no_data_text: 'Корзина пуста',
       pagination: {
@@ -151,8 +144,6 @@ export default {
         tel: ''
       },
       contactFocus: 'tel',
-      cashAll: 0,
-
     }
   },
   computed: {
@@ -185,48 +176,22 @@ export default {
       this.$store.dispatch('addCartProduct', {id: id, count: val})
     },
     changeFocus (to) {
-      //this.contactInput = this.contacts[to]
       this.contactFocus = to
     },
     changed(value) {
       this.contacts[this.contacts.focus] = value
     },
     clear() {
-      /* TODO: Написать метод очистки корзины */
+      this.$store.dispatch('clearCart')
+    },
+    addContacts() {
+      this.$store.dispatch('addContacts', this.contacts)
+      this.stage = 3
     },
     complete() {
-      this.e1 = 1
-      this.$store.dispatch('completeOrder', this.contacts)
+      this.$store.dispatch('completeOrder')
+      this.$router.push({ name: 'Categorys'})
     },
-    endCash() {
-      Vue.http.post('http://client.my/api/cash/end').then(response => {
-
-      }, response => {
-        // error callback
-      });
-    },
-    startCash() {
-      /*
-        Запускаем приемку денег
-      */
-      let minimun = 500;
-      Vue.http.post('http://client.my/api/cash/start', {cash: minimun}).then(response => {
-        this.cashAll = response.body;
-      }, response => {
-        // error callback
-      });
-    },
-    getCash() {
-      /*
-        Получаем количество введенных купюр
-      */
-      let resource = Vue.resource('http://client.my/api/cash/summ')
-      resource.get().then(response => {
-        this.cashAll = response.body;
-      }, response => {
-        // error callback
-      });
-    }
   },
   mounted () {
     this.$store.dispatch('getCart')
@@ -258,7 +223,8 @@ export default {
     height: 60px;
     font-size: 16px;
   }
-  table.table tbody  td{
+
+  table.table tbody td{
     &:first-child {
       padding: 0 24px;
       max-width: 630px;
@@ -277,7 +243,6 @@ export default {
   .vue-keyboard {
     position: absolute;
     bottom: 0;
-
   }
 
   .contact_input {
@@ -297,20 +262,21 @@ export default {
     }
   }
 
-  .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
-    background-size: 12%;
-  }
+
 </style>
 
 
 <style lang="scss">
-.tac {
-  text-align: center;
-}
-.btn_wrapper {
-  .btn {
-    float: none !important;
-    margin: 30px auto 50px !important;
+  .tac {
+    text-align: center;
   }
-}
+  .btn_wrapper {
+    .btn {
+      float: none !important;
+      margin: 30px auto 50px !important;
+    }
+  }
+  .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
+    background-size: 12%;
+  }
 </style>

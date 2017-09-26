@@ -16,6 +16,7 @@ import VueKeyboard from 'vue-keyboard'
 import BuyBtn from '@/components/parts/BuyBtn'
 import RemoveBtn from '@/components/parts/RemoveBtn'
 import NumberInput from '@/components/parts/NumberInput'
+import StepThree from '@/components/parts/cart/step-three'
 
 
 import VueMask from 'v-mask'
@@ -37,6 +38,7 @@ Vue.component('keyboard', VueKeyboard)
 Vue.component('buy-btn', BuyBtn)
 Vue.component('remove-btn', RemoveBtn)
 Vue.component('number-input', NumberInput)
+Vue.component('step-three', StepThree)
 
 /* eslint-disable no-new */
 new Vue({

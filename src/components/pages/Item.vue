@@ -80,11 +80,20 @@ export default {
   mounted: function() {
     this.count = 1
     this.activeImage = 0
+    // Сбросим старые данные, чтобы не было мельканий
+    this.name = ''
+    this.category = ''
+    this.price = 0
+    this.stock = 0
+    this.guid = 0
+    this.unit = ''
+    this.description = ''
+    this.images = []
+    // Закончили сброс )
     let data
     let id = this.id
     let resource = Vue.resource('http://client.my/api/product{/id}')
     resource.get({id: id}).then(response => {
-
       data = response.body;
       this.name = data.name
       this.category = data.parent

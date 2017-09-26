@@ -21,7 +21,7 @@ export default {
     }
   },
   computed: {
-    modal_visible () {        
+    modal_visible () {
       return this.$store.getters.modal_visible
     }
   }

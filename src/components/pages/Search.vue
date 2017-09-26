@@ -6,6 +6,7 @@
         :items="items"
         :search="search"
         :pagination.sync="pagination"
+        :no-data-text="no_data_text"
         hide-actions
         class="elevation-2"
       >

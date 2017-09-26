@@ -49,10 +49,10 @@ export default {
     },
     goPage: function(id, childrens = false) {
       if (childrens) {
-        this.getData('getProducts', id)
+        // this.getData('getProducts', id)
         this.$router.push({ name: 'Products', params: { id:id }})
       } else {
-        this.getData('getCategory', id)
+        // this.getData('getCategory', id)
         this.$router.push({ name: 'Categorys', params: { id:id }})
       }
     }

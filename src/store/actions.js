@@ -24,28 +24,11 @@ export default {
   modal_visible({ commit }, query){
     commit('set', { type: 'modal_visible', items: query })
   },
-  getProducts({ commit }, id){
-    /*
-      Получаем дочерние товары категории id
-    */
-    let query = []
-    let resource = Vue.resource('http://client.my/api/products{/id}')
-    resource.get({id: id}).then(response => {
-
-      query = response.body;
-      commit('set', { type: 'products', items: query })
-
-    }, response => {
-      // error callback
-    });
-
-  },
   searchProducts({ commit }, query){
     /*
       Получаем дочерние товары категории id
     */
     let data = []
-    //let resource = Vue.resource('http://client.my/api/search?q={query}')
     Vue.http.options.emulateJSON = true
     Vue.http.options.emulateHTTP = true
     Vue.http.get('http://client.my/api/search', {params: {q: query}}).then(response => {
@@ -71,7 +54,9 @@ export default {
 
   },
   addCartProduct({ commit }, query){
-
+    /*
+      Добавляем товар в корзину на сервере
+    */
     Vue.http.options.emulateJSON = true
     Vue.http.options.emulateHTTP = true
     Vue.http.post('http://client.my/api/cart/add', {data: query}).then(response => {
@@ -81,29 +66,6 @@ export default {
     }, response => {
       // error callback
     });
-
-
-    // let resource = Vue.resource('http://client.my/api/cart/')
-    // // cart.forEach(function(item, i, arr) {
-    // //   if (item.id == query.id) {
-    // //    alreadyHave = true
-    // //   }
-    // // })
-    // // if(alreadyHave){
-    // //   commit('change', { type: 'cart', id: query.id, count: query.count })
-    // // } else {
-    // //   commit('add', { type: 'cart', items: {id: query.id, count: query.count } })
-    // // }
-
-    // resource.post({query: query}).then(response => {
-
-    //   query = response.body;
-    //   console.log(response.body)
-    //   //commit('set', { type: 'categorys', items: query })
-
-    // }, response => {
-    //   // error callback
-    // });
   },
   changeCount({ commit }, query){
     commit('change', { type: 'cart', id: query.id, count: query.val })
@@ -111,16 +73,36 @@ export default {
   search_input({ commit }, query){
     commit('set', { type: 'search_input', items: query })
   },
+  getProducts({ commit }, id){
+    /*
+      Получаем дочерние товары категории id
+    */
+    commit('set', { type: 'products', items: [] })
+    let query
+    let resource = Vue.resource('http://client.my/api/products{/id}')
+    resource.get({id: id}).then(response => {
+
+      query = response.body
+      commit('set', { type: 'products', items: query })
+
+    }, response => {
+      // error callback
+    });
+
+  },
   getCategory({ commit }, id){
     /*
       Получаем список дочерних категорий для id
       Если id не передан, отдаем категории нулевого уровня
     */
-    let query
+    commit('set', { type: 'categorys', items: [] })
+    let query = []
     let resource = Vue.resource('http://client.my/api/category{/id}')
     resource.get({id: id}).then(response => {
 
-      query = response.body;
+      if(response.body){
+        query = response.body
+      }
       commit('set', { type: 'categorys', items: query })
 
     }, response => {
@@ -143,27 +125,25 @@ export default {
     });
   },
   clearCart ({ commit }) {
-    /* TODO: Доделать очистку корзины */
+    commit('set', { type: 'cart', items: [] })
   },
-  completeOrder ({ commit, state }, contacts) {
+  addContacts ({ commit, state }, contacts) {
+    // Vue.http.options.emulateJSON = true
+    // Vue.http.options.emulateHTTP = true
+    let data = JSON.stringify(contacts)
+    Vue.http.post('http://client.my/api/cart/add_contacts', {contacts: data})
+  },
+  completeOrder ({ commit }) {
     /*
       Отпрвляем завершенный заказ на сервер
     */
-
-    //let query
-    //let resource = Vue.resource('http://client.my/api/cart/complete')
-
-    //resource.save('', data).then(response => {
-    Vue.http.options.emulateJSON = true
-    Vue.http.options.emulateHTTP = true
-    let data = JSON.stringify(contacts)
-    Vue.http.post('http://client.my/api/cart/complete', {contacts: data}).then(response => {
-      console.log(data)
-      console.log(response)
+    // Vue.http.options.emulateJSON = true
+    // Vue.http.options.emulateHTTP = true
+    Vue.http.post('http://client.my/api/cart/complete').then(response => {
       /*
         TODO: Тут очищаем сессию и корзину
       */
-      //commit('set', { type: 'cart', items: query })
+      commit('set', { type: 'cart', items: [] })
 
     }, response => {
       // error callback
