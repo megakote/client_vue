@@ -5,17 +5,17 @@
       <v-spacer></v-spacer>
       <v-btn flat light class="teal--text" @click="back">
         <!-- <span>Recents</span> -->
-        <v-icon>history</v-icon>
+        <v-icon>reply</v-icon>
       </v-btn>
-      <v-btn flat light class="teal--text" :to="{ name: 'Categorys' }">        
-        <v-icon>folder</v-icon>
+      <v-btn flat light class="teal--text" :to="{ name: 'Categorys' }">
+        <v-icon>home</v-icon>
       </v-btn>
       <v-btn flat light class="teal--text" @click="modalSearchShow">
         <v-icon>search</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
       <div class="cart_wrapper">
-        <v-btn flat light class="teal--text" :to="{ name: 'Cart' }">          
+        <v-btn flat light class="teal--text" :to="{ name: 'Cart' }" :disabled="cartCount == 0">
           <v-icon v-badge="{ value: cartCount, left: true}">shopping_cart</v-icon>
         </v-btn>
       </div>

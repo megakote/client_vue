@@ -9,8 +9,7 @@
         <v-stepper-step step="3">Внесите деньги</v-stepper-step>
       </v-stepper-header>
       <v-stepper-content step="1">
-        <!-- <v-card class="grey lighten-1 z-depth-1 mb-5" height="335px"> -->
-        <v-card class="z-depth-1 mb-5" height="560px">
+        <v-card class="z-depth-1 mb-5" height="551px">
           <div style="height: 100%; position: relative;">
             <div class="table_list_wrapper">
               <v-data-table
@@ -56,7 +55,14 @@
       </v-stepper-content>
       <v-stepper-content step="2">
         <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
-        <h5 style="text-align: center;">Пожалуйста введите ваш номер телефона (без восьмерки) и email (По возможности)</h5>
+        <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
+            <input
+              class="contact_input"
+              type="text"
+              placeholder="ФИО"
+              v-model="contacts.name"
+              @click="changeFocus('name')"
+            ></input>
 
             <input
               v-model="contacts.tel"
@@ -69,19 +75,28 @@
 
             <input
               class="contact_input"
-              type="mail"
-              placeholder="info@mail.com"
-              v-model="contacts.email"
-              @click="changeFocus('email')"
+              type="text"
+              placeholder="ул мира 150 кв 13"
+              v-model="contacts.address"
+              @click="changeFocus('address')"
             ></input>
 
-
           <keyboard
-              v-if="contactFocus == 'email'"
-              v-model="contacts.email"
+              v-if="contactFocus == 'address'"
+              v-model="contacts.address"
               :layouts="[
-                '1234567890{:backspace}|qwertyuiop|asdfghjkl|{shift:goto:1}@zxcvbnm.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
-                '!@#$%^&*(){:backspace}|QWERTYUIOP|ASDFGHJKL|{shift:goto:0}@ZXCVBNM.{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+                '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
+                '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+              ]"
+              :maxlength="0"
+              @input="changed"
+          />
+          <keyboard
+              v-if="contactFocus == 'name'"
+              v-model="contacts.name"
+              :layouts="[
+                '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
+                '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
               ]"
               :maxlength="0"
               @input="changed"
@@ -104,8 +119,8 @@
         <step-three
           :summ="summ"
         />
-        <v-btn primary @click.native="complete">Печать чека</v-btn>
-        <v-btn flat @click.native="stage = 2">Назад</v-btn>
+<!--         <v-btn primary @click.native="complete">Печать чека</v-btn>
+        <v-btn flat @click.native="stage = 2">Назад</v-btn> -->
       </v-stepper-content>
     </v-stepper>
   </div>
@@ -140,8 +155,10 @@ export default {
         { text: '', value: '' }
       ],
       contacts: {
+        name: '',
         email: '',
-        tel: ''
+        tel: '',
+        address: ''
       },
       contactFocus: 'tel',
     }
@@ -205,8 +222,9 @@ export default {
   }
 
   .summ {
+    font-size: 20px;
     text-align: right;
-      padding-bottom: 10px;
+    padding-bottom: 10px;
   }
 
   .pagination_wrapper{
@@ -249,7 +267,7 @@ export default {
     display: block;
     font-size: 16px;
     width:300px;
-    margin: 30px auto 50px;
+    margin: 25px auto;
     padding: 10px 8px 10px 8px;
     border-radius: 5px;
     box-shadow: inset 0 1px 2px rgba(0,0,0, .55), 0px 1px 1px rgba(255,255,255,.5);
@@ -278,5 +296,9 @@ export default {
   }
   .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
     background-size: 12%;
+  }
+  .btn__content {
+    font-size: 16px;
+    padding: 0 25px;
   }
 </style>

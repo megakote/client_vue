@@ -128,18 +128,26 @@ export default {
     commit('set', { type: 'cart', items: [] })
   },
   addContacts ({ commit, state }, contacts) {
-    // Vue.http.options.emulateJSON = true
-    // Vue.http.options.emulateHTTP = true
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
     let data = JSON.stringify(contacts)
-    Vue.http.post('http://client.my/api/cart/add_contacts', {contacts: data})
+    Vue.http.post('http://client.my/api/cart/add_contacts', {contacts: data}).then(response => {
+      /*
+        TODO: Тут очищаем сессию и корзину
+      */
+      console.log(123)
+
+    }, response => {
+      // error callback
+    });
   },
   completeOrder ({ commit }) {
     /*
       Отпрвляем завершенный заказ на сервер
     */
-    // Vue.http.options.emulateJSON = true
-    // Vue.http.options.emulateHTTP = true
-    Vue.http.post('http://client.my/api/cart/complete').then(response => {
+    Vue.http.options.emulateJSON = true
+    Vue.http.options.emulateHTTP = true
+    Vue.http.post('http://client.my/api/cart/complete',{}).then(response => {
       /*
         TODO: Тут очищаем сессию и корзину
       */

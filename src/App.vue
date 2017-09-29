@@ -48,8 +48,8 @@
   }
   main {
     //высота моника - высота нижнего баннера - 1px потому что FF иначе дает скролл - высота верхней панели навигации
-    height: calc(100vh - 120px - 1px - 80px);
-    overflow: hidden;
+    //height: calc(100vh - 120px - 1px - 80px);
+    //overflow: hidden;
   }
   .application > main > .container {
     min-height: 0;
@@ -57,6 +57,13 @@
   }
   img {
     max-width: 100%;
+  }
+  #app {
+    width: 1280px;
+    height: 1024px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
   }
   // * {
   //   cursor: none !important;

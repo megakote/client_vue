@@ -5,11 +5,13 @@
       <h3>Вы внесли {{cashIn}}р</h3>
       <h3 v-if="cashNeed > 0">Осталось внести {{cashNeed}}р</h3>
       <h3 v-else-if="cashNeed < 0">Сдачу в {{cashNeed * -1}}р вам вернет курьер</h3>
-      <div class="btn_wrapper">
-        <v-btn @click.native="startCash" v-if="!cashActive" primary dark large>Начать прием</v-btn>
-        <v-btn @click.native="endCash" v-else primary dark large>Остановить прием</v-btn>
+      <div v-if="!cashActive" class="btn_wrapper">
+        <v-btn @click.native="startCash"  primary dark large>Начать прием</v-btn>
       </div>
-      <v-progress-circular v-if="cashActive" indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
+      <div v-else class="btn_wrapper">
+        <v-btn @click.native="endCash"  primary dark large>Остановить прием</v-btn>
+        <v-progress-circular v-if="cashActive" indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
+      </div>
     </v-card>
   </div>
 </template>

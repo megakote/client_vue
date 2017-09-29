@@ -40,6 +40,8 @@ export default {
       return this.$store.getters.categorys
     },
     id () {
+      console.log(123)
+      console.log(this.$route.params.id)
       return this.$route.params.id
     }
   },
