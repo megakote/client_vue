@@ -23,13 +23,13 @@
         <span class="price"><b>Цена:</b> {{ price }} р.</span>
         <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>
         <div class="actions_wrapper">
-          <number-input
+<!--           <number-input
             :val="count"
             :min="1"
             :max="stock"
             @change="countChange"
-          />
-          <v-btn primary large dark @click.stop="addCart">
+          /> -->
+          <v-btn primary large dark @click.stop="dialogShow">
             <v-icon>add_shopping_cart</v-icon>
             <span>В корзину</span>
           </v-btn>
@@ -37,6 +37,34 @@
         <!-- <div class="description" v-html="description"></div> -->
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialog.state" width="500px" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">{{ name }}</div>
+        </v-card-title>
+        <v-card-text>Введите количество</v-card-text>
+          <number-input
+            :val="count"
+            :min="1"
+            :max="stock"
+            :id="id"
+            :full=true
+            @change="countChange"
+          />
+        <v-card-actions>
+
+          <v-btn class="darken-1" error @click.native="dialog.state = false">
+            <v-icon left dark>block</v-icon>
+            Отмена
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" primary @click.native="addCart">
+            Добавить
+            <v-icon right dark>done</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -49,6 +77,9 @@ export default {
   name: 'item',
   data () {
     return {
+      dialog: {
+        state: false,
+      },
       name: '',
       category: '',
       guid: 0,
@@ -75,6 +106,10 @@ export default {
     },
     addCart () {
       this.$store.dispatch('addCartProduct', {id: this.id, count: this.count})
+      this.dialog.state = false
+    },
+    dialogShow () {
+      this.dialog.state = true
     }
   },
   mounted: function() {

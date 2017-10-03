@@ -1,8 +1,14 @@
 <template>
   <div class="input-number_wrapper">
-    <span class="input-number-decrement" @click="decrement()">–</span>
+    <span v-if="full" class="input-number-decrement" @click="decrement(1)">–1</span>
+    <span v-if="full" class="input-number-decrement" @click="decrement(5)">–5</span>
+    <span v-if="full" class="input-number-decrement" @click="decrement(10)">–10</span>
+    <span v-else class="input-number-decrement" @click="decrement(1)">–</span>
     <input class="input-number" type="text" v-model="value" min="min" max="max">
-    <span class="input-number-increment" @click="increment()">+</span>
+    <span v-if="full" class="input-number-increment" @click="increment(1)">+1</span>
+    <span v-if="full" class="input-number-increment" @click="increment(5)">+5</span>
+    <span v-if="full" class="input-number-increment" @click="increment(10)">+10</span>
+    <span v-else class="input-number-increment" @click="increment(1)">+</span>
   </div>
 </template>
 
@@ -11,7 +17,7 @@ export default {
   name: 'NumberInput',
   data () {
     return {
-      value: 0
+      value: 0,
     }
   },
   props: {
@@ -21,21 +27,22 @@ export default {
     },
     val: Number,
     min: Number,
-    max: Number
+    max: Number,
+    full: Boolean,
   },
   methods: {
-    decrement () {
-      if ((this.value - 1) < this.min) {
+    decrement (val = 1) {
+      if ((this.value - val) < this.min) {
         return;
       }
-      this.value -= 1
+      this.value -= val
       this.$emit('change', this.id, this.value)
     },
-    increment () {
-      if ((this.value + 1) > this.max) {
+    increment (val = 1) {
+      if ((this.value + val) > this.max) {
         return;
       }
-      this.value += 1
+      this.value += val
       this.$emit('change', this.id, this.value)
     }
   },

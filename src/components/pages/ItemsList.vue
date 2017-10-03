@@ -41,6 +41,7 @@
             :min="1"
             :max="dialog.max"
             :id="dialog.id"
+            :full=true
             @change="countChange"
           />
         <v-card-actions>
