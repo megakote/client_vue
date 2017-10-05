@@ -160,7 +160,7 @@ export default {
         tel: '',
         address: ''
       },
-      contactFocus: 'tel',
+      contactFocus: 'name',
     }
   },
   computed: {
@@ -182,10 +182,13 @@ export default {
       return this.$store.getters.cartProducts
     },
     isValidate () {
-      if (this.contacts.tel.length < 18) {
-        return false
+      let hasTelNumber = this.contacts.tel.length == 18
+      let hasName = this.contacts.name.length > 4
+      let hasAddress = this.contacts.address.length > 5
+      if (hasTelNumber && hasName && hasAddress) {
+        return true
       }
-      return true
+      return false
     },
   },
   methods: {
@@ -196,7 +199,7 @@ export default {
       this.contactFocus = to
     },
     changed(value) {
-      this.contacts[this.contacts.focus] = value
+      this.contacts[this.contacts.focus] = value.replace(/\s+/g,' ').trim()
     },
     clear() {
       this.$store.dispatch('clearCart')

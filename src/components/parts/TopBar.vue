@@ -14,7 +14,7 @@
         <v-icon>search</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <div class="cart_wrapper">
+      <div class="cart_wrapper" :class="{ active: cartCount > 0 }">
         <v-btn flat light class="teal--text" :to="{ name: 'Cart' }" :disabled="cartCount == 0">
           <v-icon v-badge="{ value: cartCount, left: true}">shopping_cart</v-icon>
         </v-btn>
@@ -63,6 +63,12 @@ export default {
     right: 10px;
     top: 0;
     bottom: 0;
+    &.active a {
+      filter: none !important;
+      i {
+        color: #2196f3 !important;
+      }
+    }
   }
   .icon {
     font-size: 40px;

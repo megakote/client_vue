@@ -14,7 +14,7 @@
 <script>
 
   export default {
-    name: 'keyboard-new',
+    name: 'keyboard-search',
     data () {
       return {
         input: '',
@@ -23,7 +23,8 @@
     props: [],
     watch: {
       input: function () {
-        this.$store.dispatch('search_input', this.input)
+        let input = this.input.replace(/\s+/g,' ').trim()
+        this.$store.dispatch('search_input', input)
       },
       modalVisible: function () {
         //this.input = ''
@@ -69,7 +70,7 @@
 
     width: 100%;
     z-index: 10;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     background-color: #EEE;
     box-shadow: 0px -3px 10px rgba(black, 0.3);

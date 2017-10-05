@@ -7,7 +7,7 @@
       </v-container>
     </main>
     <bottom-banner />
-    <keyboard-new />
+    <keyboard-search />
     <overlay/>
   </v-app>
 </template>
@@ -39,10 +39,11 @@
 </script>
 
 <style lang="stylus">
-  @import './stylus/main'
-
+  @import './styles/vuetify'
 </style>
 <style lang="scss">
+  @import './styles/fonts/fonts';
+  @import './styles/fonts/material-icons';
   html {
     overflow-y: auto;
   }
@@ -50,6 +51,7 @@
     //высота моника - высота нижнего баннера - 1px потому что FF иначе дает скролл - высота верхней панели навигации
     //height: calc(100vh - 120px - 1px - 80px);
     //overflow: hidden;
+    height: calc(1024px - 80px - 116px);
   }
   .application > main > .container {
     min-height: 0;
@@ -64,6 +66,10 @@
     position: relative;
     overflow: hidden;
     margin: 0 auto;
+  }
+  .btn {
+    height: auto;
+    min-height: 36px;
   }
   // * {
   //   cursor: none !important;

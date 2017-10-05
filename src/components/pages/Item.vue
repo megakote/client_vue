@@ -37,7 +37,7 @@
         <!-- <div class="description" v-html="description"></div> -->
       </v-flex>
     </v-layout>
-    <v-dialog v-model="dialog.state" width="500px" lazy absolute>
+    <v-dialog v-model="dialog.state" width="650px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ name }}</div>

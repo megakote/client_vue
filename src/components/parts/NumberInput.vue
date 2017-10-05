@@ -1,14 +1,20 @@
 <template>
   <div class="input-number_wrapper">
-    <span v-if="full" class="input-number-decrement" @click="decrement(1)">–1</span>
-    <span v-if="full" class="input-number-decrement" @click="decrement(5)">–5</span>
-    <span v-if="full" class="input-number-decrement" @click="decrement(10)">–10</span>
-    <span v-else class="input-number-decrement" @click="decrement(1)">–</span>
-    <input class="input-number" type="text" v-model="value" min="min" max="max">
-    <span v-if="full" class="input-number-increment" @click="increment(1)">+1</span>
-    <span v-if="full" class="input-number-increment" @click="increment(5)">+5</span>
-    <span v-if="full" class="input-number-increment" @click="increment(10)">+10</span>
-    <span v-else class="input-number-increment" @click="increment(1)">+</span>
+    <div class="btns">
+      <span  class="input-number-decrement" @click="decrement(1)">–</span>
+      <input class="input-number" type="text" v-model="value" min="min" max="max" size="3">
+      <span  class="input-number-increment" @click="increment(1)">+</span>
+    </div>
+    <div v-if="full" class="keyboard">
+      <keyboard
+        v-model="count"
+        :layouts="[
+          '123|456|789|0{:backspace}'
+        ]"
+        @input="changed"
+        :maxlength="3"
+      />
+    </div>
   </div>
 </template>
 
@@ -17,12 +23,13 @@ export default {
   name: 'NumberInput',
   data () {
     return {
+      count: '1',
       value: 0,
     }
   },
   props: {
     id: {
-      type: String | Number,
+      type: [String, Number],
       required: false
     },
     val: Number,
@@ -44,15 +51,33 @@ export default {
       }
       this.value += val
       this.$emit('change', this.id, this.value)
+    },
+    changed (val) {
+      if (val == '') {
+        console.log('Удалили все символы')
+        this.count = '0'
+        this.value = this.count
+        return
+      }
+      if (val.toNumber > this.max || val.toNumber < this.min) {
+        console.log('Не входит в диапозон')
+        let count = this.count.toString()
+        this.count = count.slice(0, -1)
+      }
+      if (this.count.toString() == '0') {
+        this.count = val
+      }
+      console.log(this.count.toString())
+      this.value = this.count
     }
   },
   watch: {
     val (val) {
-        this.value = val
+      this.value = val
     },
   },
   created() {
-      this.value = this.val
+    this.value = this.val
   }
 
 }
@@ -60,8 +85,22 @@ export default {
 
 <style lang="scss">
   .input-number_wrapper {
+    width: 400px;
+    margin: 6px auto;
+    .vue-keyboard {
+      font-size: 16px;
+      position: relative;
+    }
+  }
+  .btns {
     font-size: 0;
-    height: 60px;
+    text-align: center;
+  }
+</style>
+<style lang="scss">
+  .input-number_wrapper {
+    // font-size: 0;
+    // height: 60px;
     margin: 6px 8px;
     .input-number {
       padding: 0 12px;

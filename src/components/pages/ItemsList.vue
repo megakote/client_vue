@@ -170,6 +170,12 @@ export default {
     }
   }
 
+  .btn--floating.btn--small .icon {
+    font-size: 27px;
+    height: 24px;
+    width: 24px;
+  }
+
   .dialog {
     .btn {
       margin: 0 30px;

@@ -8,7 +8,7 @@
       >
         <v-card>
           <v-card-media
-            :src="'/static/images/category.jpg'"
+            :src="item.image"
             data-childrens="item.childrens"
             height="100px"
           />
@@ -40,8 +40,6 @@ export default {
       return this.$store.getters.categorys
     },
     id () {
-      console.log(123)
-      console.log(this.$route.params.id)
       return this.$route.params.id
     }
   },
