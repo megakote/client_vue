@@ -6,6 +6,10 @@ import getters from './getters'
 import mutations from './mutations'
 import actions from './actions'
 
+
+
+
+
 Vue.use(Vuex)
 Vue.use(VueResource);
 
@@ -31,7 +35,7 @@ const store = new Vuex.Store({
       canPrint: false, // Имеет ли возможность печатать чеки
       idleSession: 0, // Минимальное время сессии (по истечении этого времени, после последнего действия будет начата новая)
     }
-    
+
   },
   getters,
   mutations,

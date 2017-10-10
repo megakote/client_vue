@@ -4,7 +4,8 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
-
+import Snotify from 'vue-snotify'
+Vue.use(Snotify)
 export default {
   addData({ commit }, data){    // Добавляет данные в объект store
     commit('add', { type: data.type, items: data.items })

@@ -3,7 +3,10 @@
     <v-layout grid-list-sm>
       <v-flex xs6>
         <div class="product_images">
-          <div class="main_img" :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + images[activeImage] + ')'"></div>
+          <div class="main_img"
+            :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + images[activeImage] + ')'"
+            @click.stop="dialog.image = true"
+          ></div>
           <ul class="product_images_thumbs">
             <li
               v-for="(image, i) in images"
@@ -23,7 +26,7 @@
         <span class="price"><b>Цена:</b> {{ price }} р.</span>
         <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>
         <div class="actions_wrapper">
-<!--           <number-input
+          <!--<number-input
             :val="count"
             :min="1"
             :max="stock"
@@ -34,10 +37,21 @@
             <span>В корзину</span>
           </v-btn>
         </div>
-        <!-- <div class="description" v-html="description"></div> -->
+
       </v-flex>
+
     </v-layout>
-    <v-dialog v-model="dialog.state" width="650px" lazy absolute>
+    <div class="description" @click.stop="descriptionDialogShow()" v-html="description"></div>
+    <v-dialog v-model="dialog.description" width="100%" lazy absolute>
+      <v-card>
+        <v-card-title class="headline">{{name}}</v-card-title>
+        <v-card-text v-html="description"></v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog.image" width="auto" :content-class="'image_popup'">
+      <img :src="'http://client.my/prods_images/' + guid + '/' + images[activeImage] " :alt="name" />
+    </v-dialog>
+    <v-dialog v-model="dialog.state" width="460px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ name }}</div>
@@ -79,6 +93,8 @@ export default {
     return {
       dialog: {
         state: false,
+        description: false,
+        image: false,
       },
       name: '',
       category: '',
@@ -107,9 +123,18 @@ export default {
     addCart () {
       this.$store.dispatch('addCartProduct', {id: this.id, count: this.count})
       this.dialog.state = false
+      this.$snotify.success('Добавлен в корзину ' + this.count + ' ' + this.unit, this.name, {
+        timeout: 5000,
+        showProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false
+      });
     },
     dialogShow () {
       this.dialog.state = true
+    },
+    descriptionDialogShow () {
+      this.dialog.description = true
     }
   },
   mounted: function() {
@@ -147,15 +172,29 @@ export default {
 </script>
 
 <style lang="scss">
+  .image_popup {
+    box-shadow: none !important;
+  }
+</style>
+<style lang="scss" scoped>
+  .card {
+    padding: 10px 5px;
+  }
   .layout .flex {
     padding-left: 15px;
     padding-right: 15px;
   }
 
+  .image_popup {
+    img {
+      max-height: 100%;
+    }
+  }
   .product_images {
     padding: 20px 15px 40px;
     .main_img {
-      height: 400px;
+      //height: 400px;
+      height: 300px;
       margin-bottom: 50px;
       background-position: center center;
       background-size: contain;
@@ -209,6 +248,10 @@ export default {
   }
 
   .description {
-    margin-top: 60px;
+    margin-top: 20px;
+    height: 250px;
+    padding: 0 15px;
+    overflow: hidden;
+    box-shadow: inset 0px -18px 12px -1px rgba(255, 255, 255, 0.75);
   }
 </style>

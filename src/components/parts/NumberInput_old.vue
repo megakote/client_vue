@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .input-number_wrapper {
     font-size: 0;
     height: 60px;

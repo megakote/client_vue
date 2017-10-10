@@ -20,7 +20,7 @@
           <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
           <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
           <td class="text-xs-center">
-            <v-btn primary fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name)">
+            <v-btn primary fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit)">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
           </td>
@@ -70,6 +70,7 @@ export default {
       no_data_text: 'Ничего не найдено',
       dialog: {
         name: null,
+        unit: null,
         state: false,
         max: 1,
         count: 1,
@@ -115,17 +116,23 @@ export default {
     getData: function(id) {
       this.$store.dispatch('getProducts', id)
     },
-    buy_item: function(id, max, name) {
+    buy_item: function(id, max, name, unit) {
       this.dialog.id = id
       this.dialog.name = name
+      this.dialog.unit = unit
       this.dialog.count = 1
       this.dialog.max = max
       this.dialog.state = true
-
     },
     buy_btn: function() {
       this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
       this.dialog.state = false
+      this.$snotify.success('Добавлен в корзину ' + this.dialog.count + ' ' + this.dialog.unit, this.dialog.name, {
+        timeout: 5000,
+        showProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false
+      });
     },
     countChange: function(id, val) {
       this.dialog.count = val
@@ -150,7 +157,7 @@ export default {
   .pagination_wrapper{
     position: absolute;
     width: 100%;
-    bottom: 0;
+    bottom: 10px;
   }
   table.table tbody {
     td, th{

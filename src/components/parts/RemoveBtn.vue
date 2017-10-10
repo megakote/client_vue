@@ -14,19 +14,16 @@ export default {
 
     }
   },
-  props: ['id'],
+  props: ['id','name'],
   methods: {
     remove (event) {
-    
-      //let row = event.target.parentElement.parentElement.parentElement.parentElement
-      // row.className += "animate"
-       let obj = this
-      // setTimeout(function(){
-         obj.$store.dispatch('removeFromCart', this.id)
-      //   row.classList.remove("animate")
-      // }, 500);
-      
-      
+      this.$store.dispatch('removeFromCart', this.id)
+      this.$snotify.warning('Удалено', this.name, {
+        timeout: 3000,
+        showProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false
+      });
     }
   },
   computed: {

@@ -1,9 +1,9 @@
 <template>
   <div class="input-number_wrapper">
     <div class="btns">
-      <span  class="input-number-decrement" @click="decrement(1)">–</span>
+      <!-- <span  class="input-number-decrement" @click="decrement(1)">–</span> -->
       <input class="input-number" type="text" v-model="value" min="min" max="max" size="3">
-      <span  class="input-number-increment" @click="increment(1)">+</span>
+      <!-- <span  class="input-number-increment" @click="increment(1)">+</span> -->
     </div>
     <div v-if="full" class="keyboard">
       <keyboard
@@ -32,7 +32,7 @@ export default {
       type: [String, Number],
       required: false
     },
-    val: Number,
+    val: [String, Number],
     min: Number,
     max: Number,
     full: Boolean,
@@ -53,28 +53,42 @@ export default {
       this.$emit('change', this.id, this.value)
     },
     changed (val) {
-      if (val == '') {
-        console.log('Удалили все символы')
-        this.count = '0'
-        this.value = this.count
-        return
-      }
-      if (val.toNumber > this.max || val.toNumber < this.min) {
-        console.log('Не входит в диапозон')
+      if (val > this.max || val < this.min) {
         let count = this.count.toString()
         this.count = count.slice(0, -1)
+      }
+      if (val > this.max){
+        this.$snotify.info('На складе нет такого количества ', 'Максимум ' + this.max, {
+          timeout: 4000,
+          showProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false
+        });
+        if (this.value == ''){
+          this.value = 0
+          return
+        }
+      }
+      if (val == '') {
+        //this.count = '0'
+        this.value = 0
+        this.$emit('change', this.id, this.value)
+        return
       }
       if (this.count.toString() == '0') {
         this.count = val
       }
-      console.log(this.count.toString())
       this.value = this.count
+      this.$emit('change', this.id, this.value)
     }
   },
   watch: {
     val (val) {
       this.value = val
     },
+    // count () {
+    //   this.$emit('change', this.id, this.count)
+    // }
   },
   created() {
     this.value = this.val
@@ -116,9 +130,9 @@ export default {
       border: 1px solid #ccc;
       line-height: 60px;
       user-select: none;
-        height: 60px;
-        width: 60px;
-        line-height: 60px;
+      height: 60px;
+      width: 60px;
+      line-height: 60px;
     }
 
     .input-number-decrement,
@@ -144,6 +158,31 @@ export default {
     .input-number-increment {
       border-left: none;
       border-radius: 0 4px 4px 0;
+    }
+  }
+</style>
+
+<style lang="scss" scoped>
+  .input-number_wrapper .vue-keyboard {
+    box-shadow: none;
+    padding-top: 5px;
+    padding: 5px 0 10px;
+    .vue-keyboard-key[data-action="backspace"] {
+      background-size: 25% !important;
+    }
+  }
+  .input-number_wrapper {
+    padding: 0 10px;
+    margin: 0 auto 15px;
+    border-radius: 10px;
+    background-color: #EEE;
+    box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.3);
+    .input-number {
+      width: 100% !important;
+      margin-top: 10px;
+      background: #FFF;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
     }
   }
 </style>

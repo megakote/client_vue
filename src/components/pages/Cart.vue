@@ -31,7 +31,7 @@
                   <td>{{ props.item.name }}</td>
                   <td  class="text-xs-center">{{ props.item.price }} р.</td>
                   <td  class="text-xs-center">
-                    <number-input
+                    <number-input2
                       :val="props.item.count"
                       :min="1"
                       :max="props.item.stock"
@@ -40,7 +40,7 @@
                     />
                   </td>
                   <td  class="text-xs-right">{{ props.item.stock }} {{ props.item.unit }} </td>
-                  <td  class="text-xs-center"><remove-btn :id='props.item.guid' /></td>
+                  <td  class="text-xs-center"><remove-btn :id='props.item.guid' :name='props.item.name' /></td>
                 </template>
               </v-data-table>
             </div>
@@ -57,6 +57,7 @@
         <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
         <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
             <input
+              :class="{ active: contactFocus == 'name'}"
               class="contact_input"
               type="text"
               placeholder="ФИО"
@@ -65,6 +66,7 @@
             ></input>
 
             <input
+              :class="{ active: contactFocus == 'tel'}"
               v-model="contacts.tel"
               class="contact_input"
               type="tel"
@@ -74,6 +76,7 @@
             ></input>
 
             <input
+              :class="{ active: contactFocus == 'address'}"
               class="contact_input"
               type="text"
               placeholder="ул мира 150 кв 13"
@@ -95,11 +98,12 @@
               v-if="contactFocus == 'name'"
               v-model="contacts.name"
               :layouts="[
-                '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
-                '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+                '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{Далее:nxt}',
+                '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{Далее:nxt}'
               ]"
               :maxlength="0"
               @input="changed"
+              @nxt="changeFocus('tel')"
           />
           <keyboard
               class="tel"
@@ -181,7 +185,7 @@ export default {
     items () {
       return this.$store.getters.cartProducts
     },
-    isValidate () {
+    isValidate () {return true
       let hasTelNumber = this.contacts.tel.length == 18
       let hasName = this.contacts.name.length > 4
       let hasAddress = this.contacts.address.length > 5
@@ -198,12 +202,15 @@ export default {
     changeFocus (to) {
       this.contactFocus = to
     },
+    append (){
+      this.contactFocus = 'tel'
+    },
     changed(value) {
       this.contacts[this.contacts.focus] = value.replace(/\s+/g,' ').trim()
     },
-    clear() {
-      this.$store.dispatch('clearCart')
-    },
+    nxt(keyboard) {
+            console.log(keyboard.value);
+        },
     addContacts() {
       this.$store.dispatch('addContacts', this.contacts)
       this.stage = 3
@@ -221,7 +228,7 @@ export default {
 
 <style lang="scss" scoped>
   .stepper__content .btn {
-      float: right;
+    float: right;
   }
 
   .summ {
@@ -275,7 +282,7 @@ export default {
     border-radius: 5px;
     box-shadow: inset 0 1px 2px rgba(0,0,0, .55), 0px 1px 1px rgba(255,255,255,.5);
     border: 1px solid #666;
-    &:focus {
+    &.active {
       color:#08c;
       border: 1px solid #08c;
        box-shadow: 0px 1px 0px rgba(255,255,255,.25),inset 0px 3px 6px rgba(0,0,0,.25);
@@ -297,11 +304,22 @@ export default {
       margin: 30px auto 50px !important;
     }
   }
-  .vue-keyboard.tel .vue-keyboard-key[data-action="backspace"] {
-    background-size: 12%;
+  .vue-keyboard.tel {
+    .vue-keyboard-key[data-action="backspace"] {
+      background-size: 12%;
+    }
+    .vue-keyboard-key {
+      height: 3em;
+      line-height: 3em;
+    }
   }
   .btn__content {
     font-size: 16px;
     padding: 0 25px;
+  }
+
+  .btn--floating .icon {
+      height: 28px;
+      width: 28px;
   }
 </style>

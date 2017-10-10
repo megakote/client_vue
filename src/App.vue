@@ -5,6 +5,7 @@
       <v-container fluid>
         <router-view></router-view>
       </v-container>
+      <vue-snotify :class="'material'"></vue-snotify>
     </main>
     <bottom-banner />
     <keyboard-search />
@@ -44,6 +45,7 @@
 <style lang="scss">
   @import './styles/fonts/fonts';
   @import './styles/fonts/material-icons';
+  @import "~vue-snotify/styles/material.css";
   html {
     overflow-y: auto;
   }
@@ -51,7 +53,7 @@
     //высота моника - высота нижнего баннера - 1px потому что FF иначе дает скролл - высота верхней панели навигации
     //height: calc(100vh - 120px - 1px - 80px);
     //overflow: hidden;
-    height: calc(1024px - 80px - 116px);
+    height: calc(1024px - 80px - 116px - 1px);
   }
   .application > main > .container {
     min-height: 0;
@@ -78,6 +80,14 @@
 
 
 
+<style lang="scss">
+.snotify {
+  width: 350px;
+  .snotifyToast__title {
+    font-size: 1.4em;
+  }
+}
+</style>
 <style lang="scss">
   .pagination {
     height: 45px;

@@ -9,7 +9,7 @@
         <v-btn @click.native="startCash"  primary dark large>Начать прием</v-btn>
       </div>
       <div v-else class="btn_wrapper">
-        <v-btn @click.native="endCash"  primary dark large>Остановить прием</v-btn>
+        <v-btn @click.native="pauseCash"  primary dark large>Пристановить прием</v-btn>
         <v-progress-circular v-if="cashActive" indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
       </div>
     </v-card>
@@ -27,14 +27,15 @@ export default {
   data () {
     return {
       cashActive: false, // Запущен ли прием налички
+      timeout: 3000, // Через сколько прекращать прием денег
       cashIn: 0, //Внесенная сумма
       timer: null, // Ссылка на цикл
     }
   },
   props: ['summ'],
   methods: {
-    endCash() {
-      Vue.http.get('http://client.my/api/cash/end').then(response => {
+    pauseCash() {
+      Vue.http.get('http://client.my/api/cash/pause').then(response => {
         this.cashActive = false
         clearInterval(this.timer)
       })
@@ -43,12 +44,21 @@ export default {
       /*
         Запускаем приемку денег
       */
+      let time_start = new Date().getTime()
+      console.log(time_start)
+      let time_end = time_start + this.timeout
+      console.log(time_end)
       Vue.http.options.emulateJSON = true
       Vue.http.options.emulateHTTP = true
       Vue.http.post('http://client.my/api/cash/start', {cash: this.minimum})
       this.cashActive = true
       let _this = this
       this.timer = setInterval(function() {
+        console.log(new Date().getTime() > time_end)
+        if (new Date().getTime() > time_end) {
+          _this.cashActive = false
+          clearInterval(_this.timer)
+        }
         _this.getCash()
       }, 2000)
     },
