@@ -11,13 +11,13 @@ export default {
     },
     keyboard_visible(state) {
       return state.keyboard_visible
-    },    
+    },
     products(state) {
       return state.products
-    },     
+    },
     cartProducts(state) {
       return state.cart
-    },  
+    },
     categorys(state) {
       return state.categorys
     },
@@ -29,5 +29,8 @@ export default {
     },
     modal_visible(state) {
       return state.modal_visible
+    },
+    top_bar_blocked(state) {
+      return state.top_bar_blocked
     }
 }

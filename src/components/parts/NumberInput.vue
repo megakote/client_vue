@@ -2,7 +2,7 @@
   <div class="input-number_wrapper">
     <div class="btns">
       <!-- <span  class="input-number-decrement" @click="decrement(1)">–</span> -->
-      <input class="input-number" type="text" v-model="value" min="min" max="max" size="3">
+      <input class="input-number" type="text" v-model="value" min="min" max="max">
       <!-- <span  class="input-number-increment" @click="increment(1)">+</span> -->
     </div>
     <div v-if="full" class="keyboard">
@@ -12,7 +12,6 @@
           '123|456|789|0{:backspace}'
         ]"
         @input="changed"
-        :maxlength="3"
       />
     </div>
   </div>
@@ -86,9 +85,9 @@ export default {
     val (val) {
       this.value = val
     },
-    // count () {
-    //   this.$emit('change', this.id, this.count)
-    // }
+    id () {
+      this.count = 1
+    }
   },
   created() {
     this.value = this.val

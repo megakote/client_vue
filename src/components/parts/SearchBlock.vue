@@ -33,7 +33,7 @@ export default {
     search_input: function() {
       return this.$store.getters.search_input
     }
-  }
+  },
 }
 </script>
 

@@ -51,7 +51,7 @@
         </v-card>
         <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
         <v-btn primary @click.native="stage = 2" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
-        <v-btn flat @click="complete">Отмена</v-btn>
+        <v-btn flat @click="clear">Очистить</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <v-card class="lighten-1 z-depth-1 mb-5" height="591px">
@@ -208,9 +208,6 @@ export default {
     changed(value) {
       this.contacts[this.contacts.focus] = value.replace(/\s+/g,' ').trim()
     },
-    nxt(keyboard) {
-            console.log(keyboard.value);
-        },
     addContacts() {
       this.$store.dispatch('addContacts', this.contacts)
       this.stage = 3
@@ -219,6 +216,10 @@ export default {
       this.$store.dispatch('completeOrder')
       this.$router.push({ name: 'Categorys'})
     },
+    clear(){
+      this.$store.dispatch('clearCart')
+      this.$router.push({ name: 'Categorys'})
+    }
   },
   mounted () {
     this.$store.dispatch('getCart')

@@ -13,48 +13,51 @@
 
 <script>
 
-  export default {
-    name: 'keyboard-search',
-    data () {
-      return {
-        input: '',
+export default {
+  name: 'keyboard-search',
+  data () {
+    return {
+      input: '',
+    }
+  },
+  props: [],
+  watch: {
+    input: function () {
+      let input = this.input.replace(/\s+/g,' ').trim()
+      if (input == 'обновить') {
+        document.location.href = "/";
       }
+      this.$store.dispatch('search_input', input)
     },
-    props: [],
-    watch: {
-      input: function () {
-        let input = this.input.replace(/\s+/g,' ').trim()
-        this.$store.dispatch('search_input', input)
-      },
-      modalVisible: function () {
-        //this.input = ''
-      },
-      visible: function () {
-        if (this.visible) {
-          this.input = ''
-        }
+    modalVisible: function () {
+      //this.input = ''
+    },
+    visible: function () {
+      if (this.visible) {
+        this.input = ''
+      }
 
-      }
+    }
+  },
+  computed: {
+    visible() {
+      return this.$store.getters.keyboard_visible
     },
-    computed: {
-      visible() {
-        return this.$store.getters.keyboard_visible
-      },
-      modalVisible: function() {
-        return this.$store.getters.modal_visible
-      }
+    modalVisible: function() {
+      return this.$store.getters.modal_visible
+    }
+  },
+  methods: {
+    send() {
+      //Отправка
+      this.$store.dispatch('modal_visible', false)
+      this.$router.push({ name: 'Search' })
     },
-    methods: {
-      send() {
-        //Отправка
-        this.$store.dispatch('modal_visible', false)
-        this.$router.push({ name: 'Search' })
-      },
-      clear(){
-        this.input = '';
-      }
+    clear(){
+      this.input = '';
     }
   }
+}
 </script>
 
 

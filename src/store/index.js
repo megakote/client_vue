@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     keyboard_visible: false,
     keyboard_target: null,
     modal_visible: false,
+    top_bar_blocked: false,
     search_input: '',
     results: [],
     categorys: [],
@@ -35,7 +36,6 @@ const store = new Vuex.Store({
       canPrint: false, // Имеет ли возможность печатать чеки
       idleSession: 0, // Минимальное время сессии (по истечении этого времени, после последнего действия будет начата новая)
     }
-
   },
   getters,
   mutations,

@@ -35,6 +35,7 @@
         <v-card-title>
           <div class="headline">{{ dialog.name }}</div>
         </v-card-title>
+        <span class="subheadline">Доступно для заказа: {{ dialog.max }}{{ dialog.unit }}</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
             :val="dialog.count"
@@ -173,6 +174,9 @@ export default {
           color: rgba(0, 0, 0, 0.87);
           display: block;
           padding: 19px 20px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
       }
     }
   }
@@ -193,7 +197,9 @@ export default {
       padding-top: 20px;
       padding-bottom: 20px;
     }
-
+    .subheadline {
+      padding: 16px;
+    }
     .input-number_wrapper {
       text-align: center;
       margin: 20px auto;

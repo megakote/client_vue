@@ -1,5 +1,7 @@
 <template>
   <v-card height="80px" style="position: relative">
+    <div class="locker" :class="{ active: activeLocker}">
+    </div>
     <v-bottom-nav style="position: relative; height: 100%;" value="true" class="transparent">
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -47,6 +49,9 @@ export default {
   computed: {
     cartCount () {
       return this.$store.getters.cartProducts.length
+    },
+    activeLocker () {
+      return this.$store.getters.top_bar_blocked
     }
   }
 }
@@ -83,5 +88,19 @@ export default {
     .icon {
       font-size: 27px;
     }
+  }
+  .locker {
+    &.active {
+      display: block;
+    }
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: .6;
+    left: 250px;
+    bottom: 0;
+    background: #FFF;
+    z-index: 10;
   }
 </style>

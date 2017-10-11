@@ -25,6 +25,9 @@ export default {
   modal_visible({ commit }, query){
     commit('set', { type: 'modal_visible', items: query })
   },
+  top_bar_blocked({ commit }, query){
+    commit('set', { type: 'top_bar_blocked', items: query })
+  },
   searchProducts({ commit }, query){
     /*
       Получаем дочерние товары категории id
@@ -142,16 +145,15 @@ export default {
       // error callback
     });
   },
-  completeOrder ({ commit }) {
+  completeOrder ({ commit }, reason) {
     /*
       Отпрвляем завершенный заказ на сервер
     */
     Vue.http.options.emulateJSON = true
     Vue.http.options.emulateHTTP = true
-    Vue.http.post('http://client.my/api/cart/complete',{}).then(response => {
-      /*
-        TODO: Тут очищаем сессию и корзину
-      */
+    Vue.http.post('http://client.my/api/cart/complete',{reason: reason}).then(response => {
+
+      // Тут очищаем сессию и корзину
       commit('set', { type: 'cart', items: [] })
 
     }, response => {
