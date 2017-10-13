@@ -217,7 +217,7 @@ export default {
       this.$router.push({ name: 'Categorys'})
     },
     clear(){
-      this.$store.dispatch('clearCart')
+      this.$store.dispatch('completeOrder', 'canceled')
       this.$router.push({ name: 'Categorys'})
     }
   },

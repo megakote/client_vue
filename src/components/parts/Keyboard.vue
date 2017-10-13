@@ -3,8 +3,8 @@
     v-if="visible && modalVisible"
     v-model="input"
     :layouts="[
-        '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю{shift:goto:1}|{очистить:clear}{пробел:space}{отправить:send}',
-        '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{отправить:send}'
+        '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю{shift:goto:1}|{очистить:clear}{пробел:space}{найти:send}',
+        '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{найти:send}'
     ]"
     :maxlength="0"
     @send="send"
@@ -94,24 +94,22 @@ export default {
         }
 
         flex: 1;
-        height: $height;
-        line-height: $height;
+        height: 2.4em;
+        line-height: 2.1em;
         overflow: hidden;
-
         vertical-align: middle;
         border: 1px solid #ccc;
         color: #333;
         background-color: #fff;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, .6);
-        border-radius: $radius;
-
-        font-size: 1.25em;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
+        border-radius: 0.35em;
+        font-size: 1.75em;
         text-align: center;
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
         padding: 0;
-
+        background: #e6f2f9;
 
         &[data-action="backspace"] {
           background: url("./icons/backspace.svg") no-repeat center center;

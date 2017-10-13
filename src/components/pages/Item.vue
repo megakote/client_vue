@@ -4,7 +4,7 @@
       <v-flex xs6>
         <div class="product_images">
           <div class="main_img"
-            :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + images[activeImage] + ')'"
+            :style="'background-image: url(' + images[activeImage] + ')'"
             @click.stop="dialog.image = true"
           ></div>
           <ul class="product_images_thumbs">
@@ -13,7 +13,7 @@
               v-if="images.length > 1"
               :key="i"
               :class="{active: activeImage == i}"
-              :style="'background-image: url(http://client.my/prods_images/' + guid + '/' + image + ')'"
+              :style="'background-image: url('+ image +')'"
               @click="setActive(i)"
             >
             </li>
@@ -49,7 +49,7 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialog.image" width="auto" :content-class="'image_popup'">
-      <img :src="'http://client.my/prods_images/' + guid + '/' + images[activeImage] " :alt="name" />
+      <img :src="images[activeImage]" :alt="name" />
     </v-dialog>
     <v-dialog v-model="dialog.state" width="460px" lazy absolute>
       <v-card>
@@ -162,7 +162,12 @@ export default {
       this.guid = data.guid
       this.unit = data.unit
       this.description = data.description
-      this.images = data.image
+      if (data.image[0] == "nothing/nothing.jpg") {
+        this.images[0] = "/static/images/no_photo.jpg"
+      } else {
+        this.images = "http://client.my/prods_images/" + data.guid + '/' + data.image
+      }
+
     }, response => {
       // error callback
     });

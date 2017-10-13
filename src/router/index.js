@@ -3,7 +3,7 @@ import Router from 'vue-router'
 // import Hello from '@/components/Hello'
 import Categorys from '@/components/pages/Categorys'
 import items from '@/components/pages/ItemsList'
-import item from '@/components/pages/item'
+import item from '@/components/pages/Item'
 import cart from '@/components/pages/Cart'
 import search from '@/components/pages/Search'
 

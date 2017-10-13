@@ -76,6 +76,11 @@
   // * {
   //   cursor: none !important;
   // }
+
+  .application--light {
+    background: #def0f9;
+    color: rgba(0,0,0,0.87);
+  }
 </style>
 
 
