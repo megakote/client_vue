@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="lighten-1 z-depth-1 mb-5 tac" height="591px">
+    <v-card class="lighten-1 z-depth-1 mb-5 tac" height="639px">
       <h2>Необходимо внести минимум {{minimum}}р</h2>
       <h3>Вы внесли {{cashIn}}р</h3>
       <h3 v-if="cashNeed > 0">Осталось внести {{cashNeed}}р</h3>
@@ -74,7 +74,7 @@ export default {
       timer: null, // Ссылка на цикл
     }
   },
-  props: ['summ'],
+  // props: ['summ'],
   methods: {
     pauseCash() {
       Vue.http.get('http://client.my/api/cash/pause').then(response => {
@@ -120,6 +120,14 @@ export default {
     },
   },
   computed: {
+    summ () {
+      let summ = 0;
+      let items = this.$store.getters.cartProducts
+      items.forEach(function(item, i, arr) {
+        summ += item.price*item.count
+      });
+      return summ
+    },
     minimum () {
       let min = this.summ*0.7/100;
       min = Math.ceil(min)

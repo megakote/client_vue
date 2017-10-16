@@ -5,7 +5,7 @@
       <input class="input-number" type="text" v-model="value" min="min" max="max">
       <!-- <span  class="input-number-increment" @click="increment(1)">+</span> -->
     </div>
-    <div v-if="full" class="keyboard">
+    <div class="keyboard">
       <keyboard
         v-model="count"
         :layouts="[
@@ -22,8 +22,8 @@ export default {
   name: 'NumberInput',
   data () {
     return {
-      count: '1',
-      value: 0,
+      count: '', //Фактически введенное количество
+      value: 0, // Отображаемое количество
     }
   },
   props: {
@@ -31,31 +31,31 @@ export default {
       type: [String, Number],
       required: false
     },
-    val: [String, Number],
+    val: [String, Number], // Приходит число по умолчанию
     min: Number,
     max: Number,
-    full: Boolean,
   },
   methods: {
-    decrement (val = 1) {
-      if ((this.value - val) < this.min) {
-        return;
-      }
-      this.value -= val
-      this.$emit('change', this.id, this.value)
-    },
-    increment (val = 1) {
-      if ((this.value + val) > this.max) {
-        return;
-      }
-      this.value += val
-      this.$emit('change', this.id, this.value)
-    },
+    // decrement (val = 1) {
+    //   if ((this.value - val) < this.min) {
+    //     return;
+    //   }
+    //   this.value -= val
+    //   this.$emit('change', this.id, this.value)
+    // },
+    // increment (val = 1) {
+    //   if ((this.value + val) > this.max) {
+    //     return;
+    //   }
+    //   this.value += val
+    //   this.$emit('change', this.id, this.value)
+    // },
     changed (val) {
-      if (val > this.max || val < this.min) {
-        let count = this.count.toString()
-        this.count = count.slice(0, -1)
-      }
+      console.log(val)
+      // if (val > this.max || val < this.min) {
+      //   let count = this.count.toString()
+      //   this.count = count.slice(0, -1)
+      // }
       if (val > this.max){
         this.$snotify.info('На складе нет такого количества ', 'Максимум ' + this.max, {
           timeout: 4000,
@@ -63,19 +63,26 @@ export default {
           closeOnClick: true,
           pauseOnHover: false
         });
-        if (this.value == ''){
-          this.value = 0
-          return
-        }
+
+        this.count = ''
+        this.$emit('tomuch')
+        return
       }
       if (val == '') {
-        //this.count = '0'
-        this.value = 0
+        this.count = ''
+        this.value = '0'
         this.$emit('change', this.id, this.value)
         return
       }
+      // if (val.charAt(0) == '0') {
+
+      // }
       if (this.count.toString() == '0') {
-        this.count = val
+        this.count = ''
+        this.value = '0'
+        this.$emit('change', this.id, this.value)
+        console.log('Была строка 0')
+        return
       }
       this.value = this.count
       this.$emit('change', this.id, this.value)
@@ -83,20 +90,29 @@ export default {
   },
   watch: {
     val (val) {
-      this.value = val
+
+    },
+    count (val) {
+      console.log('count именился на ' + val)
+      if (val == '') {
+        this.value = '0'
+      } else {
+        this.value = val
+      }
     },
     id () {
-      this.count = 1
+      this.count = ''
+      this.value = this.val.toString()
     }
   },
   created() {
-    this.value = this.val
+    this.value = this.val.toString()
   }
 
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .input-number_wrapper {
     width: 400px;
     margin: 6px auto;
@@ -116,6 +132,7 @@ export default {
     // height: 60px;
     margin: 6px 8px;
     .input-number {
+      font-size: 30px;
       padding: 0 12px;
       vertical-align: top;
       text-align: center;
@@ -125,7 +142,6 @@ export default {
     .input-number,
     .input-number-decrement,
     .input-number-increment {
-      font-size: 17px;
       border: 1px solid #ccc;
       line-height: 60px;
       user-select: none;
@@ -136,6 +152,7 @@ export default {
 
     .input-number-decrement,
     .input-number-increment {
+      font-size: 17px;
       display: inline-block;
       background: #f1f1f1;
       color: #444;

@@ -18,6 +18,8 @@ import RemoveBtn from '@/components/parts/RemoveBtn'
 import NumberInput from '@/components/parts/NumberInput'
 import NumberInput2 from '@/components/parts/NumberInput_old'
 import StepThree from '@/components/parts/cart/step-three'
+import StepTwo from '@/components/parts/cart/step-two'
+import StepOne from '@/components/parts/cart/step-one'
 import Snotify from 'vue-snotify'
 
 
@@ -44,6 +46,8 @@ Vue.component('remove-btn', RemoveBtn)
 Vue.component('number-input', NumberInput)
 Vue.component('number-input2', NumberInput2)
 Vue.component('step-three', StepThree)
+Vue.component('step-two', StepTwo)
+Vue.component('step-one', StepOne)
 
 /* eslint-disable no-new */
 new Vue({

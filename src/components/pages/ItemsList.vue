@@ -121,19 +121,21 @@ export default {
       this.dialog.id = id
       this.dialog.name = name
       this.dialog.unit = unit
-      this.dialog.count = 1
+      this.dialog.count = 0
       this.dialog.max = max
       this.dialog.state = true
     },
     buy_btn: function() {
-      this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
+      if (this.dialog.count > 0) {
+        this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
+        this.$snotify.success('Добавлен в корзину ' + this.dialog.count + ' ' + this.dialog.unit, this.dialog.name, {
+          timeout: 5000,
+          showProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false
+        });
+      }
       this.dialog.state = false
-      this.$snotify.success('Добавлен в корзину ' + this.dialog.count + ' ' + this.dialog.unit, this.dialog.name, {
-        timeout: 5000,
-        showProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false
-      });
     },
     countChange: function(id, val) {
       this.dialog.count = val
@@ -143,6 +145,11 @@ export default {
     id: function () {
       this.pagination.page = 1;
       this.getData(this.id)
+    },
+    'dialog.state' (val) {
+      if (!val){
+        this.dialog.id = 0
+      }
     }
   },
   mounted: function() {

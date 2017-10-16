@@ -1,14 +1,8 @@
 <template>
   <div class="input-number_wrapper">
-    <span v-if="full" class="input-number-decrement" @click="decrement(1)">–1</span>
-    <span v-if="full" class="input-number-decrement" @click="decrement(5)">–5</span>
-    <span v-if="full" class="input-number-decrement" @click="decrement(10)">–10</span>
-    <span v-else class="input-number-decrement" @click="decrement(1)">–</span>
-    <input class="input-number" type="text" v-model="value" min="min" max="max">
-    <span v-if="full" class="input-number-increment" @click="increment(1)">+1</span>
-    <span v-if="full" class="input-number-increment" @click="increment(5)">+5</span>
-    <span v-if="full" class="input-number-increment" @click="increment(10)">+10</span>
-    <span v-else class="input-number-increment" @click="increment(1)">+</span>
+    <span class="input-number-decrement" @click="decrement(1)">–</span>
+    <input class="input-number" type="text" v-model="value" min="min" max="max" @click.stop="$emit('fullInput')">
+    <span class="input-number-increment" @click="increment(1)">+</span>
   </div>
 </template>
 
@@ -28,7 +22,6 @@ export default {
     val: Number,
     min: Number,
     max: Number,
-    full: Boolean,
   },
   methods: {
     decrement (val = 1) {
@@ -61,7 +54,7 @@ export default {
 <style lang="scss" scoped>
   .input-number_wrapper {
     font-size: 0;
-    height: 60px;
+    // height: 60px;
     margin: 6px 8px;
     .input-number {
       padding: 0 12px;

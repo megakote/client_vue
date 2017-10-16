@@ -79,6 +79,7 @@ export default {
     box-shadow: 0px -3px 10px rgba(black, 0.3);
     border-radius: 10px;
     padding: 1em;
+    z-index: 10;
 
       .vue-keyboard-row {
         display: flex;
@@ -94,7 +95,7 @@ export default {
         }
 
         flex: 1;
-        height: 2.4em;
+        // height: 2.4em;
         line-height: 2.1em;
         overflow: hidden;
         vertical-align: middle;
@@ -103,13 +104,13 @@ export default {
         background-color: #fff;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
         border-radius: 0.35em;
-        font-size: 1.75em;
+        font-size: 1.6em;
         text-align: center;
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
         padding: 0;
-        background: #e6f2f9;
+        //background: #e6f2f9;
 
         &[data-action="backspace"] {
           background: url("./icons/backspace.svg") no-repeat center center;
@@ -127,6 +128,7 @@ export default {
           color: #fff;
           background-color: #7d7d7d;
           border-color: #656565;
+          font-size: 1.5em;
             &[data-action="clear"],
             &[data-action="validate"],
             &[data-action="send"] {

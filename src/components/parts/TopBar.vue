@@ -57,6 +57,11 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+  .icon {
+    font-size: 50px;
+  }
+</style>
 <style lang="scss">
   .toolbar__title {
     align-self: center;

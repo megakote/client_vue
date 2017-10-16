@@ -78,7 +78,8 @@
   // }
 
   .application--light {
-    background: #def0f9;
+    // Ну стрем же!
+    // background: #def0f9;
     color: rgba(0,0,0,0.87);
   }
 </style>

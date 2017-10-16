@@ -43,7 +43,6 @@
             :min="1"
             :max="dialog.max"
             :id="dialog.id"
-            :full=true
             @change="countChange"
           />
         <v-card-actions>
@@ -148,6 +147,11 @@ export default {
     query: function () {
       this.pagination.page = 1;
       this.getData(this.query)
+    },
+    'dialog.state' (val) {
+      if (!val){
+        this.dialog.id = 0
+      }
     }
   },
   mounted: function() {
