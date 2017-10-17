@@ -204,9 +204,7 @@ export default {
       padding-top: 20px;
       padding-bottom: 20px;
     }
-    .subheadline {
-      padding: 16px;
-    }
+
     .input-number_wrapper {
       text-align: center;
       margin: 20px auto;

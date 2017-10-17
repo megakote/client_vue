@@ -94,6 +94,9 @@ export default {
       font-size: 27px;
     }
   }
+  .bottom-nav {
+    z-index: 3;
+  }
   .locker {
     &.active {
       display: block;
@@ -106,6 +109,6 @@ export default {
     left: 250px;
     bottom: 0;
     background: #FFF;
-    z-index: 10;
+    z-index: 4;
   }
 </style>

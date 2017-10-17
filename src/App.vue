@@ -109,4 +109,8 @@
       margin: 0.4rem;
     }
   }
+  // Строчка в блоке ввода количества.
+  .subheadline {
+    padding: 16px;
+  }
 </style>

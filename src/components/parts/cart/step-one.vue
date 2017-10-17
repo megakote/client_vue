@@ -61,7 +61,7 @@
           />
         <v-card-actions>
 
-          <v-btn class="darken-1" error @click.native="dialog.state = false">
+          <v-btn class="darken-1" error @click.native="dialog.state = false" style="float: left">
             <v-icon left dark>block</v-icon>
             Отмена
           </v-btn>

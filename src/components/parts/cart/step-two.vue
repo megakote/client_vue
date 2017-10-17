@@ -1,7 +1,6 @@
 <template>
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
-    <!-- <v-card class="lighten-1 z-depth-1 mb-5" height="591px"> -->
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
       <input
         :class="{ active: contactFocus == 'name'}"
@@ -29,16 +28,6 @@
         @click="changeFocus('address')"
       ></input>
       <keyboard
-        v-if="contactFocus == 'address'"
-        v-model="contacts.address"
-        :layouts="[
-          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
-          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
-        ]"
-        :maxlength="0"
-        @input="changed"
-      />
-      <keyboard
         v-if="contactFocus == 'name'"
         v-model="contacts.name"
         :layouts="[
@@ -54,13 +43,23 @@
         v-if="contactFocus == 'tel'"
         v-model="contacts.tel"
         :layouts="[
-          '123|456|789|{очистить:clear}0{:backspace}'
+          '123|456|789|{:backspace}0{Далее:nxt}'
+        ]"
+        :maxlength="0"
+        @nxt="changeFocus('address')"
+        @input="changed"
+      />
+      <keyboard
+        v-if="contactFocus == 'address'"
+        v-model="contacts.address"
+        :layouts="[
+          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
+          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
         ]"
         :maxlength="0"
         @input="changed"
       />
     </div>
-    <!-- </v-card> -->
     <v-btn primary @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
     <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
   </div>
@@ -121,20 +120,28 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .vue-keyboard {
-    position: absolute;
-    bottom: 0;
-    z-index: 4;
+<style lang="scss">
+  .cart_page {
+    .vue-keyboard {
+      position: absolute;
+      bottom: 0;
+      z-index: 4;
+    }
+    .vue-keyboard.tel {
+      .vue-keyboard-key[data-action="backspace"] {
+        background-size: 12%;
+      }
+      .vue-keyboard-key {
+        height: 3em;
+        line-height: 3em;
+
+      }
+    }
   }
-  .vue-keyboard.tel {
-    .vue-keyboard-key[data-action="backspace"] {
-      background-size: 12%;
-    }
-    .vue-keyboard-key {
-      height: 3em;
-      line-height: 3em;
-    }
+
+  .vue-keyboard-key.action[data-action="nxt"] {
+    background-color: #337ab7 !important;
+    border-color: #2e6da4 !important;
   }
   .contact_input {
     display: block;

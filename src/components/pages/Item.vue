@@ -26,22 +26,16 @@
         <span class="price"><b>Цена:</b> {{ price }} р.</span>
         <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>
         <div class="actions_wrapper">
-          <!--<number-input
-            :val="count"
-            :min="1"
-            :max="stock"
-            @change="countChange"
-          /> -->
           <v-btn primary large dark @click.stop="dialogShow">
             <v-icon>add_shopping_cart</v-icon>
             <span>В корзину</span>
           </v-btn>
         </div>
-
       </v-flex>
-
     </v-layout>
+
     <div class="description" @click.stop="descriptionDialogShow()" v-html="description"></div>
+
     <v-dialog v-model="dialog.description" width="100%" lazy absolute>
       <v-card>
         <v-card-title class="headline">{{name}}</v-card-title>
@@ -165,7 +159,11 @@ export default {
       if (data.image[0] == "nothing/nothing.jpg") {
         this.images[0] = "/static/images/no_photo.jpg"
       } else {
-        this.images = "http://client.my/prods_images/" + data.guid + '/' + data.image
+        let images = data.image.map(function(image) {
+          return "http://client.my/prods_images/" + data.guid + '/' + image
+        });
+        console.log(images)
+        this.images = images
       }
 
     }, response => {
@@ -179,6 +177,9 @@ export default {
 <style lang="scss">
   .image_popup {
     box-shadow: none !important;
+  }
+  .btn__content {
+    padding: 5px 15px ;
   }
 </style>
 <style lang="scss" scoped>
@@ -258,5 +259,7 @@ export default {
     padding: 0 15px;
     overflow: hidden;
     box-shadow: inset 0px -18px 12px -1px rgba(255, 255, 255, 0.75);
+
   }
+
 </style>

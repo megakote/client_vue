@@ -19,7 +19,9 @@
         />
       </v-stepper-content>
       <v-stepper-content step="3">
-        <step-three/>
+        <step-three
+          :stage="stage"
+        />
       </v-stepper-content>
     </v-stepper>
   </div>

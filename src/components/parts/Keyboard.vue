@@ -3,11 +3,12 @@
     v-if="visible && modalVisible"
     v-model="input"
     :layouts="[
-        '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю{shift:goto:1}|{очистить:clear}{пробел:space}{найти:send}',
-        '!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{найти:send}'
+        '{Х:close}1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю{shift:goto:1}|{очистить:clear}{пробел:space}{найти:send}',
+        '{Х:close}!@#$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ{shift:goto:0}|{очистить:clear}{пробел:space}{найти:send}'
     ]"
     :maxlength="0"
     @send="send"
+    @close="close"
 ></keyboard>
 </template>
 
@@ -53,8 +54,9 @@ export default {
       this.$store.dispatch('modal_visible', false)
       this.$router.push({ name: 'Search' })
     },
-    clear(){
+    close () {
       this.input = '';
+      this.$store.dispatch('modal_visible', false)
     }
   }
 }
