@@ -41,12 +41,12 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn class="darken-1" error @click.native="cancel_dialog_state = false">
-            Отмена
+            Нет
             <v-icon right dark>cancel</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn class="darken-1" primary @click.native="completeOrder('cancel')">
-            Согласен
+            Да
             <v-icon right dark>done</v-icon>
           </v-btn>
           <v-spacer></v-spacer>

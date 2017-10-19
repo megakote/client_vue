@@ -136,9 +136,7 @@ export default {
     Vue.http.options.emulateHTTP = true
     let data = JSON.stringify(contacts)
     Vue.http.post('http://client.my/api/cart/add_contacts', {contacts: data}).then(response => {
-      /*
-        TODO: Тут очищаем сессию и корзину
-      */
+
       console.log(123)
 
     }, response => {

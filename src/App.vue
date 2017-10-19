@@ -14,6 +14,7 @@
 </template>
 
 <script>
+document.ondragstart=function(){return false}
   export default {
     data: function () {
       return {

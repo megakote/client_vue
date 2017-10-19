@@ -50,6 +50,7 @@
         <v-card-title>
           <div class="headline">{{ name }}</div>
         </v-card-title>
+        <span class="subheadline">Доступно для заказа: {{ stock }}{{ unit }}</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
             :val="count"
