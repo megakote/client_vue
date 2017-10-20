@@ -16,7 +16,9 @@ const store = new Vuex.Store({
     search_input: '',
     results: [],
     categorys: [],
-    product: [],
+    product: {
+      image: [],
+    },
     products: [],
     cart: [],
     session: { //Данные активной сессии

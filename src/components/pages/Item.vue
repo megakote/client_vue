@@ -4,13 +4,13 @@
       <v-flex xs6>
         <div class="product_images">
           <div class="main_img"
-            :style="'background-image: url(' + item.images[activeImage] + ')'"
+            :style="'background-image: url(' + item.image[activeImage] + ')'"
             @click.stop="dialog.image = true"
           ></div>
           <ul class="product_images_thumbs">
             <li
-              v-for="(image, i) in item.images"
-              v-if="item.images.length > 1"
+              v-for="(image, i) in item.image"
+              v-if="item.image.length > 1"
               :key="i"
               :class="{active: activeImage == i}"
               :style="'background-image: url('+ image +')'"
@@ -43,7 +43,7 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialog.image" width="auto" :content-class="'image_popup'">
-      <img :src="item.images[activeImage]" :alt="item.name" />
+      <img :src="item.image[activeImage]" :alt="item.name" />
     </v-dialog>
     <v-dialog v-model="dialog.state" width="460px" lazy absolute>
       <v-card>

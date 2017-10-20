@@ -26,7 +26,7 @@ export default {
     input: function () {
       let input = this.input.replace(/\s+/g,' ').trim()
       if (input == 'обновить') {
-        document.location.href = "/";
+        document.location.href = "/category";
       }
       this.$store.dispatch('search_input', input)
     },
