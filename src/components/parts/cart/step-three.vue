@@ -4,7 +4,7 @@
       <h2>Необходимо внести минимум {{minimum}}р</h2>
       <h3>Вы внесли {{cashIn}}р</h3>
       <h3 v-if="cashNeed > 0">Осталось внести {{cashNeed}}р</h3>
-      <h3 v-else-if="cashNeed < 0">Сдачу в {{cashNeed * -1}}р вам вернет курьер</h3>
+      <h3 v-else-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</h3>
       <div v-if="cashActive" class="btn_wrapper">
         <v-btn @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
         <v-spacer></v-spacer>
@@ -58,9 +58,16 @@
 
 <script>
 
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
+import axios from 'axios'
+var instance = axios.create({
+  baseURL: 'http://backend.my/api/cash/',
+  //timeout: 1000,
+  // headers: {
+  //   'Accept': 'application/json',
+  //   //'Content-type': 'application/json'
+  // },
+  // responseType: 'json',
+});
 
 export default {
   name: 'step-three',
@@ -79,10 +86,13 @@ export default {
   props: ['stage'],
   methods: {
     pauseCash() {
-      Vue.http.get('http://client.my/api/cash/pause').then(response => {
-        // this.cashActive = false
-        clearInterval(this.timer)
-      })
+      instance.get('pause')
+        .then(function (response) {
+          clearInterval(this.timer)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     startCash() {
       /*
@@ -93,9 +103,10 @@ export default {
         Запускаем приемку денег
       */
       this.timeEnd = new Date().getTime() + this.timeout
-      Vue.http.options.emulateJSON = true
-      Vue.http.options.emulateHTTP = true
-      Vue.http.post('http://client.my/api/cash/start', {cash: this.minimum})
+      instance.post('start', {cash: this.minimum})
+        .catch(function (error) {
+          console.log(error);
+        })
       this.cashActive = true
       let _this = this
       this.timer = setInterval(function() {
@@ -110,9 +121,13 @@ export default {
       /*
         Получаем количество введенных купюр
       */
-      Vue.http.get('http://client.my/api/cash/summ').then(response => {
-        this.cashIn = response.body;
-      })
+      instance.get('summ')
+        .then(function (response) {
+          this.cashIn = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     completeOrder(reason){
       clearInterval(this.timer)
@@ -133,9 +148,9 @@ export default {
       return summ
     },
     minimum () {
-      let min = this.summ*0.7/100;
+      let min = this.summ*0.5/50;
       min = Math.ceil(min)
-      return min*100
+      return min*50
     },
     cashNeed () {
       return this.minimum - this.cashIn

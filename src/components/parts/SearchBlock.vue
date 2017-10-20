@@ -23,7 +23,6 @@ export default {
   methods: {
     show: function(e) {
       this.$store.dispatch('keyboard_visible', true)
-
     }
   },
   computed: {

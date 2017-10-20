@@ -2,11 +2,31 @@
   Экшены ТОЛЬКО получают данные и посредством commit (mutation) передают в хранилище state
 */
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
 import Snotify from 'vue-snotify'
+
 Vue.use(Snotify)
+
+import axios from 'axios'
+var instance = axios.create({
+  baseURL: 'http://backend.my/api/',
+  //timeout: 1000,
+  // headers: {
+  //   'Accept': 'application/json',
+  //   //'Content-type': 'application/json'
+  // },
+  // responseType: 'json',
+});
+
 export default {
+  // sendPost ({ commit }, url, data = {}) {
+  //   axios.post('url', data)
+  //     .then(function (response) {
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // },
   addData({ commit }, data){    // Добавляет данные в объект store
     commit('add', { type: data.type, items: data.items })
   },
@@ -61,15 +81,14 @@ export default {
     /*
       Добавляем товар в корзину на сервере
     */
-    Vue.http.options.emulateJSON = true
-    Vue.http.options.emulateHTTP = true
-    Vue.http.post('http://client.my/api/cart/add', {data: query}).then(response => {
-      let data = response.body;
-      commit('set', { type: 'cart', items: data })
-
-    }, response => {
-      // error callback
-    });
+    instance.post('cart/add', {data: query})
+      .then(function (response) {
+        let data = response.data;
+        commit('set', { type: 'cart', items: data })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
   changeCount({ commit }, query){
     commit('change', { type: 'cart', id: query.id, count: query.val })
@@ -77,71 +96,78 @@ export default {
   search_input({ commit }, query){
     commit('set', { type: 'search_input', items: query })
   },
+  getProduct({ commit }, id){
+    console.log(id)
+    commit('set', { type: 'product', items: [] })
+    instance.get('product/' + id)
+      .then(function (response) {
+        let data = response.data
+        if (data.image[0] == "nothing/nothing.jpg") {
+          data.images[0] = "/static/images/no_photo.jpg"
+        } else {
+          let images = data.image.map(function(image) {
+            return "http://client.my/prods_images/" + data.guid + '/' + image
+          });
+          data.images = images
+        }
+        commit('set', { type: 'product', items: data })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
   getProducts({ commit }, id){
     /*
       Получаем дочерние товары категории id
     */
     commit('set', { type: 'products', items: [] })
-    let query
-    let resource = Vue.resource('http://client.my/api/products{/id}')
-    resource.get({id: id}).then(response => {
-
-      query = response.body
-      commit('set', { type: 'products', items: query })
-
-    }, response => {
-      // error callback
-    });
-
+    instance.get('products/' + id)
+      .then(function (response) {
+        let data = response.data
+        commit('set', { type: 'products', items: data })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
-  getCategory({ commit }, id){
+  getCategory({ commit }, id = ''){
     /*
       Получаем список дочерних категорий для id
       Если id не передан, отдаем категории нулевого уровня
     */
     commit('set', { type: 'categorys', items: [] })
-    let query = []
-    let resource = Vue.resource('http://client.my/api/category{/id}')
-    resource.get({id: id}).then(response => {
 
-      if(response.body){
-        query = response.body
-      }
-      commit('set', { type: 'categorys', items: query })
-
-    }, response => {
-      // error callback
-    });
+    instance.get('category/' + id)
+      .then(function (response) {
+        let data = (response.data) ? response.data : []
+        commit('set', { type: 'categorys', items: data })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
   getCart({ commit }){
     /*
       Получаем список товаров в корзине
     */
-    let query
-    let resource = Vue.resource('http://client.my/api/cart')
-    resource.get().then(response => {
-
-      query = response.body;
-      commit('set', { type: 'cart', items: query })
-
-    }, response => {
-      // error callback
-    });
+    instance.get('cart')
+      .then(function (response) {
+        let query = response.data;
+        commit('set', { type: 'cart', items: query })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
-  clearCart ({ commit }) {
-    commit('set', { type: 'cart', items: [] })
-  },
+  // clearCart ({ commit }) {
+  //   commit('set', { type: 'cart', items: [] })
+  // },
   addContacts ({ commit, state }, contacts) {
-    Vue.http.options.emulateJSON = true
-    Vue.http.options.emulateHTTP = true
-    let data = JSON.stringify(contacts)
-    Vue.http.post('http://client.my/api/cart/add_contacts', {contacts: data}).then(response => {
 
-      console.log(123)
-
-    }, response => {
-      // error callback
-    });
+    instance.post('cart/add_contacts', {contacts: data})
+      .catch(function (error) {
+        console.log(error);
+      });
   },
   completeOrder ({ commit }, reason) {
     /*

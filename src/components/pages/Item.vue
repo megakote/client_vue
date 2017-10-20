@@ -4,13 +4,13 @@
       <v-flex xs6>
         <div class="product_images">
           <div class="main_img"
-            :style="'background-image: url(' + images[activeImage] + ')'"
+            :style="'background-image: url(' + item.images[activeImage] + ')'"
             @click.stop="dialog.image = true"
           ></div>
           <ul class="product_images_thumbs">
             <li
-              v-for="(image, i) in images"
-              v-if="images.length > 1"
+              v-for="(image, i) in item.images"
+              v-if="item.images.length > 1"
               :key="i"
               :class="{active: activeImage == i}"
               :style="'background-image: url('+ image +')'"
@@ -21,10 +21,10 @@
         </div>
       </v-flex>
       <v-flex xs6>
-        <h2>{{ name }}</h2>
-        <h6>{{ category }}</h6>
-        <span class="price"><b>Цена:</b> {{ price }} р.</span>
-        <span class="stock"><b>На складе:</b> {{ stock }} {{ unit }}</span>
+        <h2>{{ item.name }}</h2>
+        <h6>{{ item.parent }}</h6>
+        <span class="price"><b>Цена:</b> {{ item.price }} р.</span>
+        <span class="stock"><b>На складе:</b> {{ item.count }} {{ item.unit }}</span>
         <div class="actions_wrapper">
           <v-btn primary large dark @click.stop="dialogShow">
             <v-icon>add_shopping_cart</v-icon>
@@ -34,28 +34,28 @@
       </v-flex>
     </v-layout>
 
-    <div class="description" @click.stop="descriptionDialogShow()" v-html="description"></div>
+    <div class="description" @click.stop="descriptionDialogShow()" v-html="item.description"></div>
 
     <v-dialog v-model="dialog.description" width="100%" lazy absolute>
       <v-card>
-        <v-card-title class="headline">{{name}}</v-card-title>
-        <v-card-text v-html="description"></v-card-text>
+        <v-card-title class="headline">{{item.name}}</v-card-title>
+        <v-card-text v-html="item.description"></v-card-text>
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialog.image" width="auto" :content-class="'image_popup'">
-      <img :src="images[activeImage]" :alt="name" />
+      <img :src="item.images[activeImage]" :alt="item.name" />
     </v-dialog>
     <v-dialog v-model="dialog.state" width="460px" lazy absolute>
       <v-card>
         <v-card-title>
-          <div class="headline">{{ name }}</div>
+          <div class="headline">{{ item.name }}</div>
         </v-card-title>
-        <span class="subheadline">Доступно для заказа: {{ stock }}{{ unit }}</span>
+        <span class="subheadline">Доступно для заказа: {{ item.count }}{{ item.unit }}</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
-            :val="count"
+            :val="1"
             :min="1"
-            :max="stock"
+            :max="item.count"
             :id="id"
             :full=true
             @change="countChange"
@@ -78,10 +78,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
-
 export default {
   name: 'item',
   data () {
@@ -91,22 +87,16 @@ export default {
         description: false,
         image: false,
       },
-      name: '',
-      category: '',
-      guid: 0,
-      price: 0,
-      count: 1,
-      stock: 0,
-      unit: '',
-      description: '',
-      images: [],
       activeImage: 0
     }
   },
   computed: {
     id () {
       return this.$route.params.id
-    }
+    },
+    item () {
+      return this.$store.getters.product
+    },
   },
   methods: {
     setActive (i) {
@@ -116,14 +106,17 @@ export default {
       this.count = val
     },
     addCart () {
-      this.$store.dispatch('addCartProduct', {id: this.id, count: this.count})
+      this.$store.dispatch('addCartProduct', {id: this.id, count: this.item.count})
       this.dialog.state = false
-      this.$snotify.success('Добавлен в корзину ' + this.count + ' ' + this.unit, this.name, {
+      this.$snotify.success('Добавлен в корзину ' + this.item.count + ' ' + this.item.unit, this.item.name, {
         timeout: 5000,
         showProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false
       });
+    },
+    getProduct () {
+      this.$store.dispatch('getProduct', this.id)
     },
     dialogShow () {
       this.dialog.state = true
@@ -133,44 +126,8 @@ export default {
     }
   },
   mounted: function() {
-    this.count = 1
     this.activeImage = 0
-    // Сбросим старые данные, чтобы не было мельканий
-    this.name = ''
-    this.category = ''
-    this.price = 0
-    this.stock = 0
-    this.guid = 0
-    this.unit = ''
-    this.description = ''
-    this.images = []
-    // Закончили сброс )
-    let data
-    let id = this.id
-    let resource = Vue.resource('http://client.my/api/product{/id}')
-    resource.get({id: id}).then(response => {
-      data = response.body;
-      this.name = data.name
-      this.category = data.parent
-      this.price = data.price
-      this.stock = data.count
-      this.guid = data.guid
-      this.unit = data.unit
-      this.description = data.description
-      if (data.image[0] == "nothing/nothing.jpg") {
-        this.images[0] = "/static/images/no_photo.jpg"
-      } else {
-        let images = data.image.map(function(image) {
-          return "http://client.my/prods_images/" + data.guid + '/' + image
-        });
-        console.log(images)
-        this.images = images
-      }
-
-    }, response => {
-      // error callback
-    });
-
+    this.getProduct()
   }
 }
 </script>

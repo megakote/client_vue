@@ -125,7 +125,7 @@ export default {
       this.dialog.id = id
       this.dialog.name = name
       this.dialog.unit = unit
-      this.dialog.count = 1
+      this.dialog.count = 0
       this.dialog.max = max
       this.dialog.state = true
     },
@@ -196,30 +196,30 @@ export default {
     width: 24px;
   }
 
-  .dialog {
-    .btn {
-      margin: 0 30px;
-      height: 50px;
-      width: 163px;
-    }
-    .card__actions {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-    .subheadline {
-      padding: 16px;
-    }
-    .input-number_wrapper {
-      text-align: center;
-      margin: 20px auto;
-      .input-number,
-      .input-number-decrement,
-      .input-number-increment {
-        height: 60px;
-        width: 60px !important;
-        line-height: 60px;
-      }
-    }
-  }
+  // .dialog {
+  //   .btn {
+  //     margin: 0 30px;
+  //     height: 50px;
+  //     width: 163px;
+  //   }
+  //   .card__actions {
+  //     padding-top: 20px;
+  //     padding-bottom: 20px;
+  //   }
+  //   .subheadline {
+  //     padding: 16px;
+  //   }
+  //   .input-number_wrapper {
+  //     text-align: center;
+  //     margin: 20px auto;
+  //     .input-number,
+  //     .input-number-decrement,
+  //     .input-number-increment {
+  //       height: 60px;
+  //       width: 60px !important;
+  //       line-height: 60px;
+  //     }
+  //   }
+  // }
 
 </style>
