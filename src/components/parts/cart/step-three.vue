@@ -23,7 +23,7 @@
         <v-card-text>Тут нужны текст</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.native="completeOrder('complete')">
+          <v-btn class="darken-1" primary @click.stop="completeOrder('complete')">
             Печать чека
             <v-icon right dark>done</v-icon>
           </v-btn>
@@ -77,7 +77,7 @@ export default {
       complete_dialog_state: false, // Окно для завершения заказа
       cancel_dialog_state: false, // Окно для отмены заказа
       cashActive: false, // Запущен ли прием налички
-      timeout: 30000, // Через сколько прекращать прием денег
+      timeout: 45, // Через сколько прекращать прием денег
       timeEnd: 0, // Во сколько прерктить прием
       cashIn: 0, //Внесенная сумма
       timer: null, // Ссылка на цикл
@@ -102,7 +102,7 @@ export default {
       /*
         Запускаем приемку денег
       */
-      this.timeEnd = new Date().getTime() + this.timeout
+      this.timeEnd = Math.floor(Date.now() / 1000) + this.timeout
       instance.post('start', {cash: this.minimum})
         .catch(function (error) {
           console.log(error);
@@ -110,9 +110,15 @@ export default {
       this.cashActive = true
       let _this = this
       this.timer = setInterval(function() {
-        if (new Date().getTime() > this.timeEnd) {
+        if (Math.floor(Date.now() / 1000) > _this.timeEnd) {
           _this.cashActive = false
-          clearInterval(_this.timer)
+          if (_this.cashIn != 0) {
+            // TODO потом впишем дргуие причины
+            _this.completeOrder('complete')
+          } else {
+            _this.completeOrder('timeout')
+          }
+
         }
         _this.getCash()
       }, 2000)
@@ -121,9 +127,11 @@ export default {
       /*
         Получаем количество введенных купюр
       */
+      let _this = this
       instance.get('summ')
         .then(function (response) {
-          this.cashIn = response.data;
+          console.log(response.data)
+          _this.cashIn = (response.data) ? response.data : 0;
         })
         .catch(function (error) {
           console.log(error);
@@ -163,7 +171,7 @@ export default {
         this.pauseCash()
         this.complete_dialog_state = true
       }
-      this.timeEnd = new Date().getTime() + this.timeout
+      this.timeEnd = Math.floor(Date.now() / 1000) + this.timeout
     },
     stage () {
       // Тут запустим прием при переходе на экран - как именно я хз

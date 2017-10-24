@@ -42,8 +42,8 @@
       </div>
     </div>
     <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
-    <v-btn primary @click.native="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
-    <v-btn flat @click="clear">Очистить</v-btn>
+    <v-btn primary @click.stop="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
+    <v-btn flat @click.stop="cancel_dialog_state = true" class="clear">Очистить</v-btn>
     <v-dialog v-model="dialog.state" width="500px" lazy absolute>
       <v-card>
         <v-card-title>
@@ -70,6 +70,28 @@
             Обновить
             <v-icon right dark>done</v-icon>
           </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="cancel_dialog_state" width="500px" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">Очистка корзины</div>
+        </v-card-title>
+        <v-card-text>
+          <h4>ВНИМАНИЕ!</h4> Ваш заказ не будет обработан, вы уверены что хотите очистить корзину ?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" error @click.native="cancel_dialog_state = false">
+            Нет
+            <v-icon right dark>cancel</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" primary @click.native="clear">
+            Да
+            <v-icon right dark>done</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,6 +133,7 @@ export default {
         count: 1,
         id: null
       },
+      cancel_dialog_state: false,
       tempCount: 0,
     }
   },
@@ -154,7 +177,7 @@ export default {
       }
     },
     clear () {
-      this.$store.dispatch('completeOrder', 'canceled')
+      this.$store.dispatch('completeOrder', 'cancel')
       this.$router.push({ name: 'Categorys'})
     },
     fullInput (guid, val, max, name, unit) {
@@ -186,6 +209,9 @@ export default {
   }
 
   .cart_page {
+    .clear {
+      float: left !important;
+    }
     .table_list_wrapper {
       height: 536px;
     }

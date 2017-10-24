@@ -10,7 +10,8 @@ import search from '@/components/pages/Search'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  //mode: 'history',
+  mode: 'abstract',
   routes: [
     {
       path: '/category/:id?',

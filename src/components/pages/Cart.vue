@@ -33,7 +33,6 @@ export default {
   data () {
     return {
       stage: 0,
-      validate: false
     }
   },
   computed: {

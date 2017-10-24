@@ -212,7 +212,7 @@ export default {
       .input-number-decrement,
       .input-number-increment {
         height: 60px;
-        width: 60px !important;
+      //  width: 60px !important;
         line-height: 60px;
       }
     }

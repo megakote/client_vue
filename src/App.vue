@@ -14,15 +14,20 @@
 </template>
 
 <script>
-document.ondragstart=function(){return false}
+  document.ondragstart=function(){return false}
   export default {
-    data: function () {
+    data () {
       return {
         title: 'Клуб мастеров',
-        history: [] // История переходов в сессии
+        history: [], // История переходов в сессии
+        no_active_delay: 600, // Количество секунд простоя мыши, при котором пользователь считается неактивным
+        now_no_active: 0, // Текущее количество секунд простоя мыши
       }
     },
     methods: {
+      activeUser() {
+        this.now_no_active = 0; // Обнуляем счётчик простоя секунд
+      }
     },
     computed: {
       url () {
@@ -36,6 +41,29 @@ document.ondragstart=function(){return false}
     },
     created: function () {
       this.$store.dispatch('getCart')
+      this.$router.push({ name: 'Categorys'})
+    },
+    mounted: function () {
+      let _this = this
+      this.$nextTick(function () {
+        document.onmousemove = () => {
+          _this.now_no_active = 0
+        }
+        setInterval(function() {
+          // Каждую секунду увеличиваем количество секунд простоя мыши
+          _this.now_no_active++
+        }, 1000)
+        setInterval(function() {
+          // Если простой слишком долгий то
+          if (_this.now_no_active >= _this.no_active_delay) {
+            // Если в корзину что-то положили
+            if (_this.$store.getters.cartProducts.length > 1) {
+              _this.$store.dispatch('completeOrder', 'timeout')
+            }
+            _this.$router.push({ name: 'Categorys'})
+          }
+        }, 1000)
+      })
     }
   }
 </script>

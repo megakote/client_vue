@@ -6,11 +6,14 @@ export default {
   set(state, { type, items }) {
     state[type] = items
   },
-  addDepth(state, { type, items }) {
-    state[type[0]][type[1]].push(items)
+  setDepth(state, { type, items }) {
+    state[type[0]][type[1]] = items
   },
   add(state, { type, items }) {
     state[type].push(items)
+  },
+  addDepth(state, { type, items }) {
+    state[type[0]][type[1]].push(items)
   },
   change(state, { type, id, count }) {
     let tempState = state[type]

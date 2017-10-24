@@ -149,9 +149,12 @@ export default {
     /*
       Отпрвляем завершенный заказ на сервер
     */
+    commit('set', { type: 'cart', items: [] })
+    commit('setDepth', { type: ['session','history'], items: [] })
+    //commit('set', { type: 'session.history', items: [] })
     instance.post('cart/complete', {reason: reason})
       .then(function (response) {
-        commit('set', { type: 'cart', items: [] })
+
       })
       .catch(function (error) {
         console.log(error);

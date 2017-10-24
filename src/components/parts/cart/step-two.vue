@@ -81,8 +81,7 @@ export default {
   },
   //props: ['formValidate'],
   computed: {
-    isValidate () {
-      return true
+    isValidate () {return true
       let hasTelNumber = this.contacts.tel.length == 18
       let hasName = this.contacts.name.length > 4
       let hasAddress = this.contacts.address.length > 5

@@ -53,7 +53,7 @@
         <span class="subheadline">Доступно для заказа: {{ item.count }}{{ item.unit }}</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
-            :val="1"
+            :val="0"
             :min="1"
             :max="item.count"
             :id="id"
@@ -82,6 +82,7 @@ export default {
   name: 'item',
   data () {
     return {
+      countSelected: 0, // Содержит введенное количество
       dialog: {
         state: false,
         description: false,
@@ -103,12 +104,12 @@ export default {
       this.activeImage = i
     },
     countChange (id, val) {
-      this.count = val
+      this.countSelected = val
     },
     addCart () {
-      this.$store.dispatch('addCartProduct', {id: this.id, count: this.item.count})
+      this.$store.dispatch('addCartProduct', {id: this.id, count: this.countSelected})
       this.dialog.state = false
-      this.$snotify.success('Добавлен в корзину ' + this.item.count + ' ' + this.item.unit, this.item.name, {
+      this.$snotify.success('Добавлен в корзину ' + this.countSelected + ' ' + this.item.unit, this.item.name, {
         timeout: 5000,
         showProgressBar: false,
         closeOnClick: true,
@@ -135,6 +136,7 @@ export default {
 <style lang="scss">
   .image_popup {
     box-shadow: none !important;
+    overflow: hidden;
   }
   .btn__content {
     padding: 5px 15px ;
