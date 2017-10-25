@@ -1,14 +1,17 @@
 <template>
   <div>
     <v-card class="lighten-1 z-depth-1 mb-5 tac" height="639px">
+      <h2>Сумма заказа {{ summ }}р</h2>
       <h2>Необходимо внести минимум {{minimum}}р</h2>
       <h3>Вы внесли {{cashIn}}р</h3>
       <h3 v-if="cashNeed > 0">Осталось внести {{cashNeed}}р</h3>
       <h3 v-else-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</h3>
       <div v-if="cashActive" class="btn_wrapper">
-        <v-btn @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
+        <v-btn v-if="cashIn == 0" @click.native="back()" warning dark large>Назад</v-btn>
         <v-spacer></v-spacer>
         <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
+        <v-spacer></v-spacer>
+        <v-btn @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
         <v-spacer></v-spacer>
       </div>
       <div v-else class="btn_wrapper">
@@ -86,9 +89,10 @@ export default {
   props: ['stage'],
   methods: {
     pauseCash() {
+      let _this = this
       instance.get('pause')
         .then(function (response) {
-          clearInterval(this.timer)
+          clearInterval(_this.timer)
         })
         .catch(function (error) {
           console.log(error);
@@ -130,7 +134,6 @@ export default {
       let _this = this
       instance.get('summ')
         .then(function (response) {
-          console.log(response.data)
           _this.cashIn = (response.data) ? response.data : 0;
         })
         .catch(function (error) {
@@ -142,8 +145,13 @@ export default {
       this.complete_dialog_state = false
       this.cancel_dialog_state = false
       this.$store.dispatch('top_bar_blocked', false)
-      this.$store.dispatch('completeOrder', reason)
+      this.$store.dispatch('completeOrder', reason, this.cashIn)
       this.$router.push({ name: 'Categorys'})
+    },
+    back () {
+      this.$store.dispatch('top_bar_blocked', false)
+      this.pauseCash()
+      this.$emit('changeStage', 2)
     },
   },
   computed: {

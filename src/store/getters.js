@@ -9,6 +9,9 @@ export default {
         return item
       })
     },
+    contacts(state) {
+      return state.session.contacts
+    },
     keyboard_visible(state) {
       return state.keyboard_visible
     },

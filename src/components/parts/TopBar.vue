@@ -73,6 +73,7 @@ export default {
     right: 10px;
     top: 0;
     bottom: 0;
+    width: 160px;
     &.active a {
       filter: none !important;
       i {

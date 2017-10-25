@@ -16,10 +16,12 @@
       <v-stepper-content step="2">
         <step-two
           @changeStage="changeStage"
+          :stage="stage"
         />
       </v-stepper-content>
       <v-stepper-content step="3">
         <step-three
+          @changeStage="changeStage"
           :stage="stage"
         />
       </v-stepper-content>

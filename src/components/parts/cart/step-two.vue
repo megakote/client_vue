@@ -2,15 +2,7 @@
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
-      <input
-        :class="{ active: contactFocus == 'name'}"
-        class="contact_input"
-        type="text"
-        placeholder="ФИО"
-        v-model="contacts.name"
-        @click="changeFocus('name')"
-      ></input>
-      <input
+        <input
         :class="{ active: contactFocus == 'tel'}"
         v-model="contacts.tel"
         class="contact_input"
@@ -18,6 +10,14 @@
         placeholder="+7 (999) 666-33-11"
         v-mask="'+7 (###) ###-##-##'"
         @click="changeFocus('tel')"
+      ></input>
+      <input
+        :class="{ active: contactFocus == 'name'}"
+        class="contact_input"
+        type="text"
+        placeholder="ФИО"
+        v-model="contacts.name"
+        @click="changeFocus('name')"
       ></input>
       <input
         :class="{ active: contactFocus == 'address'}"
@@ -28,6 +28,17 @@
         @click="changeFocus('address')"
       ></input>
       <keyboard
+        class="tel"
+        v-if="contactFocus == 'tel'"
+        v-model="contacts.tel"
+        :layouts="[
+          '123|456|789|{:backspace}0{Далее:nxt}'
+        ]"
+        :maxlength="0"
+        @nxt="changeFocus('name')"
+        @input="changed"
+      />
+      <keyboard
         v-if="contactFocus == 'name'"
         v-model="contacts.name"
         :layouts="[
@@ -36,18 +47,7 @@
         ]"
         :maxlength="0"
         @input="changed"
-        @nxt="changeFocus('tel')"
-      />
-      <keyboard
-        class="tel"
-        v-if="contactFocus == 'tel'"
-        v-model="contacts.tel"
-        :layouts="[
-          '123|456|789|{:backspace}0{Далее:nxt}'
-        ]"
-        :maxlength="0"
         @nxt="changeFocus('address')"
-        @input="changed"
       />
       <keyboard
         v-if="contactFocus == 'address'"
@@ -76,10 +76,10 @@ export default {
         tel: '',
         address: ''
       },
-      contactFocus: 'name',
+      contactFocus: 'tel',
     }
   },
-  //props: ['formValidate'],
+  props: ['stage'],
   computed: {
     isValidate () {return true
       let hasTelNumber = this.contacts.tel.length == 18
@@ -99,7 +99,9 @@ export default {
       this.$emit('changeStage', to)
     },
     changed(value) {
-      this.contacts[this.contacts.focus] = value.replace(/\s+/g,' ').trim()
+      //this.contacts[this.contactFocus] = value.replace(/\s+/g,'  ').trim()
+      console.log(this.contacts.address.length)
+
     },
     addContacts() {
       this.$store.dispatch('addContacts', this.contacts)
@@ -109,6 +111,11 @@ export default {
   watch: {
     isValidate (val) {
       //this.$emit('validate', val)
+    },
+    stage () {
+      if (this.stage == 2) {
+        this.contacts = this.$store.getters.contacts
+      }
     }
   }
 }

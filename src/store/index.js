@@ -25,6 +25,12 @@ const store = new Vuex.Store({
       startTime: Date.now() / 1000 | 0, // Время старта сессии в unixTime формате (только секунды)
       endTime: 0, // Время закрытия сессии, вычисляется при отправке на сервер.
       history: [], // История посещений
+      contacts: {
+        name: '',
+        email: '',
+        tel: '',
+        address: ''
+      },
       cart: [], // Корзина
     },
     config: {

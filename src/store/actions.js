@@ -139,20 +139,26 @@ export default {
   //   commit('set', { type: 'cart', items: [] })
   // },
   addContacts ({ commit, state }, contacts) {
+    commit('setDepth', { type: ['session','contacts'], items: contacts })
     let data = JSON.stringify(contacts)
     instance.post('cart/add_contacts', {contacts: data})
       .catch(function (error) {
         console.log(error);
       });
   },
-  completeOrder ({ commit }, reason) {
+  completeOrder ({ commit }, reason, cashin = 0) {
     /*
       Отпрвляем завершенный заказ на сервер
     */
     commit('set', { type: 'cart', items: [] })
+    commit('setDepth', { type: ['session','contacts'], items: {
+        name: '',
+        email: '',
+        tel: '',
+        address: ''
+      } })
     commit('setDepth', { type: ['session','history'], items: [] })
-    //commit('set', { type: 'session.history', items: [] })
-    instance.post('cart/complete', {reason: reason})
+    instance.post('cart/complete', {reason: reason, cashin: cashin})
       .then(function (response) {
 
       })
