@@ -11,23 +11,24 @@
         <v-spacer></v-spacer>
         <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
         <v-spacer></v-spacer>
-        <v-btn @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
+        <v-btn v-if="cashIn > 0 && cashIn < cashNeed" @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
+        <v-btn v-if="cashIn >= cashNeed" @click.native="completeOrder('complete', false)" primary dark large>Завершить заказ</v-btn>
         <v-spacer></v-spacer>
       </div>
-      <div v-else class="btn_wrapper">
+<!--       <div v-else class="btn_wrapper">
         <v-btn @click.native="complete_dialog_state = true"  primary dark large>Печать чека</v-btn>
-      </div>
+      </div> -->
     </v-card>
     <v-dialog v-model="complete_dialog_state" width="500px" lazy absolute persistent>
       <v-card>
         <v-card-title>
           <div class="headline">Заканчиваем заказ</div>
         </v-card-title>
-        <v-card-text>Тут нужны текст</v-card-text>
+        <v-card-text>Не забудьте забрать чек. Если чек не вышел, мы привезем его вместе с заказом</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.stop="completeOrder('complete')">
-            Печать чека
+          <v-btn class="darken-1" primary @click.stop="goHome">
+            Я понял
             <v-icon right dark>done</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
@@ -122,7 +123,6 @@ export default {
           } else {
             _this.completeOrder('timeout')
           }
-
         }
         _this.getCash()
       }, 2000)
@@ -140,12 +140,19 @@ export default {
           console.log(error);
         });
     },
-    completeOrder(reason){
+    completeOrder (reason, push = true) {
       clearInterval(this.timer)
       this.complete_dialog_state = false
       this.cancel_dialog_state = false
       this.$store.dispatch('top_bar_blocked', false)
-      this.$store.dispatch('completeOrder', reason, this.cashIn)
+      this.$store.dispatch('completeOrder', [reason, this.cashIn])
+      if (push) {
+        this.$router.push({ name: 'Categorys'})
+      } else {
+        this.complete_dialog_state = true
+      }
+    },
+    goHome () {
       this.$router.push({ name: 'Categorys'})
     },
     back () {
@@ -164,7 +171,12 @@ export default {
       return summ
     },
     minimum () {
-      let min = this.summ*0.5/50;
+      let min = 0;
+      if (this.summ < 50) {
+        min = this.summ*0.5/10
+      } else {
+        min = this.summ*0.5/50
+      }
       min = Math.ceil(min)
       return min*50
     },
@@ -174,9 +186,8 @@ export default {
   },
   watch: {
     cashIn: function () {
-      if (this.cashIn >= this.minimum) {
-        clearInterval(this.timer)
-        this.pauseCash()
+      if (this.cashIn >= this.summ) {
+        this.completeOrder('complete', false)
         this.complete_dialog_state = true
       }
       this.timeEnd = Math.floor(Date.now() / 1000) + this.timeout

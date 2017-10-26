@@ -25,14 +25,8 @@
       }
     },
     methods: {
-      activeUser() {
-        this.now_no_active = 0; // Обнуляем счётчик простоя секунд
-      }
     },
     computed: {
-      url () {
-        //return this.$resource('http://client.my')
-      }
     },
     watch: {
       '$route' (to, from) {
@@ -57,9 +51,11 @@
           // Если простой слишком долгий то
           if (_this.now_no_active >= _this.no_active_delay) {
             // Если в корзину что-то положили
-            if (_this.$store.getters.cartProducts.length > 1) {
-              _this.$store.dispatch('completeOrder', 'timeout')
+            if (_this.$store.getters.cartProducts.length > 0) {
+              _this.$store.dispatch('completeOrder', ['timeout'])
             }
+            _this.$store.dispatch('modal_visible', false)
+            _this.$store.dispatch('search_input', '')
             _this.$router.push({ name: 'Categorys'})
           }
         }, 1000)

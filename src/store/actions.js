@@ -43,7 +43,7 @@ export default {
     /*
       Получаем дочерние товары категории id
     */
-    instance.post('search', {params: {q: query}})
+    instance.post('search', {q: query})
       .then(function (response) {
         let data = (response.data) ? response.data : []
         commit('set', { type: 'products', items: data })
@@ -146,7 +146,7 @@ export default {
         console.log(error);
       });
   },
-  completeOrder ({ commit }, reason, cashin = 0) {
+  completeOrder ({ commit }, [reason, cashin = 0]) {
     /*
       Отпрвляем завершенный заказ на сервер
     */
