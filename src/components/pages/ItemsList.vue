@@ -129,7 +129,7 @@ export default {
       if (this.dialog.count > 0) {
         this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
         this.$snotify.success('Добавлен в корзину ' + this.dialog.count + ' ' + this.dialog.unit, this.dialog.name, {
-          timeout: 5000,
+          timeout: 4000,
           showProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false

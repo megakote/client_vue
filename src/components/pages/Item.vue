@@ -110,7 +110,7 @@ export default {
       this.$store.dispatch('addCartProduct', {id: this.id, count: this.countSelected})
       this.dialog.state = false
       this.$snotify.success('Добавлен в корзину ' + this.countSelected + ' ' + this.item.unit, this.item.name, {
-        timeout: 5000,
+        timeout: 4000,
         showProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false
