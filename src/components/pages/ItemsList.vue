@@ -78,7 +78,7 @@ export default {
         id: null
       },
       pagination: {
-        sortBy: 'column',
+        sortBy: 'name',
         page: 1,
         rowsPerPage: 10,
         descending: false,
