@@ -2,7 +2,7 @@
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
-       <input
+<!--        <input
         :class="{ active: contactFocus == 'tel'}"
         v-model="contacts.tel"
         class="contact_input"
@@ -10,23 +10,49 @@
         placeholder="+7 (ххх) ххх-хх-хх"
         v-mask="'+7 (###) ###-##-##'"
         @click="changeFocus('tel')"
-      ></input>
-      <input
+      ></input> -->
+      <v-text-field
+        label="номер"
+        value=""
+        prefix="+7"
+        :mask="'(###) ###-##-##'"
+        class="new_input"
+        placeholder=" (ххх) ххх-хх-хх"
+        v-model="contacts.tel"
+        @click="changeFocus('tel')"
+      ></v-text-field>
+<!--       <input
         :class="{ active: contactFocus == 'name'}"
         class="contact_input"
         type="text"
         placeholder="ФИО"
         v-model="contacts.name"
         @click="changeFocus('name')"
-      ></input>
-      <input
+      ></input> -->
+      <v-text-field
+        label="ФИО"
+        value=""
+        class="new_input"
+        placeholder="Иванов Петров"
+        v-model="contacts.name"
+        @click="changeFocus('name')"
+      ></v-text-field>
+<!--       <input
         :class="{ active: contactFocus == 'address'}"
         class="contact_input"
         type="text"
         placeholder="ул мира 150 кв 13"
         v-model="contacts.address"
         @click="changeFocus('address')"
-      ></input>
+      ></input> -->
+      <v-text-field
+        label="Адрес"
+        value=""
+        class="new_input"
+        placeholder="Адрес"
+        v-model="contacts.address"
+        @click="changeFocus('address')"
+      ></v-text-field>
       <keyboard
         class="tel"
         v-if="contactFocus == 'tel'"

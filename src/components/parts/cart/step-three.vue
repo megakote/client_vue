@@ -179,7 +179,11 @@ export default {
         min = this.summ*0.5/50
       }
       min = Math.ceil(min)
-      return min*50
+      if (this.summ < 50) {
+        return min*10
+      } else {
+        return min*50
+      }
     },
     cashNeed () {
       return this.minimum - this.cashIn
