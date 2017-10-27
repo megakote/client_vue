@@ -18,7 +18,10 @@
       <v-spacer></v-spacer>
       <div class="cart_wrapper" :class="{ active: cartCount > 0 }">
         <v-btn flat light class="teal--text" :to="{ name: 'Cart' }" :disabled="cartCount == 0">
-          <v-icon v-badge="{ value: cartCount, left: true}">shopping_cart</v-icon>
+          <v-badge left>
+            <span slot="badge">{{ cartCount }}</span>
+            <v-icon>shopping_cart</v-icon>
+          </v-badge>
         </v-btn>
       </div>
     </v-bottom-nav>

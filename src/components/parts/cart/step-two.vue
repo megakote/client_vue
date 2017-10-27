@@ -2,12 +2,12 @@
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
-        <input
+       <input
         :class="{ active: contactFocus == 'tel'}"
         v-model="contacts.tel"
         class="contact_input"
         type="tel"
-        placeholder="+7 (999) 666-33-11"
+        placeholder="+7 (ххх) ххх-хх-хх"
         v-mask="'+7 (###) ###-##-##'"
         @click="changeFocus('tel')"
       ></input>
@@ -60,7 +60,7 @@
         @input="changed"
       />
     </div>
-    <v-btn primary @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
+    <v-btn color="primary" @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
     <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
   </div>
 </template>
@@ -159,5 +159,14 @@ export default {
        box-shadow: 0px 1px 0px rgba(255,255,255,.25),inset 0px 3px 6px rgba(0,0,0,.25);
        outline: none;
     }
+    &[type="tel"] {
+      //padding-left: 30px;
+    }
+  }
+  .new_input {
+    display: block;
+    font-size: 16px;
+    width: 300px;
+    margin: 0 auto;
   }
 </style>

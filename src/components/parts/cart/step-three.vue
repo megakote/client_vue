@@ -5,14 +5,14 @@
       <h2>Необходимо внести минимум {{minimum}}р</h2>
       <h3>Вы внесли {{cashIn}}р</h3>
       <h3 v-if="cashNeed > 0">Осталось внести {{cashNeed}}р</h3>
-      <h3 v-else-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</h3>
+      <!-- <h3 v-else-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</h3> -->
       <div v-if="cashActive" class="btn_wrapper">
         <v-btn v-if="cashIn == 0" @click.native="back()" warning dark large>Назад</v-btn>
         <v-spacer></v-spacer>
         <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
         <v-spacer></v-spacer>
-        <v-btn v-if="cashIn > 0 && cashIn < cashNeed" @click.native="cancel_dialog_state = true" error dark large>Отмена заказа</v-btn>
-        <v-btn v-if="cashIn >= cashNeed" @click.native="completeOrder('complete', false)" primary dark large>Завершить заказ</v-btn>
+        <v-btn v-if="(cashIn > 0) && (cashIn < minimum)" @click.native="cancel_dialog_state = true" color="error" dark large>Отмена заказа</v-btn>
+        <v-btn v-if="cashIn >= cashNeed" @click.native="completeOrder('complete', false)" color="primary" dark large>Завершить заказ</v-btn>
         <v-spacer></v-spacer>
       </div>
 <!--       <div v-else class="btn_wrapper">
@@ -25,6 +25,7 @@
           <div class="headline">Заканчиваем заказ</div>
         </v-card-title>
         <v-card-text>Не забудьте забрать чек. Если чек не вышел, мы привезем его вместе с заказом</v-card-text>
+        <v-card-text v-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn class="darken-1" primary @click.stop="goHome">
@@ -81,7 +82,7 @@ export default {
       complete_dialog_state: false, // Окно для завершения заказа
       cancel_dialog_state: false, // Окно для отмены заказа
       cashActive: false, // Запущен ли прием налички
-      timeout: 45, // Через сколько прекращать прием денег
+      timeout: 120, // Через сколько прекращать прием денег
       timeEnd: 0, // Во сколько прерктить прием
       cashIn: 0, //Внесенная сумма
       timer: null, // Ссылка на цикл

@@ -10,18 +10,23 @@
         hide-actions
         class="elevation-2"
       >
-        <template slot="headerCell" scope="props">
-          <span v-tooltip:bottom="{ 'html': props.header.text }">
-            {{ props.header.text }}
-          </span>
+        <template slot="headerCell" slot-scope="props">
+          <v-tooltip bottom>
+            <span slot="activator">
+              {{ props.header.text }}
+            </span>
+            <span>
+              {{ props.header.text }}
+            </span>
+          </v-tooltip>
         </template>
-        <template slot="items" scope="props">
+        <template slot="items" slot-scope="props">
           <td><a href="#" @click.prevent="goPage(props.item.guid)">{{ props.item.name }}</a></td>
           <td class="text-xs-right">{{ props.item.price }} р.</td>
           <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
           <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
           <td class="text-xs-center">
-            <v-btn primary fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit)">
+            <v-btn color="primary" fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit)">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
           </td>
@@ -31,7 +36,7 @@
     <div class="pagination_wrapper text-xs-center pt-2">
       <v-pagination v-model="pagination.page" :length="pages" v-if="pages > 1" :total-visible="7"></v-pagination>
     </div>
-    <v-dialog v-model="dialog.state" width="500px" lazy absolute>
+    <v-dialog v-model="dialog.state" max-width="500px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ dialog.name }}</div>
@@ -47,12 +52,12 @@
           />
         <v-card-actions>
 
-          <v-btn class="darken-1" error @click.native="dialog.state = false">
+          <v-btn class="darken-1" color="error" @click.native="dialog.state = false">
             <v-icon left dark>block</v-icon>
             Отмена
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.native="buy_btn">
+          <v-btn class="darken-1" color="primary" @click.native="buy_btn">
             Добавить
             <v-icon right dark>done</v-icon>
           </v-btn>
@@ -78,7 +83,7 @@ export default {
         id: null
       },
       pagination: {
-        sortBy: 'column',
+        sortBy: 'name',
         page: 1,
         rowsPerPage: 10,
         descending: false,
@@ -94,7 +99,7 @@ export default {
         },
         { text: 'Цена', value: 'price' },
         { text: 'На складе', value: 'count' },
-        { text: '', value: '' }
+        { text: '', value: '', sortable: false }
       ],
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="remove_btn" @click="remove">
-    <v-btn primary fab meduim dark>
+    <v-btn color="primary" fab meduim dark>
       <v-icon>close</v-icon>
     </v-btn>
   </div>

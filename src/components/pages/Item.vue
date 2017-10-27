@@ -26,7 +26,7 @@
         <span class="price"><b>Цена:</b> {{ item.price }} р.</span>
         <span class="stock"><b>На складе:</b> {{ item.count }} {{ item.unit }}</span>
         <div class="actions_wrapper">
-          <v-btn primary large dark @click.stop="dialogShow">
+          <v-btn color="primary" large dark @click.stop="dialogShow">
             <v-icon>add_shopping_cart</v-icon>
             <span>В корзину</span>
           </v-btn>
@@ -36,16 +36,16 @@
 
     <div class="description" @click.stop="descriptionDialogShow()" v-html="item.description"></div>
 
-    <v-dialog v-model="dialog.description" width="100%" lazy absolute>
+    <v-dialog v-model="dialog.description" max-width="100%" lazy absolute>
       <v-card>
         <v-card-title class="headline">{{item.name}}</v-card-title>
         <v-card-text v-html="item.description"></v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="dialog.image" width="auto" :content-class="'image_popup'">
+    <v-dialog v-model="dialog.image" :content-class="'image_popup'">
       <img :src="item.image[activeImage]" :alt="item.name" />
     </v-dialog>
-    <v-dialog v-model="dialog.state" width="460px" lazy absolute>
+    <v-dialog v-model="dialog.state" max-width="460px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ item.name }}</div>
@@ -62,12 +62,12 @@
           />
         <v-card-actions>
 
-          <v-btn class="darken-1" error @click.native="dialog.state = false">
+          <v-btn class="darken-1" color="error" @click.native="dialog.state = false">
             <v-icon left dark>block</v-icon>
             Отмена
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.native="addCart">
+          <v-btn class="darken-1" color="primary" @click.native="addCart">
             Добавить
             <v-icon right dark>done</v-icon>
           </v-btn>
@@ -137,6 +137,10 @@ export default {
   .image_popup {
     box-shadow: none !important;
     overflow: hidden;
+    img {
+      display: block;
+      margin: 0 auto;
+    }
   }
   .btn__content {
     padding: 5px 15px ;

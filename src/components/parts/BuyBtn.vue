@@ -1,6 +1,6 @@
 <template>
   <div class="buy_btn" @click="buy(id)">
-    <v-btn primary fab small dark>
+    <v-btn color="primary" fab small dark>
       <v-icon>add_shopping_cart</v-icon>
     </v-btn>
   </div>

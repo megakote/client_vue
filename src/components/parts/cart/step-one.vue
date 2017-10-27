@@ -13,12 +13,17 @@
             transition="fade-transition"
             class="elevation-2"
           >
-            <template slot="headerCell" scope="props">
-              <span v-tooltip:bottom="{ 'html': props.header.text }">
-                {{ props.header.text }}
-              </span>
+            <template slot="headerCell" slot-scope="props">
+              <v-tooltip bottom>
+                <span slot="activator">
+                  {{ props.header.text }}
+                </span>
+                <span>
+                  {{ props.header.text }}
+                </span>
+              </v-tooltip>
             </template>
-            <template slot="items" scope="props">
+            <template slot="items" slot-scope="props">
               <td>{{ props.item.name }}</td>
               <td  class="text-xs-center">{{ props.item.price }} р.</td>
               <td  class="text-xs-center">
@@ -42,9 +47,9 @@
       </div>
     </div>
     <div class="summ">ИТОГО: <span> {{ summ }} </span> р.</div>
-    <v-btn primary @click.stop="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
+    <v-btn color="primary" @click.stop="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
     <v-btn flat @click.stop="cancel_dialog_state = true" class="clear">Очистить</v-btn>
-    <v-dialog v-model="dialog.state" width="500px" lazy absolute>
+    <v-dialog v-model="dialog.state" max-width="500px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">{{ dialog.name }}</div>
@@ -61,19 +66,19 @@
           />
         <v-card-actions>
 
-          <v-btn class="darken-1" error @click.native="dialog.state = false" style="float: left">
+          <v-btn class="darken-1" color="error" @click.native="dialog.state = false" style="float: left">
             <v-icon left dark>block</v-icon>
             Отмена
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.native="changeCount(dialog.id, tempCount)">
+          <v-btn class="darken-1" color="primary" @click.native="changeCount(dialog.id, tempCount)">
             Обновить
             <v-icon right dark>done</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="cancel_dialog_state" width="500px" lazy absolute>
+    <v-dialog v-model="cancel_dialog_state" max-width="500px" lazy absolute>
       <v-card>
         <v-card-title>
           <div class="headline">Очистка корзины</div>
@@ -82,12 +87,12 @@
           <h4>ВНИМАНИЕ!</h4> Ваш заказ не будет обработан, вы уверены что хотите очистить корзину ?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" error @click.native="cancel_dialog_state = false">
+          <v-btn class="darken-1" color="error" @click.native="cancel_dialog_state = false">
             Нет
             <v-icon right dark>cancel</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="darken-1" primary @click.native="clear">
+          <v-btn class="darken-1" color="primary" @click.native="clear">
             Да
             <v-icon right dark>done</v-icon>
           </v-btn>
@@ -123,7 +128,7 @@ export default {
         { text: 'Цена', align: 'center', value: 'price' },
         { text: 'Кол-во', align: 'center', value: 'count' },
         { text: 'На складе', value: 'stock' },
-        { text: '', value: '' }
+        { text: '', value: '', sortable: false }
       ],
       dialog: {
         name: null,
