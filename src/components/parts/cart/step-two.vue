@@ -2,56 +2,44 @@
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
-<!--        <input
-        :class="{ active: contactFocus == 'tel'}"
-        v-model="contacts.tel"
-        class="contact_input"
-        type="tel"
-        placeholder="+7 (ххх) ххх-хх-хх"
-        v-mask="'+7 (###) ###-##-##'"
-        @click="changeFocus('tel')"
-      ></input> -->
       <v-text-field
+        :rules="[
+          (v) => !!v || 'Номер телефон обязателен',
+          (v) => v.length == 10 || 'Введите номер телефона полностью',
+        ]"
+        :autofocus="true"
+        id="tel"
         label="номер"
         value=""
         prefix="+7"
         :mask="'(###) ###-##-##'"
         class="new_input"
+        :class="{ 'input-group--focused': contactFocus == 'tel'}"
         placeholder=" (ххх) ххх-хх-хх"
         v-model="contacts.tel"
         @click="changeFocus('tel')"
       ></v-text-field>
-<!--       <input
-        :class="{ active: contactFocus == 'name'}"
-        class="contact_input"
-        type="text"
-        placeholder="ФИО"
-        v-model="contacts.name"
-        @click="changeFocus('name')"
-      ></input> -->
       <v-text-field
+        id="name"
         label="ФИО"
         value=""
         class="new_input"
+        :class="{ 'input-group--focused': contactFocus == 'name'}"
         placeholder="Иванов Петров"
         v-model="contacts.name"
         @click="changeFocus('name')"
+        :rules="[(v) => (v.length >= 5) || 'Минимум 5 символов']"
       ></v-text-field>
-<!--       <input
-        :class="{ active: contactFocus == 'address'}"
-        class="contact_input"
-        type="text"
-        placeholder="ул мира 150 кв 13"
-        v-model="contacts.address"
-        @click="changeFocus('address')"
-      ></input> -->
       <v-text-field
+        id="address"
         label="Адрес"
         value=""
         class="new_input"
+        :class="{ 'input-group--focused': contactFocus == 'address'}"
         placeholder="Адрес"
         v-model="contacts.address"
         @click="changeFocus('address')"
+        :rules="[(v) => (v.length >= 6) || 'Минимум 6 символов']"
       ></v-text-field>
       <keyboard
         class="tel"
@@ -74,6 +62,7 @@
         :maxlength="0"
         @input="changed"
         @nxt="changeFocus('address')"
+        :rules="[(v) => v.length <= 5 || 'Минимум 6 символов']"
       />
       <keyboard
         v-if="contactFocus == 'address'"
@@ -108,7 +97,7 @@ export default {
   props: ['stage'],
   computed: {
     isValidate () {
-      let hasTelNumber = this.contacts.tel.length == 18
+      let hasTelNumber = this.contacts.tel.length == 10
       let hasName = this.contacts.name.length > 4
       let hasAddress = this.contacts.address.length > 5
       if (hasTelNumber && hasName && hasAddress) {
@@ -120,13 +109,17 @@ export default {
   methods: {
     changeFocus (to) {
       this.contactFocus = to
+      document.getElementById(to).focus()
     },
     changeStage (to) {
       this.$emit('changeStage', to)
     },
     changed(value) {
       //this.contacts[this.contactFocus] = value.replace(/\s+/g,'  ').trim()
-      console.log(this.contacts.address.length)
+      console.log(this.contacts.tel.length)
+      if (this.contacts.tel.length > 10) {
+        this.contacts.tel = this.contacts.tel.substring(0, 10)
+      }
 
     },
     addContacts() {
