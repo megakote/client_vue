@@ -12,7 +12,7 @@
         <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" class="purple--text"></v-progress-circular>
         <v-spacer></v-spacer>
         <v-btn v-if="(cashIn > 0) && (cashIn < minimum)" @click.native="cancel_dialog_state = true" color="error" dark large>Отмена заказа</v-btn>
-        <v-btn v-if="cashIn >= cashNeed" @click.native="completeOrder('complete', false)" color="primary" dark large>Завершить заказ</v-btn>
+        <v-btn v-if="cashIn >= minimum" @click.native="completeOrder('complete', false)" color="primary" dark large>Завершить заказ</v-btn>
         <v-spacer></v-spacer>
       </div>
 <!--       <div v-else class="btn_wrapper">
