@@ -31,7 +31,7 @@ export default {
       this.$store.dispatch('search_input', input)
     },
     modalVisible: function () {
-      //this.input = ''
+      this.input = ''
     },
     visible: function () {
       if (this.visible) {

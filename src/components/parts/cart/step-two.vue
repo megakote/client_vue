@@ -54,24 +54,26 @@
       />
       <keyboard
         v-if="contactFocus == 'name'"
-        v-model="contacts.name"
+        v-model.trim="contacts.name"
         :layouts="[
-          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{Далее:nxt}',
-          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{Далее:nxt}'
+          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{Назад:prv}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{Далее:nxt}',
+          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{Назад:prv}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{Далее:nxt}'
         ]"
         :maxlength="0"
         @input="changed"
         @nxt="changeFocus('address')"
+        @prv="changeFocus('tel')"
         :rules="[(v) => v.length <= 5 || 'Минимум 6 символов']"
       />
       <keyboard
         v-if="contactFocus == 'address'"
-        v-model="contacts.address"
+        v-model.trim="contacts.address"
         :layouts="[
-          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{shift:goto:1}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
-          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{shift:goto:0}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
+          '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{Назад:prv}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
+          '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{Назад:prv}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
         ]"
         :maxlength="0"
+        @prv="changeFocus('name')"
         @input="changed"
       />
     </div>
@@ -115,12 +117,9 @@ export default {
       this.$emit('changeStage', to)
     },
     changed(value) {
-      //this.contacts[this.contactFocus] = value.replace(/\s+/g,'  ').trim()
-      console.log(this.contacts.tel.length)
       if (this.contacts.tel.length > 10) {
         this.contacts.tel = this.contacts.tel.substring(0, 10)
       }
-
     },
     addContacts() {
       this.$store.dispatch('addContacts', this.contacts)

@@ -16,16 +16,16 @@
         <v-spacer></v-spacer>
       </div>
 <!--       <div v-else class="btn_wrapper">
-        <v-btn @click.native="complete_dialog_state = true"  primary dark large>Печать чека</v-btn>
+        <v-btn @click.native="complete_dialog.state = true"  primary dark large>Печать чека</v-btn>
       </div> -->
     </v-card>
-    <v-dialog v-model="complete_dialog_state" width="500px" lazy absolute persistent>
+    <v-dialog v-model="complete_dialog.state" max-width="500px" lazy absolute persistent>
       <v-card>
         <v-card-title>
           <div class="headline">Заканчиваем заказ</div>
         </v-card-title>
         <v-card-text>Не забудьте забрать чек. Если чек не вышел, мы привезем его вместе с заказом</v-card-text>
-        <v-card-text v-if="summ < cashIn">Сдачу в {{ cashIn - summ }}р вам вернет курьер</v-card-text>
+        <v-card-text v-if="complete_dialog.summ < complete_dialog.cashIn">Сдачу в {{ complete_dialog.cashIn - complete_dialog.summ }}р вам вернет курьер</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn class="darken-1" primary @click.stop="goHome">
@@ -36,7 +36,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="cancel_dialog_state" width="500px" lazy absolute persistent>
+    <v-dialog v-model="cancel_dialog_state" max-width="500px" lazy absolute persistent>
       <v-card>
         <v-card-title>
           <div class="headline">Отмена заказа</div>
@@ -79,7 +79,11 @@ export default {
   data () {
     return {
       complete_btn_state: false, // Кнопка для вызова окна завершения
-      complete_dialog_state: false, // Окно для завершения заказа
+      complete_dialog: {
+        state: false,
+        cashIn: 0,
+        summ: 0
+      },
       cancel_dialog_state: false, // Окно для отмены заказа
       cashActive: false, // Запущен ли прием налички
       timeout: 120, // Через сколько прекращать прием денег
@@ -143,14 +147,19 @@ export default {
     },
     completeOrder (reason, push = true) {
       clearInterval(this.timer)
-      this.complete_dialog_state = false
+      //Передадим данные во всплывашку
+      this.complete_dialog.cashIn = this.cashIn
+      this.complete_dialog.summ = this.summ
+      //Скроем всплыашки (не помню зачем)
+      this.complete_dialog.state = false
       this.cancel_dialog_state = false
+
       this.$store.dispatch('top_bar_blocked', false)
       this.$store.dispatch('completeOrder', [reason, this.cashIn])
       if (push) {
         this.$router.push({ name: 'Categorys'})
       } else {
-        this.complete_dialog_state = true
+        this.complete_dialog.state = true
       }
     },
     goHome () {
@@ -169,6 +178,7 @@ export default {
       items.forEach(function(item, i, arr) {
         summ += item.price*item.count
       });
+      summ = (summ < 2000) ? summ + 300 : summ
       return summ
     },
     minimum () {
@@ -193,7 +203,7 @@ export default {
     cashIn: function () {
       if (this.cashIn >= this.summ) {
         this.completeOrder('complete', false)
-        this.complete_dialog_state = true
+        this.complete_dialog.state = true
       }
       this.timeEnd = Math.floor(Date.now() / 1000) + this.timeout
     },
