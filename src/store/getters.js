@@ -12,6 +12,9 @@ export default {
     contacts(state) {
       return state.session.contacts
     },
+    banners_visible(state) {
+      return state.banners_visible
+    },
     keyboard_visible(state) {
       return state.keyboard_visible
     },

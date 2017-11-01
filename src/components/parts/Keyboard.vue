@@ -26,17 +26,16 @@ export default {
     input: function () {
       let input = this.input.replace(/\s+/g,' ').trim()
       if (input == 'обновить') {
-        document.location.href = "/category";
+        document.location.href = "/";
       }
       this.$store.dispatch('search_input', input)
     },
-    modalVisible: function () {
-      this.input = ''
-    },
-    visible: function () {
-      if (this.visible) {
+    modalVisible: function (e) {
+      if (e) {
         this.input = ''
       }
+    },
+    visible: function (e) {
 
     }
   },
@@ -55,7 +54,7 @@ export default {
       this.$router.push({ name: 'Search' })
     },
     close () {
-      this.input = '';
+      //this.input = '';
       this.$store.dispatch('modal_visible', false)
     }
   }

@@ -30,6 +30,9 @@ export default {
   keyboard_visible({ commit }, query){
     commit('set', { type: 'keyboard_visible', items: query })
   },
+  banners_visible({ commit }, query){
+    commit('set', { type: 'banners_visible', items: query })
+  },
   keyboard_target({ commit }, query){
     commit('set', { type: 'keyboard_target', items: query })
   },

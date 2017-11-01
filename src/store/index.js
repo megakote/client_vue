@@ -9,6 +9,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    banners_visible: false,
     keyboard_visible: false,
     keyboard_target: null,
     modal_visible: false,

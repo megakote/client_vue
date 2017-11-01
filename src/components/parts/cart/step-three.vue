@@ -22,7 +22,7 @@
     <v-dialog v-model="complete_dialog.state" max-width="500px" lazy absolute persistent>
       <v-card>
         <v-card-title>
-          <div class="headline">Заканчиваем заказ</div>
+          <div class="headline">Спасибо за заказ, ждем Вас снова</div>
         </v-card-title>
         <v-card-text>Не забудьте забрать чек. Если чек не вышел, мы привезем его вместе с заказом</v-card-text>
         <v-card-text v-if="complete_dialog.summ < complete_dialog.cashIn">Сдачу в {{ complete_dialog.cashIn - complete_dialog.summ }}р вам вернет курьер</v-card-text>

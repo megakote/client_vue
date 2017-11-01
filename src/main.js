@@ -22,6 +22,9 @@ import StepOne from '@/components/parts/cart/step-one'
 import Snotify from 'vue-snotify'
 
 
+// modules
+import FullScreenBanners from '@/components/modules/banners'
+
 
 import VueMask from 'v-mask'
 
@@ -46,6 +49,9 @@ Vue.component('number-input2', NumberInput2)
 Vue.component('step-three', StepThree)
 Vue.component('step-two', StepTwo)
 Vue.component('step-one', StepOne)
+
+
+Vue.component('full-screen-banners', FullScreenBanners)
 
 /* eslint-disable no-new */
 new Vue({

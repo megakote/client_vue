@@ -23,7 +23,7 @@ export default {
   methods: {
     show: function(e) {
       this.$store.dispatch('keyboard_visible', true)
-      this.$store.dispatch('search_input', '')
+      //this.$store.dispatch('search_input', '')
     }
   },
   computed: {
