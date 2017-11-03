@@ -101,7 +101,6 @@ export default {
 .dialog__content {
   position: absolute;
 }
-
 .admin_menu_item {
   max-width: 50%;
   .btn {

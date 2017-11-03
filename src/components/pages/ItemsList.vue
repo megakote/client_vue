@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; position: relative;">
+  <div class="items_list" style="height: 100%; position: relative;">
     <div class="table_list_wrapper">
       <v-data-table
         :headers="headers"
@@ -163,7 +163,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .table_list_wrapper {
     height: 730px;
   }

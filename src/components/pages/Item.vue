@@ -42,8 +42,8 @@
         <v-card-text v-html="item.description"></v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="dialog.image" :content-class="'image_popup'">
-      <img :src="item.image[activeImage]" :alt="item.name" />
+    <v-dialog v-model="dialog.image" :content-class="'image_popup'" max-width="100%">
+      <img :src="item.image[activeImage]" :alt="item.name" @click.stop="dialog.image = false"/>
     </v-dialog>
     <v-dialog v-model="dialog.state" max-width="460px" lazy absolute>
       <v-card>
@@ -156,6 +156,7 @@ export default {
   }
 
   .image_popup {
+    width: auto;
     img {
       max-height: 100%;
     }
