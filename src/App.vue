@@ -9,8 +9,9 @@
     </main>
     <bottom-banner />
     <keyboard-search />
-    <overlay/>
-    <full-screen-banners/>
+    <full-screen-banners />
+    <admin-zone />
+    <overlay />
   </v-app>
 </template>
 
@@ -58,9 +59,9 @@
             _this.$store.dispatch('modal_visible', false)
             _this.$store.dispatch('search_input', '')
             _this.$router.push({ name: 'Categorys'})
-            _this.$store.dispatch('banners_visible', true)
+           // _this.$store.dispatch('banners_visible', true)
           } else {
-            _this.$store.dispatch('banners_visible', false)
+            //_this.$store.dispatch('banners_visible', false)
           }
         }, 1000)
       })

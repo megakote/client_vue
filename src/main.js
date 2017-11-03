@@ -24,6 +24,7 @@ import Snotify from 'vue-snotify'
 
 // modules
 import FullScreenBanners from '@/components/modules/banners'
+import AdminZone from '@/components/modules/admin-zone'
 
 
 import VueMask from 'v-mask'
@@ -52,6 +53,7 @@ Vue.component('step-one', StepOne)
 
 
 Vue.component('full-screen-banners', FullScreenBanners)
+Vue.component('admin-zone', AdminZone)
 
 /* eslint-disable no-new */
 new Vue({

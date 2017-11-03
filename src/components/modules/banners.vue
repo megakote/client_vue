@@ -18,7 +18,7 @@ export default {
     return {
       images: [],
       activeImage: 0,
-      delay: 8, // Через сколько секунд сменять баннер
+      delay: 15, // Через сколько секунд сменять баннер
       timer: '',
       banner_active: false,
     }

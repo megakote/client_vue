@@ -3,7 +3,7 @@
     <div class="locker" :class="{ active: activeLocker}">
     </div>
     <v-bottom-nav style="position: relative; height: 100%;" value="true" class="transparent">
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title :class="'top_logo'" v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat light class="teal--text" @click="back">
         <!-- <span>Recents</span> -->
@@ -66,7 +66,7 @@ export default {
   }
 </style>
 <style lang="scss">
-  .toolbar__title {
+  .top_logo {
     align-self: center;
     position: absolute;
     left: 10px;

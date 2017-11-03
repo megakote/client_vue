@@ -33,6 +33,9 @@ export default {
   banners_visible({ commit }, query){
     commit('set', { type: 'banners_visible', items: query })
   },
+  admin_visible({ commit }, query){
+    commit('set', { type: 'admin_visible', items: query })
+  },
   keyboard_target({ commit }, query){
     commit('set', { type: 'keyboard_target', items: query })
   },

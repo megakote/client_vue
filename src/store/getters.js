@@ -15,6 +15,9 @@ export default {
     banners_visible(state) {
       return state.banners_visible
     },
+    admin_visible(state) {
+      return state.admin_visible
+    },
     keyboard_visible(state) {
       return state.keyboard_visible
     },

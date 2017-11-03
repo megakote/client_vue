@@ -27,6 +27,12 @@ export default {
       let input = this.input.replace(/\s+/g,' ').trim()
       if (input == 'обновить') {
         document.location.href = "/";
+        return
+      }
+      if (input == 'админ') {
+        this.$store.dispatch('modal_visible', false)
+        this.$store.dispatch('admin_visible', true)
+        return
       }
       this.$store.dispatch('search_input', input)
     },
