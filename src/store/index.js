@@ -6,7 +6,13 @@ import mutations from './mutations'
 import actions from './actions'
 
 Vue.use(Vuex)
-
+const d = new Date()
+var options = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+}
+let date = d.toLocaleString("ru", options)
 const store = new Vuex.Store({
   state: {
     banners_visible: false,
@@ -31,7 +37,9 @@ const store = new Vuex.Store({
         name: '',
         email: '',
         tel: '',
-        address: ''
+        address: '',
+        date: new Date().toISOString().substring(0, 10),
+        timeRange: ''
       },
       cart: [], // Корзина
     },

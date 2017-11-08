@@ -9,6 +9,9 @@ export default {
   setDepth(state, { type, items }) {
     state[type[0]][type[1]] = items
   },
+  setDepthDeeper(state, { type, items }) {
+    state[type[0]][type[1]][type[2]] = items
+  },
   add(state, { type, items }) {
     state[type].push(items)
   },

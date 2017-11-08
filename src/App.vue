@@ -37,6 +37,8 @@
     },
     created: function () {
       this.$store.dispatch('getCart')
+      // let date = new Date()
+      // this.$store.dispatch('setData', { type : ['session', 'contacts', 'date'], items: date})
       this.$router.push({ name: 'Categorys'})
     },
     mounted: function () {

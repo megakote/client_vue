@@ -68,16 +68,18 @@ export default {
         console.log(error);
       });
   },
-  addCartProduct({ commit }, query){
+  addCartProduct({ commit, state }, query){
     /*
       Добавляем товар в корзину на сервере
     */
     instance.post('cart/add', {data: query})
       .then(function (response) {
         let data = response.data;
+        commit('set', { tupe: 'in_progress', items: false})
         commit('set', { type: 'cart', items: data })
       })
       .catch(function (error) {
+        commit('set', { tupe: 'in_progress', items: false})
         console.log(error);
       });
   },
@@ -161,7 +163,9 @@ export default {
         name: '',
         email: '',
         tel: '',
-        address: ''
+        address: '',
+        date: new Date().toISOString().substring(0, 10),
+        timeRange: ''
       } })
     commit('setDepth', { type: ['session','history'], items: [] })
     instance.post('cart/complete', {reason: reason, cashin: cashin})

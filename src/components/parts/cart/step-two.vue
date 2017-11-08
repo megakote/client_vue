@@ -2,45 +2,59 @@
   <div>
     <div style="height: 591px;margin-bottom: 48px;position: relative;">
       <h5 style="text-align: center;">Пожалуйста введите Ваше ФИО, Ваш номер телефона (без восьмерки) и адрес доставки</h5>
-      <v-text-field
-        :rules="[
-          (v) => !!v || 'Номер телефон обязателен',
-          (v) => v.length == 10 || 'Введите номер телефона полностью',
-        ]"
-        :autofocus="true"
-        id="tel"
-        label="номер"
-        value=""
-        prefix="+7"
-        :mask="'(###) ###-##-##'"
-        class="new_input"
-        :class="{ 'input-group--focused': contactFocus == 'tel'}"
-        placeholder=" (ххх) ххх-хх-хх"
-        v-model="contacts.tel"
-        @click="changeFocus('tel')"
-      ></v-text-field>
-      <v-text-field
-        id="name"
-        label="ФИО"
-        value=""
-        class="new_input"
-        :class="{ 'input-group--focused': contactFocus == 'name'}"
-        placeholder="Иванов Петров"
-        v-model="contacts.name"
-        @click="changeFocus('name')"
-        :rules="[(v) => (v.length >= 5) || 'Минимум 5 символов']"
-      ></v-text-field>
-      <v-text-field
-        id="address"
-        label="Адрес"
-        value=""
-        class="new_input"
-        :class="{ 'input-group--focused': contactFocus == 'address'}"
-        placeholder="Адрес"
-        v-model="contacts.address"
-        @click="changeFocus('address')"
-        :rules="[(v) => (v.length >= 6) || 'Минимум 6 символов']"
-      ></v-text-field>
+      <div class="input_group">
+        <v-text-field
+          :rules="[(v) => v.length == 10 || 'Введите номер телефона полностью']"
+          :autofocus="true"
+          id="tel"
+          label="номер"
+          value=""
+          prefix="+7"
+          :mask="'(###) ###-##-##'"
+          class="new_input"
+          :class="{ 'input-group--focused': contactFocus == 'tel'}"
+          placeholder=" (ххх) ххх-хх-хх"
+          v-model="contacts.tel"
+          @click="changeFocus('tel')"
+        ></v-text-field>
+        <v-text-field
+          id="name"
+          label="ФИО"
+          value=""
+          class="new_input"
+          :class="{ 'input-group--focused': contactFocus == 'name'}"
+          placeholder="Иванов Петров"
+          v-model="contacts.name"
+          @click="changeFocus('name')"
+          :rules="[(v) => (v.length >= 5) || 'Минимум 5 символов']"
+        ></v-text-field>
+      </div>
+      <div class="input_group">
+        <v-text-field
+          @click="date_modal = true"
+          label="Дата доставки"
+          v-model="contacts.date"
+          readonly
+        ></v-text-field>
+        <v-text-field
+          id="address"
+          label="Адрес"
+          value=""
+          class="new_input"
+          :class="{ 'input-group--focused': contactFocus == 'address'}"
+          placeholder="Волжский ул Пушкина 36"
+          v-model="contacts.address"
+          @click="changeFocus('address')"
+          :rules="[(v) => (v.length >= 6) || 'Минимум 6 символов']"
+        ></v-text-field>
+        <v-select
+          v-bind:items="timeRange"
+          v-model="contacts.timeRange"
+          label="Время доставки"
+          :rules="[(v) => !!v || 'Выберите время доставки']"
+          single-line
+        ></v-select>
+      </div>
       <keyboard
         class="tel"
         v-if="contactFocus == 'tel'"
@@ -54,7 +68,7 @@
       />
       <keyboard
         v-if="contactFocus == 'name'"
-        v-model.trim="contacts.name"
+        v-model="contacts.name"
         :layouts="[
           '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{Назад:prv}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{Далее:nxt}',
           '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{Назад:prv}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{Далее:nxt}'
@@ -67,7 +81,7 @@
       />
       <keyboard
         v-if="contactFocus == 'address'"
-        v-model.trim="contacts.address"
+        v-model="contacts.address"
         :layouts="[
           '1234567890{:backspace}|йцукенгшщзхъ|фывапролджэ|{Назад:prv}ячсмитьбю.{shift:goto:1}|{очистить:clear}{пробел:space}{очистить:clear}',
           '!@№$%^&*(){:backspace}|ЙЦУКЕНГШЩЗХЪ|ФЫВАПРОЛДЖЭ|{Назад:prv}ЯЧСМИТЬБЮ,{shift:goto:0}|{очистить:clear}{пробел:space}{очистить:clear}'
@@ -79,6 +93,24 @@
     </div>
     <v-btn color="primary" @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
     <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
+
+    <v-dialog
+      persistent
+      v-model="date_modal"
+      max-width="350px"
+      lazy
+      full-width
+    >
+      <v-date-picker v-model="contacts.date" locale="ru-ru" :first-day-of-week="1" :allowed-dates="days" actions>
+        <template slot-scope="{ save, cancel }">
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn flat color="primary" @click="cancel">Отмена</v-btn>
+            <v-btn flat color="primary" @click="save">OK</v-btn>
+          </v-card-actions>
+        </template>
+      </v-date-picker>
+    </v-dialog>
   </div>
 </template>
 
@@ -91,8 +123,17 @@ export default {
         name: '',
         email: '',
         tel: '',
-        address: ''
+        address: '',
+        date: '',
+        timeRange: '',
       },
+      date_modal: false,
+      allowedDates: {
+        min: '',
+        max: ''
+      },
+      days: [],
+      timeRange: [],
       contactFocus: 'tel',
     }
   },
@@ -102,11 +143,25 @@ export default {
       let hasTelNumber = this.contacts.tel.length == 10
       let hasName = this.contacts.name.length > 4
       let hasAddress = this.contacts.address.length > 5
-      if (hasTelNumber && hasName && hasAddress) {
+      let hasTimeRange = this.contacts.timeRange
+      if (hasTelNumber && hasName && hasAddress && hasTimeRange) {
         return true
       }
       return false
     },
+    // timeRange () {
+    //   let now = new Date().getHours()
+    //   if (now > 11) {
+    //     return [
+    //       { text: '14:00 - 19:00' }
+    //     ]
+    //   } else {
+    //     return [
+    //       { text: '09:00 - 14:00' },
+    //       { text: '14:00 - 19:00' }
+    //     ]
+    //   }
+    // }
   },
   methods: {
     changeFocus (to) {
@@ -130,16 +185,66 @@ export default {
     isValidate (val) {
       //this.$emit('validate', val)
     },
-    stage () {
-      if (this.stage == 2) {
-        this.contacts = this.$store.getters.contacts
-      }
+    // stage () {
+    //   if (this.stage == 2) {
+    //     this.contacts = this.$store.getters.contacts
+    //   }
+    // }
+  },
+  mounted: function () {
+    let dayOfWeek = new Date().getDay()
+    let hour = new Date().getHours()
+    let now
+    if (dayOfWeek == 0 || (dayOfWeek != 6 && hour >= 16)) {
+      now = new Date(new Date().setDate(new Date().getDate() + 1))
+    } else if (dayOfWeek == 6 && hour >= 16) {
+      now = new Date(new Date().setDate(new Date().getDate() + 2))
+    } else {
+      now = new Date()
     }
+    let timeRange
+    if (new Date() != now && hour <= 11) {
+      timeRange = [
+        { text: '09:00 - 14:00' },
+        { text: '14:00 - 19:00' }
+      ]
+    } else {
+      timeRange = [
+        { text: '14:00 - 19:00' }
+      ]
+    }
+    this.contacts = this.$store.getters.contacts
+    this.contacts.date = now.toISOString().substring(0, 10)
+    this.timeRange = timeRange
+
+
+    this.days = [...Array(150)].map((item, i, arr) => {
+      let date = new Date().setDate(now.getDate() + i)
+      if (new Date(date).getDay() != 0) {
+        return new Date(date)
+      }
+    })
   }
 }
 </script>
 
 <style lang="scss">
+  .input_group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    .new_input {
+      display: block;
+      font-size: 16px;
+      flex-basis: 300px;
+      margin: 0 30px;
+    }
+    .input-group__input {
+      height: 40px;
+      align-items: center;
+    }
+  }
   .cart_page {
     .vue-keyboard {
       position: absolute;
@@ -151,9 +256,8 @@ export default {
         background-size: 12%;
       }
       .vue-keyboard-key {
-        height: 3em;
-        line-height: 3em;
-
+        height: 60px;
+        line-height: 60px;
       }
     }
   }
@@ -181,10 +285,21 @@ export default {
       //padding-left: 30px;
     }
   }
-  .new_input {
-    display: block;
-    font-size: 16px;
-    width: 300px;
-    margin: 0 auto;
+
+</style>
+
+<style lang="scss">
+.picker--date {
+  width: 100%;
+  table .btn.btn--date-picker {
+    height: 40px;
+    width: 40px;
+    .btn__content {
+      font-size: 19px;
+    }
   }
+  .card__actions {
+    padding: 25px 10px 20px;
+  }
+}
 </style>
