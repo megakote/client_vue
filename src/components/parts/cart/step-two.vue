@@ -185,11 +185,21 @@ export default {
     isValidate (val) {
       //this.$emit('validate', val)
     },
-    // stage () {
-    //   if (this.stage == 2) {
-    //     this.contacts = this.$store.getters.contacts
-    //   }
-    // }
+    'contacts.date' (val) {
+      this.contacts.timeRange = ''
+      let now = new Date().toISOString().substring(0, 10)
+      let hour = new Date().getHours()
+      if (val != now || hour <= 11) {
+        this.timeRange = [
+          { text: '09:00 - 14:00' },
+          { text: '14:00 - 19:00' }
+        ]
+      } else {
+        this.timeRange = [
+          { text: '14:00 - 19:00' }
+        ]
+      }
+    }
   },
   mounted: function () {
     let dayOfWeek = new Date().getDay()
@@ -203,19 +213,20 @@ export default {
       now = new Date()
     }
     let timeRange
-    if (new Date() != now && hour <= 11) {
-      timeRange = [
-        { text: '09:00 - 14:00' },
-        { text: '14:00 - 19:00' }
-      ]
-    } else {
-      timeRange = [
-        { text: '14:00 - 19:00' }
-      ]
-    }
+    console.log(now)
+    // if (new Date() != now && hour <= 11) {
+    //   timeRange = [
+    //     { text: '09:00 - 14:00' },
+    //     { text: '14:00 - 19:00' }
+    //   ]
+    // } else {
+    //   timeRange = [
+    //     { text: '14:00 - 19:00' }
+    //   ]
+    // }
     this.contacts = this.$store.getters.contacts
     this.contacts.date = now.toISOString().substring(0, 10)
-    this.timeRange = timeRange
+    // this.timeRange = timeRange
 
 
     this.days = [...Array(150)].map((item, i, arr) => {
