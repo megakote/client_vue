@@ -75,7 +75,7 @@
         ]"
         :maxlength="0"
         @input="changed"
-        @nxt="changeFocus('address')"
+        @nxt="date_modal = true"
         @prv="changeFocus('tel')"
         :rules="[(v) => v.length <= 5 || 'Минимум 6 символов']"
       />
@@ -149,19 +149,6 @@ export default {
       }
       return false
     },
-    // timeRange () {
-    //   let now = new Date().getHours()
-    //   if (now > 11) {
-    //     return [
-    //       { text: '14:00 - 19:00' }
-    //     ]
-    //   } else {
-    //     return [
-    //       { text: '09:00 - 14:00' },
-    //       { text: '14:00 - 19:00' }
-    //     ]
-    //   }
-    // }
   },
   methods: {
     changeFocus (to) {
@@ -182,64 +169,76 @@ export default {
     },
   },
   watch: {
-    isValidate (val) {
-      //this.$emit('validate', val)
-    },
     'contacts.date' (val) {
       this.contacts.timeRange = ''
-      let now = new Date().toISOString().substring(0, 10)
+      let now = new Date()
+      val = new Date(val)
+      let dayOfWeek = new Date().getDay()
       let hour = new Date().getHours()
-      if (val != now || hour <= 11) {
+      if ((val != now || hour <= 11) && val.getDay() != 6 ) {
         this.timeRange = [
           { text: '09:00 - 14:00' },
           { text: '14:00 - 19:00' }
         ]
-      } else {
+      } else if (val.getDay() == 6 && ((now.getDay() == 6 && now.getHours() < 11) || now.getDay() != 6 )) {
+        // Если выбрана суббота и (сегодня суббота и время до 11 или сегодня не суббота)
+        this.timeRange = [
+          { text: '09:00 - 14:00' }
+        ]
+      } else if (val == now && val.getDay() != 6 && hour > 11) {
+        // В принципе это условие не нужно, оставил в качестве коммента
         this.timeRange = [
           { text: '14:00 - 19:00' }
         ]
+      } else {
+        //это тупо невозможно, если это условие сработало, то я где-то налажал
       }
     }
   },
   mounted: function () {
     let dayOfWeek = new Date().getDay()
     let hour = new Date().getHours()
-    let now
+    let now // Определяем минимальную возможную дату заказа
     if (dayOfWeek == 0 || (dayOfWeek != 6 && hour >= 16)) {
       now = new Date(new Date().setDate(new Date().getDate() + 1))
-    } else if (dayOfWeek == 6 && hour >= 16) {
+    } else if (dayOfWeek == 6 && hour >= 11) {
       now = new Date(new Date().setDate(new Date().getDate() + 2))
     } else {
       now = new Date()
     }
-    let timeRange
-    console.log(now)
-    // if (new Date() != now && hour <= 11) {
-    //   timeRange = [
-    //     { text: '09:00 - 14:00' },
-    //     { text: '14:00 - 19:00' }
-    //   ]
-    // } else {
-    //   timeRange = [
-    //     { text: '14:00 - 19:00' }
-    //   ]
-    // }
+
     this.contacts = this.$store.getters.contacts
-    this.contacts.date = now.toISOString().substring(0, 10)
-    // this.timeRange = timeRange
 
-
+    let freeDays = [
+      // '2017-11-11',
+      // '2017-11-19',
+    ]
+    // Составляем список возможных дат заказа, пропуская воскресенья и даты указанные в freeDays
     this.days = [...Array(150)].map((item, i, arr) => {
-      let date = new Date().setDate(now.getDate() + i)
-      if (new Date(date).getDay() != 0) {
-        return new Date(date)
+      let date = new Date(new Date().setDate(now.getDate() + i))
+      if (date.getDay() != 0 && freeDays.indexOf(date.toISOString().substring(0, 10))) {
+        return date
       }
     })
+    this.days = this.days.filter(function(x) {
+      return x !== undefined && x !== null;
+    })
+
+    // Если минимальная возможная дата - сегодня, то по умолчанию выбираем следующую.
+    if (new Date() == this.days[0]) {
+      this.contacts.date = this.days[1].toISOString().substring(0, 10)
+    } else {
+      this.contacts.date = this.days[0].toISOString().substring(0, 10)
+    }
+
   }
 }
 </script>
 
 <style lang="scss">
+  .list__tile--link:hover, .list__tile--highlighted {
+    background: transparent;
+  }
   .input_group {
     display: flex;
     justify-content: space-between;
