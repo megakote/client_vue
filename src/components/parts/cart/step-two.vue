@@ -77,7 +77,6 @@
         @input="changed"
         @nxt="date_modal = true"
         @prv="changeFocus('tel')"
-        :rules="[(v) => v.length <= 5 || 'Минимум 6 символов']"
       />
       <keyboard
         v-if="contactFocus == 'address'"
