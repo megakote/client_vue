@@ -60,6 +60,7 @@
             }
             _this.$store.dispatch('modal_visible', false)
             _this.$store.dispatch('search_input', '')
+            _this.$store.dispatch('admin_visible', false)
             _this.$router.push({ name: 'Categorys'})
             _this.$store.dispatch('banners_visible', true)
           } else {

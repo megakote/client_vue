@@ -174,7 +174,7 @@ export default {
       val = new Date(val)
       let dayOfWeek = new Date().getDay()
       let hour = new Date().getHours()
-      if ((val != now || hour <= 11) && val.getDay() != 6 ) {
+      if ((val.toISOString().substring(0, 10) != now.toISOString().substring(0, 10) || hour <= 11) && val.getDay() != 6 ) {
         this.timeRange = [
           { text: '09:00 - 14:00' },
           { text: '14:00 - 19:00' }
@@ -184,7 +184,7 @@ export default {
         this.timeRange = [
           { text: '09:00 - 14:00' }
         ]
-      } else if (val == now && val.getDay() != 6 && hour > 11) {
+      } else if (val.toISOString().substring(0, 10) == now.toISOString().substring(0, 10) && val.getDay() != 6 && hour > 11) {
         // В принципе это условие не нужно, оставил в качестве коммента
         this.timeRange = [
           { text: '14:00 - 19:00' }
@@ -206,6 +206,8 @@ export default {
       now = new Date()
     }
 
+    console.log(now)
+
     this.contacts = this.$store.getters.contacts
 
     let freeDays = [
@@ -224,7 +226,7 @@ export default {
     })
 
     // Если минимальная возможная дата - сегодня, то по умолчанию выбираем следующую.
-    if (new Date() == this.days[0]) {
+    if (new Date().toISOString().substring(0, 10) == this.days[0].toISOString().substring(0, 10)) {
       this.contacts.date = this.days[1].toISOString().substring(0, 10)
     } else {
       this.contacts.date = this.days[0].toISOString().substring(0, 10)
