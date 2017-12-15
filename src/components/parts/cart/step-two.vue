@@ -21,12 +21,12 @@
           id="name"
           label="ФИО"
           value=""
-          class="new_input"
+          class="new_input capitalize"
           :class="{ 'input-group--focused': contactFocus == 'name'}"
           placeholder="Иванов Петров"
           v-model="contacts.name"
           @click="changeFocus('name')"
-          :rules="[(v) => (v.length >= 5) || 'Минимум 5 символов']"
+          :rules="[(v) => (v.length >= 3) || 'Минимум 3 символов']"
         ></v-text-field>
       </div>
       <div class="input_group">
@@ -140,7 +140,7 @@ export default {
   computed: {
     isValidate () {
       let hasTelNumber = this.contacts.tel.length == 10
-      let hasName = this.contacts.name.length > 4
+      let hasName = this.contacts.name.length > 2
       let hasAddress = this.contacts.address.length > 5
       let hasTimeRange = this.contacts.timeRange
       if (hasTelNumber && hasName && hasAddress && hasTimeRange) {
@@ -296,7 +296,9 @@ export default {
       //padding-left: 30px;
     }
   }
-
+  .capitalize input{
+    text-transform: capitalize;
+  }
 </style>
 
 <style lang="scss">
