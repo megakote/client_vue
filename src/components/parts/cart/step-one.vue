@@ -150,6 +150,10 @@ export default {
       this.items.forEach(function(item, i, arr) {
         summ += item.price*item.count
       });
+      if (summ == 0) {
+        console.log(123)
+        this.$store.dispatch('completeOrder', 'cancel')
+      }
       return summ
     },
     pages () {
@@ -201,7 +205,6 @@ export default {
       if (!val){
         this.dialog.id = 0
       }
-
     }
   }
 }
