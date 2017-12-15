@@ -214,26 +214,27 @@ export default {
       '2017-12-29',
       '2017-12-30',
       '2017-12-31',
-      '2018-01-1',
-      '2018-01-2',
-      '2018-01-3',
-      '2018-01-4',
-      '2018-01-5',
-      '2018-01-6',
-      '2018-01-7',
-      '2018-01-8',
+      '2018-01-01',
+      '2018-01-02',
+      '2018-01-03',
+      '2018-01-04',
+      '2018-01-05',
+      '2018-01-06',
+      '2018-01-07',
+      '2018-01-08',
     ]
     // Составляем список возможных дат заказа, пропуская воскресенья и даты указанные в freeDays
     this.days = [...Array(150)].map((item, i, arr) => {
       let date = new Date(new Date().setDate(now.getDate() + i))
-      if (date.getDay() != 0 && freeDays.indexOf(date.toISOString().substring(0, 10))) {
+      console.log(freeDays.indexOf(date.toISOString().substring(0, 10)))
+      if (date.getDay() != 0 && freeDays.indexOf(date.toISOString().substring(0, 10)) == -1) {
         return date
       }
     })
     this.days = this.days.filter(function(x) {
       return x !== undefined && x !== null;
     })
-
+    console.log(this.days)
     // Если минимальная возможная дата - сегодня, то по умолчанию выбираем следующую.
     if (new Date().toISOString().substring(0, 10) == this.days[0].toISOString().substring(0, 10)) {
       this.contacts.date = this.days[1].toISOString().substring(0, 10)
