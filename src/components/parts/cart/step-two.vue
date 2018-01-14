@@ -226,7 +226,6 @@ export default {
     // Составляем список возможных дат заказа, пропуская воскресенья и даты указанные в freeDays
     this.days = [...Array(150)].map((item, i, arr) => {
       let date = new Date(new Date().setDate(now.getDate() + i))
-      console.log(freeDays.indexOf(date.toISOString().substring(0, 10)))
       if (date.getDay() != 0 && freeDays.indexOf(date.toISOString().substring(0, 10)) == -1) {
         return date
       }

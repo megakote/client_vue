@@ -106,9 +106,9 @@
     height: auto;
     min-height: 36px;
   }
-  // * {
-  //   cursor: none !important;
-  // }
+  * {
+    cursor: none !important;
+  }
 
   .application--light {
     // Ну стрем же!
