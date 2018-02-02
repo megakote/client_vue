@@ -42,6 +42,9 @@ export default {
   modal_visible({ commit }, query){
     commit('set', { type: 'modal_visible', items: query })
   },
+  more_info({ commit }, query){
+    commit('set', { type: 'more_info', items: query })
+  },
   top_bar_blocked({ commit }, query){
     commit('set', { type: 'top_bar_blocked', items: query })
   },
@@ -124,6 +127,16 @@ export default {
     instance.get('category' + cat_id)
       .then(function (response) {
         let data = (response.data) ? response.data : []
+        data.push({
+          'created_at':"",
+          'guid':"00000000",
+          'id':0,
+          'image':"https://www.iconexperience.com/_img/o_collection_png/green_dark_grey/512x512/plain/arrow_right.png",
+          'items_parent':0,
+          'name':"Еще",
+          'parent_id':"",
+          'updated_at':"",
+        })
         commit('set', { type: 'categorys', items: data })
       })
       .catch(function (error) {

@@ -90,9 +90,10 @@
         @input="changed"
       />
     </div>
-    <v-btn color="primary" @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
-    <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
-
+    <div class="btns_bottom">
+      <v-btn color="primary" @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
+      <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
+    </div>
     <v-dialog
       persistent
       v-model="date_modal"
@@ -206,8 +207,6 @@ export default {
       now = new Date()
     }
 
-    console.log(now)
-
     this.contacts = this.$store.getters.contacts
 
     let freeDays = [
@@ -223,17 +222,24 @@ export default {
       '2018-01-07',
       '2018-01-08',
     ]
+
+    console.log(now.getDate())
     // Составляем список возможных дат заказа, пропуская воскресенья и даты указанные в freeDays
     this.days = [...Array(150)].map((item, i, arr) => {
+      // let date = new Date(new Date().setDate(now.getDate() + i))
+      //         new Date().setDate(new Date().getDate() + 3)
       let date = new Date(new Date().setDate(now.getDate() + i))
+      let cons = new Date().setDate(new Date().getDate() + i)
+
       if (date.getDay() != 0 && freeDays.indexOf(date.toISOString().substring(0, 10)) == -1) {
         return date
       }
     })
+
     this.days = this.days.filter(function(x) {
       return x !== undefined && x !== null;
     })
-    console.log(this.days)
+
     // Если минимальная возможная дата - сегодня, то по умолчанию выбираем следующую.
     if (new Date().toISOString().substring(0, 10) == this.days[0].toISOString().substring(0, 10)) {
       this.contacts.date = this.days[1].toISOString().substring(0, 10)

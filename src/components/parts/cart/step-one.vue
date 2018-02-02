@@ -48,8 +48,10 @@
     </div>
     <div class="summ" v-if="summ < 2000">Сумма заказа {{ summ }}р, доставка 300р ИТОГО: <span> {{ summ + 300 }} </span> р.</div>
     <div class="summ" v-else>Сумма заказа {{ summ }}р, доставка Бесплатно ИТОГО: <span> {{ summ }} </span> р.</div>
-    <v-btn color="primary" @click.stop="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
-    <v-btn flat @click.stop="cancel_dialog_state = true" class="clear">Очистить</v-btn>
+    <div class="btns_bottom">
+      <v-btn color="primary" @click.stop="changeStage(2)" :disabled="summ <= 0 || isNaN(summ)">Далее</v-btn>
+      <v-btn flat @click.stop="cancel_dialog_state = true" class="clear">Очистить</v-btn>
+    </div>
     <v-dialog v-model="dialog.state" max-width="500px" lazy absolute>
       <v-card>
         <v-card-title>
@@ -66,7 +68,6 @@
             @tomuch="tempCount = 0"
           />
         <v-card-actions>
-
           <v-btn class="darken-1" color="error" @click.native="dialog.state = false" style="float: left">
             <v-icon left dark>block</v-icon>
             Отмена

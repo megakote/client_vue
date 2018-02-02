@@ -21,6 +21,7 @@ const store = new Vuex.Store({
     keyboard_target: null,
     modal_visible: false,
     top_bar_blocked: false,
+    more_info: false,
     search_input: '',
     results: [],
     categorys: [],

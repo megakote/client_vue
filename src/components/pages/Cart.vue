@@ -85,4 +85,10 @@ export default {
   .stepper__step--complete .stepper__step__step {
     background: #009688;
   }
+
+  .btns_bottom .btn__content {
+      font-size: 20px;
+      padding: 0 45px;
+      line-height: 45px;
+  }
 </style>

@@ -33,6 +33,9 @@ export default {
     categorys(state) {
       return state.categorys
     },
+    more_info(state) {
+      return state.more_info
+    },
     keyboard_target(state) {
       return state.keyboard_target
     },

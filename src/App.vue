@@ -59,6 +59,7 @@
               _this.$store.dispatch('completeOrder', ['timeout'])
             }
             _this.$store.dispatch('modal_visible', false)
+            _this.$store.dispatch('more_info', false)
             _this.$store.dispatch('search_input', '')
             _this.$store.dispatch('admin_visible', false)
             _this.$router.push({ name: 'Categorys'})
@@ -107,7 +108,7 @@
     min-height: 36px;
   }
   * {
-    cursor: none !important;
+    // cursor: none !important;
   }
 
   .application--light {
