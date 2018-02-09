@@ -50,7 +50,8 @@
         <v-card-title>
           <div class="headline">{{ item.name }}</div>
         </v-card-title>
-        <span class="subheadline">Доступно для заказа: {{ item.count }}{{ item.unit }}</span>
+        <span class="subheadline">Доступно для заказа: {{ item.count }} {{ item.unit }}</span>
+        <span class="subheadline">Итого: {{ summ }} р.</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
             :val="0"
@@ -59,6 +60,7 @@
             :id="id"
             :full=true
             @change="countChange"
+            @tomuch="tomuch"
           />
         <v-card-actions>
 
@@ -98,10 +100,16 @@ export default {
     item () {
       return this.$store.getters.product
     },
+    summ () {
+      return this.countSelected * this.item.price
+    }
   },
   methods: {
     setActive (i) {
       this.activeImage = i
+    },
+    tomuch () {
+      this.countSelected = 0
     },
     countChange (id, val) {
       this.countSelected = val

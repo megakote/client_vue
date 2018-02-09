@@ -22,10 +22,9 @@
         <template slot="items" slot-scope="props">
           <td><a href="#" @click.prevent="goPage(props.item.guid)">{{ props.item.name }}</a></td>
           <td class="text-xs-right">{{ props.item.price }} р.</td>
-          <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
-          <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
+          <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }}</td>
           <td class="text-xs-center">
-            <v-btn color="primary" fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit)">
+            <v-btn color="primary" fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit, props.item.price)">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
           </td>
@@ -41,17 +40,17 @@
           <div class="headline">{{ dialog.name }}</div>
         </v-card-title>
         <span class="subheadline">Доступно для заказа: {{ dialog.max }}{{ dialog.unit }}</span>
+        <span class="subheadline">Итого: {{ summ }} р.</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
             :val="dialog.count"
             :min="1"
             :max="dialog.max"
             :id="dialog.id"
-            :full=true
             @change="countChange"
+            @tomuch="tomuch"
           />
         <v-card-actions>
-
           <v-btn class="darken-1" color="error" @click.native="dialog.state = false">
             <v-icon left dark>block</v-icon>
             Отмена
@@ -80,12 +79,13 @@ export default {
         state: false,
         max: 1,
         count: 1,
-        id: null
+        id: null,
+        price: 0
       },
       pagination: {
         sortBy: 'name',
         page: 1,
-        rowsPerPage: 10,
+        rowsPerPage: 9,
         descending: false,
         totalItems: 0
       },
@@ -112,6 +112,12 @@ export default {
     },
     id () {
       return this.$route.params.id
+    },
+    query () {
+      return this.$store.getters.search_input
+    },
+    summ () {
+      return this.dialog.count * this.dialog.price
     }
   },
   methods: {
@@ -119,16 +125,21 @@ export default {
       this.$router.push({ name: 'Product', params: { id:id }})
       //this.getData('getProduct', id)
     },
-    getData: function(id) {
-      this.$store.dispatch('getProducts', id)
+    getData: function() {
+      if (this.$route.name == 'Search') {
+        this.$store.dispatch('searchProducts', this.query)
+      } else {
+        this.$store.dispatch('getProducts', this.id)
+      }
     },
-    buy_item: function(id, max, name, unit) {
+    buy_item: function(id, max, name, unit, price) {
       this.dialog.id = id
       this.dialog.name = name
       this.dialog.unit = unit
       this.dialog.count = 0
       this.dialog.max = max
       this.dialog.state = true
+      this.dialog.price = price
     },
     buy_btn: function() {
       if (this.dialog.count > 0) {
@@ -144,21 +155,28 @@ export default {
     },
     countChange: function(id, val) {
       this.dialog.count = val
-    }
+    },
+    tomuch () {
+      this.dialog.count = 0
+    },
   },
   watch: {
     id: function () {
       this.pagination.page = 1;
-      this.getData(this.id)
+      this.getData()
     },
     'dialog.state' (val) {
       if (!val){
         this.dialog.id = 0
       }
-    }
+    },
+    query: function () {
+      this.pagination.page = 1;
+      this.getData()
+    },
   },
   mounted: function() {
-    this.getData(this.id);
+    this.getData();
   }
 }
 </script>
@@ -175,7 +193,7 @@ export default {
   table.table tbody {
     td, th{
       font-size: 17px;
-      height: 65px;
+      height: 74px;
     }
     td{
       &:first-child {
@@ -183,12 +201,12 @@ export default {
         max-width: 630px;
       }
       a {
-          color: rgba(0, 0, 0, 0.87);
-          display: block;
-          padding: 19px 20px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
+        color: rgba(0, 0, 0, 0.87);
+        display: block;
+        padding: 19px 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -217,7 +235,6 @@ export default {
       .input-number-decrement,
       .input-number-increment {
         height: 60px;
-      //  width: 60px !important;
         line-height: 60px;
       }
     }

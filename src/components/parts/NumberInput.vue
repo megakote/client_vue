@@ -51,7 +51,6 @@ export default {
     //   this.$emit('change', this.id, this.value)
     // },
     changed (val) {
-      console.log(val)
       // if (val > this.max || val < this.min) {
       //   let count = this.count.toString()
       //   this.count = count.slice(0, -1)
@@ -93,7 +92,6 @@ export default {
 
     },
     count (val) {
-      console.log('count именился на ' + val)
       if (val == '') {
         this.value = '0'
       } else {

@@ -26,7 +26,7 @@
           <td class="text-xs-right">{{ props.item.count }} {{ props.item.unit }} </td>
           <!-- <td  class="text-xs-center"><buy-btn :id='props.item.id' /></td> -->
           <td class="text-xs-center">
-            <v-btn color="primary" fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit)">
+            <v-btn color="primary" fab small dark @click.stop="buy_item(props.item.guid, props.item.count, props.item.name, props.item.unit, props.item.price)">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
           </td>
@@ -42,6 +42,7 @@
           <div class="headline">{{ dialog.name }}</div>
         </v-card-title>
         <span class="subheadline">Доступно для заказа: {{ dialog.max }}{{ dialog.unit }}</span>
+        <span class="subheadline">Итого: {{ summ }} р.</span>
         <v-card-text>Введите количество</v-card-text>
           <number-input
             :val="dialog.count"
@@ -49,6 +50,7 @@
             :max="dialog.max"
             :id="dialog.id"
             @change="countChange"
+            @tomuch="tomuch"
           />
         <v-card-actions>
 
@@ -80,12 +82,13 @@ export default {
         state: false,
         max: 1,
         count: 1,
-        id: null
+        id: null,
+        price: 0
       },
       pagination: {
         sortBy: 'name',
         page: 1,
-        rowsPerPage: 10,
+        rowsPerPage: 9,
         descending: false,
         totalItems: 0
       },
@@ -107,16 +110,20 @@ export default {
     pages () {
       return this.pagination.rowsPerPage ? Math.ceil(this.items.length / this.pagination.rowsPerPage) : 0
     },
-    pageData: function() {
-      let offset = (this.page - 1) * this.perPage;
-      return this.items.slice(offset, offset + this.perPage);
-    },
+    // pageData: function() {
+    //   let offset = (this.page - 1) * this.perPage;
+    //   return this.items.slice(offset, offset + this.perPage);
+    // },
     items () {
       return this.$store.getters.products
     },
     query () {
       return this.$store.getters.search_input
+    },
+    summ () {
+      return this.dialog.count * this.dialog.price
     }
+
   },
   methods: {
     goPage: function(id) {
@@ -126,13 +133,14 @@ export default {
     getData: function(query) {
       this.$store.dispatch('searchProducts', query)
     },
-    buy_item: function(id, max, name, unit) {
+    buy_item: function(id, max, name, unit, price) {
       this.dialog.id = id
       this.dialog.name = name
       this.dialog.unit = unit
       this.dialog.count = 0
       this.dialog.max = max
       this.dialog.state = true
+      this.dialog.price = price
     },
     buy_btn: function() {
       this.$store.dispatch('addCartProduct', {id: this.dialog.id, count: this.dialog.count})
@@ -146,7 +154,10 @@ export default {
     },
     countChange: function(id, val) {
       this.dialog.count = val
-    }
+    },
+    tomuch () {
+      this.dialog.count = 0
+    },
   },
   watch: {
     query: function () {
@@ -177,7 +188,7 @@ export default {
   table.table tbody {
     td, th{
       font-size: 17px;
-      height: 65px;
+      height: 74px;
     }
     td{
       &:first-child {
