@@ -6,11 +6,13 @@
       <v-toolbar-title :class="'top_logo'" v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat light class="teal--text" @click="back">
-        <!-- <span>Recents</span> -->
         <v-icon>reply</v-icon>
       </v-btn>
       <v-btn flat light class="teal--text" @mousedown='to("Categorys")' :class="{ 'active': currentRouter == 'Categorys' }">
         <v-icon>home</v-icon>
+      </v-btn>
+      <v-btn flat light class="teal--text" @mousedown='to("About")' :class="{ 'active': currentRouter == 'About' }">
+        <v-icon>help_outline</v-icon>
       </v-btn>
       <v-btn flat light class="teal--text" @mousedown="modalSearchShow" :class="{ 'active': searchVisible }">
         <v-icon>search</v-icon>

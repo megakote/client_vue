@@ -6,6 +6,7 @@ import items from '@/components/pages/ItemsList'
 import item from '@/components/pages/Item'
 import cart from '@/components/pages/Cart'
 import search from '@/components/pages/Search'
+import about from '@/components/pages/About'
 
 Vue.use(Router)
 
@@ -37,8 +38,12 @@ export default new Router({
     {
       path: '/search',
       name: 'Search',
-      // component: search
       component: items
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: about
     },
     {
       path: '*',
