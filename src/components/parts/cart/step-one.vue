@@ -153,7 +153,7 @@ export default {
       });
       if (summ == 0) {
         console.log(123)
-        this.$store.dispatch('completeOrder', 'cancel')
+        this.$store.dispatch('completeOrder', ['cancel', false])
       }
       return summ
     },
@@ -198,7 +198,7 @@ export default {
       this.dialog.count = val
       this.dialog.max = max
       this.dialog.state = true
-    }
+    },
   },
   watch: {
     'dialog.state' (val) {

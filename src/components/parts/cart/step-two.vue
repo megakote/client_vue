@@ -91,7 +91,7 @@
       />
     </div>
     <div class="btns_bottom">
-      <v-btn color="primary" @click.native="addContacts" :disabled="!isValidate">Далее</v-btn>
+      <v-btn color="primary" @click.native="continue_dialog_state = true" >Далее</v-btn>
       <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
     </div>
     <v-dialog
@@ -111,6 +111,42 @@
         </template>
       </v-date-picker>
     </v-dialog>
+    <v-dialog class="continue_dialog" v-model="continue_dialog_state" max-width="760px" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">Оплата заказа</div>
+        </v-card-title>
+        <v-card-text>
+          <h5 style="text-align:  center;">Вы моежете оплатить заказ сейчас или получении доставки</h5>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" depressed large color="error" @click.native="addContacts">
+            Оплатить
+            <v-icon right dark>account_balance_wallet</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" depressed large color="primary" @click.native="makeOrder">
+            Отложить оплату
+            <v-icon right dark>system_update</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="darken-1" depressed large color="primary" @click.native="continue_dialog_state = false">
+            Изменить данные
+            <v-icon right dark>perm_contact_calendar</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="complete_dialog_state" max-width="500px" lazy absolute persistent>
+      <v-card>
+        <v-card-title>
+          <div class="headline">Спасибо за заказ, ждем Вас снова</div>
+        </v-card-title>
+        <v-card-text>Не забудьте забрать чек. Если чек не вышел, мы привезем его вместе с заказом</v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -119,6 +155,8 @@ export default {
   name: 'step-two',
   data () {
     return {
+      complete_dialog_state: false,
+      continue_dialog_state: false,
       contacts: {
         name: '',
         email: '',
@@ -164,8 +202,20 @@ export default {
       }
     },
     addContacts() {
+      this.continue_dialog_state = false
       this.$store.dispatch('addContacts', this.contacts)
       this.changeStage(3)
+    },
+    makeOrder () {
+      console.log(111)
+      this.complete_dialog_state = true
+      this.$store.dispatch('addContacts', this.contacts)
+      let _this = this
+      setTimeout(function() {
+        _this.complete_dialog_state = false
+        _this.$store.dispatch('completeOrder', ['withoutPay', false])
+        _this.$router.push({ name: 'Categorys'})
+      }, 5000);
     },
   },
   watch: {
@@ -223,7 +273,7 @@ export default {
       '2018-01-08',
     ]
 
-    console.log(now.getDate())
+    // console.log(now.getDate())
     // Составляем список возможных дат заказа, пропуская воскресенья и даты указанные в freeDays
     this.days = [...Array(150)].map((item, i, arr) => {
       // let date = new Date(new Date().setDate(now.getDate() + i))
@@ -252,6 +302,10 @@ export default {
 </script>
 
 <style lang="scss">
+.continue_dialog .card__actions > *, .card__actions .btn {
+    margin: 0 4px;
+    padding: 10px 0;
+}
   .list__tile--link:hover, .list__tile--highlighted {
     background: transparent;
   }
