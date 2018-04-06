@@ -1,6 +1,6 @@
 <template>
   <div class="text-xs-center bottom_banner_wrapper">
-    <img src="/static/images/banner.png" alt="">
+    <img :src="src" alt="">
   </div>
 </template>
 
@@ -9,13 +9,13 @@ export default {
   name: 'BottomBanner',
   data () {
     return {
-
+      img: '/static/images/banner.png'
     }
   },
   props: [],
   computed:{
-    pages: function() {
-
+    src: function() {
+      return this.img + '?hash=' + Math.random(0,9999999)
     }
   }
 }
