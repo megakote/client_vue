@@ -91,7 +91,7 @@
       />
     </div>
     <div class="btns_bottom">
-      <v-btn color="primary" @click.native="continue_dialog_state = true" >Далее</v-btn>
+      <v-btn color="primary" @click.native="continue_dialog_state = true" :disabled="!isValidate" >Далее</v-btn>
       <v-btn flat @click.native="changeStage(1)">Назад</v-btn>
     </div>
     <v-dialog
